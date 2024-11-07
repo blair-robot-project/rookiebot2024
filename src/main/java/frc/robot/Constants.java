@@ -19,4 +19,14 @@ public final class Constants
     {
         public static final int DRIVER_CONTROLLER_PORT = 0;
     }
+
+    public static class ClawConstants {
+        public static final double CLAW_P = 0.0;
+        public static final double CLAW_I = 0.0;
+        public static final double CLAW_D = 0.0;
+        public static final double Claw_Setpoint_Outtake=0.0;
+        public static final double Claw_Setpoint_Intake=0.0;
+        public static final double Claw_Setpoint_Hold =0.0;
+    }
+
 }
