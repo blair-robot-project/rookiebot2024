@@ -32,11 +32,10 @@ public class ClawSubsystem extends SubsystemBase
      */
     public Command Intake()
     {
-        // Inline construction of command goes here.
-        // Subsystem::RunOnce implicitly requires `this` subsystem.
+
         return runOnce(
                 () -> {
-                    /* one-time action goes here */
+
                 });
     }
 
@@ -49,7 +48,7 @@ public class ClawSubsystem extends SubsystemBase
     public Command DoNothing() {
 
         return runOnce( () -> {
-
+            motor.stopMotor();
         });
     }
 
