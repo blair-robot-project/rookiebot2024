@@ -25,7 +25,7 @@ public class ClawSubsystem extends SubsystemBase
      *
      * @return a command
      */
-    public Command exampleMethodCommand()
+    public Command Intake()
     {
         // Inline construction of command goes here.
         // Subsystem::RunOnce implicitly requires `this` subsystem.
@@ -34,6 +34,26 @@ public class ClawSubsystem extends SubsystemBase
                     /* one-time action goes here */
                 });
     }
+
+    public Command Outtake() {
+        return runOnce( () -> {
+
+        });
+    }
+
+    public Command DoNothing() {
+
+        return runOnce( () -> {
+
+        });
+    }
+
+    public Command() HoldBucket() {
+
+    return runOnce( () -> {
+
+    });
+}
 
 
     /**
