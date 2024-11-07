@@ -48,7 +48,7 @@ public class ClawSubsystem extends SubsystemBase
         });
     }
 
-    public Command() HoldBucket() {
+    public Command HoldBucket() {
 
     return runOnce( () -> {
 
