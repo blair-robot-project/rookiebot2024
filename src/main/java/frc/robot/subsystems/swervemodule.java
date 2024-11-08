@@ -5,8 +5,11 @@ import com.revrobotics.CANSparkMax;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
+import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
+import static edu.wpi.first.math.kinematics.SwerveModuleState.optimize;
 
 public class swervemodule extends SubsystemBase {
     CANSparkMax drivemotor1;
@@ -54,6 +57,10 @@ public class swervemodule extends SubsystemBase {
 
         System.out.println(a);
         System.out.println(b);
+    }
+    public void SetDesired(SwerveModuleState desiredState) {
+        var encoderRotation = new Rotation2d(turnread1.getDistance());
+        optimize(desiredState, encoderRotation);
     }
 
 }
