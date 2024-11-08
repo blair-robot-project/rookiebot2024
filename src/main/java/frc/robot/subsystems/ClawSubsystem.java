@@ -26,7 +26,7 @@ public class ClawSubsystem extends SubsystemBase
 
 
     /**
-     * Example command factory method.
+     * Intake command factory method.
      *
      * @return a command
      */
@@ -37,20 +37,32 @@ public class ClawSubsystem extends SubsystemBase
                     motor.setVoltage(0.2);
                 });
     }
-
+    /**
+     * Outtake command factory method.
+     *
+     * @return a command
+     */
     public Command Outtake() {
         return runOnce( () -> {
             motor.setVoltage(-0.2);
         });
     }
-
+    /**
+     * DoNothing command factory method.
+     *
+     * @return a command
+     */
     public Command DoNothing() {
 
         return runOnce( () -> {
             motor.stopMotor();
         });
     }
-
+    /**
+     * HoldBucket command factory method.
+     *
+     * @return a command
+     */
     public Command HoldBucket() {
 
     return runOnce( () -> {
