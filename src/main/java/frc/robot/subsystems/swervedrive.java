@@ -2,9 +2,11 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.*;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.AnalogGyro;
 
 public class swervedrive {
+    public static final double kMaxSpeed=3.0; // 3 m/s
     // There should probably be a constant for these distance values otherwise it could be confusing.
     private final Translation2d m_frontLeftLocation = new Translation2d(0.381, 0.381);
     private final Translation2d m_frontRightLocation = new Translation2d(0.381, -0.381);
@@ -31,5 +33,18 @@ public class swervedrive {
                             m_backLeft.getPosition(),
                             m_backRight.getPosition()
                     });
+    //joystick info stuff
+    public void drive(
 
+            double xSpeed,double ySpeed,double rot, boolean fieldRelative, double periodSeconds
+    ){
+        var chassisSpeeds=new ChassisSpeeds(xSpeed,ySpeed,rot);
+        var swerveModuleStates=m_kinematics.toWheelSpeeds(chassisSpeeds);
+        SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates,kMaxSpeed);
+        m_frontLeft.SetDesired(swerveModuleStates[0]);
+        m_frontRight.SetDesired(swerveModuleStates[1]);
+        m_backLeft.SetDesired(swerveModuleStates[2]);
+        m_backRight.SetDesired(swerveModuleStates[3]);
+
+    }
 }
