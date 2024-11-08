@@ -1,8 +1,11 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.kinematics.*;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.math.kinematics.SwerveDriveKinematics.SwerveDriveWheelStates;
+import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
+import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.wpilibj.AnalogGyro;
 
 public class swervedrive {
@@ -38,13 +41,13 @@ public class swervedrive {
 
             double xSpeed,double ySpeed,double rot, boolean fieldRelative, double periodSeconds
     ){
-        var chassisSpeeds=new ChassisSpeeds(xSpeed,ySpeed,rot);
-        var swerveModuleStates=m_kinematics.toWheelSpeeds(chassisSpeeds);
-        SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates,kMaxSpeed);
-        m_frontLeft.SetDesired(swerveModuleStates[0]);
-        m_frontRight.SetDesired(swerveModuleStates[1]);
-        m_backLeft.SetDesired(swerveModuleStates[2]);
-        m_backRight.SetDesired(swerveModuleStates[3]);
+        var chassisSpeeds = new ChassisSpeeds(xSpeed,ySpeed,rot);
+        SwerveDriveWheelStates swerveModuleStates = m_kinematics.toWheelSpeeds(chassisSpeeds);
+        SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates.states, kMaxSpeed);
+        m_frontLeft.SetDesired(swerveModuleStates.states[0]);
+        m_frontRight.SetDesired(swerveModuleStates.states[1]);
+        m_backLeft.SetDesired(swerveModuleStates.states[2]);
+        m_backRight.SetDesired(swerveModuleStates.states[3]);
 
     }
 }
