@@ -4,6 +4,7 @@ import com.revrobotics.CANSparkLowLevel;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
@@ -11,6 +12,12 @@ import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import static edu.wpi.first.math.kinematics.SwerveModuleState.optimize;
+import static edu.wpi.first.units.Units.*;
+
+
+// the encoders commands don't work bc we're using a diff type of encoder
+// idk how to get distance traveled on a relative encoder
+
 
 public class swervemodule extends SubsystemBase {
     private static final double kWheelRadius = 0.0508;
@@ -28,6 +35,9 @@ public class swervemodule extends SubsystemBase {
     DutyCycleEncoder turn_encoder;
 
     PIDController pid1;
+
+    private final SimpleMotorFeedforward feedforward_d = new SimpleMotorFeedforward(1,2);
+    private final SimpleMotorFeedforward feedforward_t = new SimpleMotorFeedforward(1,2);
 
     public swervemodule(
             int drivemotor,
@@ -65,12 +75,16 @@ public class swervemodule extends SubsystemBase {
         desiredState.optimize(encoderRotation);
         desiredState.cosineScale(encoderRotation);
         final double driveOutput = pid1.calculate(drive_encoder.getRate(),desiredState.speedMetersPerSecond);
-        // feed forward thing
+        final double drive_feedforward = feedforward_d.calculate(MetersPerSecond.of(desiredState.speedMetersPerSecond)).in(Volts);
+        final double turnOutput=pid1.calculate(turn_encoder.getDistance(),desiredState.angle.getRadians());
+        final double turn_feedforward = feedforward_t.calculate(RadiansPerSecond.of(turn_encoder.getSetpoint().velocity)).in(Volts);
+
+        drivemotor1.setVoltage(driveOutput+drive_feedforward);
+        turnmotor1.setVoltage(turnOutput+turn_feedforward);
     }
 
-
     public void periodic(){
-        turn_encoder.setDistancePerRotation(360);
+        turn_encoder.setDistancePerRotation(2*Math.PI);
         double a= drive_encoder.getPosition();
         double b= turn_encoder.getAbsolutePosition();
 
