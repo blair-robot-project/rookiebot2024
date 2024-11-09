@@ -12,6 +12,7 @@ public class swervedrive {
     public static final double kMaxSpeed=3.0; // 3 m/s
     public static final double kMaxAngularSpeed=Math.PI; // 1/2 rotation per second (in radians, so pi radians is 1/2 of a rotation)
     // There should probably be a constant for these distance values otherwise it could be confusing.
+    //the initial position of the four wheels and
     private final Translation2d m_frontLeftLocation = new Translation2d(0.381, 0.381);
     private final Translation2d m_frontRightLocation = new Translation2d(0.381, -0.381);
     private final Translation2d m_backLeftLocation = new Translation2d(-0.381, 0.381);
