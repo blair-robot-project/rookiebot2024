@@ -33,7 +33,8 @@ public class RobotContainer
     // EXAMPLE MOTOR IDs
     private final ClawSubsystem clawSubsystem = new ClawSubsystem(11,14);
 
-    Joystick joystick = new Joystick(0);
+    Joystick joystick1 = new Joystick(0);
+    Joystick joystick2 = new Joystick(0);
 
     // Replace with CommandPS4Controller or CommandJoystick if needed
     private final CommandXboxController driverController =
@@ -70,9 +71,9 @@ public class RobotContainer
         driverController.rightTrigger().onTrue(clawSubsystem.Intake()).onFalse(clawSubsystem.HoldBucket());
         driverController.leftTrigger().onTrue(clawSubsystem.Outtake()).onFalse(clawSubsystem.HoldBucket());
 
-        xdirection=joystick.getX();
-        ydirection=joystick.getY();
-        rotation=joystick.getDirectionRadians();
+        xdirection= joystick1.getX();
+        ydirection= joystick1.getY();
+        rotation= joystick1.getDirectionRadians();
 
     }
     
