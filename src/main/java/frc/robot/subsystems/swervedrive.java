@@ -25,6 +25,7 @@ public class swervedrive {
     private final SwerveDriveKinematics m_kinematics =
             new SwerveDriveKinematics(
                     m_frontLeftLocation, m_frontRightLocation, m_backLeftLocation, m_backRightLocation);
+
     private final SwerveDriveOdometry m_odometry =
             new SwerveDriveOdometry(
                     m_kinematics,
@@ -35,23 +36,31 @@ public class swervedrive {
                             m_backLeft.getPosition(),
                             m_backRight.getPosition()
                     });
+
     public void Drivetrain() {
         m_gyro.reset();
     }
     //joystick info stuff
     public void drive(
-
             double xSpeed,double ySpeed,double rot, boolean fieldRelative, double periodSeconds
     ){
+
         var chassisSpeeds = new ChassisSpeeds(xSpeed,ySpeed,rot);
+        if (fieldRelative) {
+            chassisSpeeds.toRobotRelativeSpeeds(m_gyro.getRotation2d());
+        }
+        chassisSpeeds.discretize(periodSeconds);
+        var swerveModuleStates = m_kinematics.toWheelSpeeds(chassisSpeeds);
+        SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, kMaxSpeed);
         SwerveDriveWheelStates swerveModuleStates = m_kinematics.toWheelSpeeds(chassisSpeeds);
+
         SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates.states, kMaxSpeed);
         m_frontLeft.SetDesired(swerveModuleStates.states[0]);
         m_frontRight.SetDesired(swerveModuleStates.states[1]);
         m_backLeft.SetDesired(swerveModuleStates.states[2]);
         m_backRight.SetDesired(swerveModuleStates.states[3]);
-
     }
+
     public void updateOdometry(){
         m_odometry.update(m_gyro.getRotation2d(), new SwerveModulePosition[]{
                 m_frontLeft.getPosition(),
