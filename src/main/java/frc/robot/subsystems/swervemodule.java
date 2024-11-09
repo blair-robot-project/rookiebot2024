@@ -76,7 +76,7 @@ public class swervemodule extends SubsystemBase {
 
         // optimization things that don't work
         optimize(desiredState, encoderRotation);
-        desiredState.cosineScale(encoderRotation);
+        //desiredState.cosineScale(encoderRotation);
 
         // kWheelCircumference
 
