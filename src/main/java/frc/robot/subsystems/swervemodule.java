@@ -16,11 +16,12 @@ import static frc.robot.allConstants.driveConstants.DriveConstants.kWheelCircumf
 // idk how to get distance traveled on a relative encoder
 
 public class swervemodule extends SubsystemBase {
-    //private static final double kWheelRadius = 0.0508;
+    /**private static final double kWheelRadius = 0.0508;
     //private static final double kWheelCircumference=2*kWheelRadius*Math.PI;
     //private static final int kEncoderResolution = 4096;
     //private static final double kModuleMaxAngularVelocity = swervedrive.kMaxAngularSpeed;
     //private static final double kModuleMaxAngularAcceleration = 2 * Math.PI; // radians per second squared
+    **/
     CANSparkMax drivemotor1;
     CANSparkMax turnmotor1;
     double drivevoltage1;

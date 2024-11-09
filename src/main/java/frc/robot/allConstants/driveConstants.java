@@ -64,6 +64,14 @@ public final class driveConstants {
 
 
 
+        //the interavals in which the motor loops
+        public static final double pdsec = 0.02;
+
+        //no matter the robot position forward is forward (frfr = field relative)
+        public static final boolean frfr = true;
+
+
+
 
         public static final double Analog_gyro = 0;
 
