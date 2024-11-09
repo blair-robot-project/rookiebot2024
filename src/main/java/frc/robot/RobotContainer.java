@@ -71,9 +71,14 @@ public class RobotContainer
         driverController.rightTrigger().onTrue(clawSubsystem.Intake()).onFalse(clawSubsystem.HoldBucket());
         driverController.leftTrigger().onTrue(clawSubsystem.Outtake()).onFalse(clawSubsystem.HoldBucket());
 
+        //joystick1 is for driving
         xdirection= joystick1.getX();
         ydirection= joystick1.getY();
-        rotation= joystick1.getDirectionRadians();
+
+        //joystick2 is for rotation
+        rotation= joystick2.getDirectionRadians();
+
+
 
     }
     
