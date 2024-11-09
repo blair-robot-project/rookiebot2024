@@ -5,7 +5,6 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -20,13 +19,12 @@ import frc.robot.subsystems.swervedrive;
  */
 public class Robot extends TimedRobot
 {
-    Joystick joystick1;
-    Joystick joystick2;
+
 
     private Command autonomousCommand;
     
     private RobotContainer robotContainer;
-    private swervedrive swervee;
+    private swervedrive swerve;
     
     
     /**
@@ -38,10 +36,10 @@ public class Robot extends TimedRobot
     {
         // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
         // autonomous chooser on the dashboard.
+        swerve =new swervedrive();
         robotContainer = new RobotContainer();
     }
-    
-    
+
     /**
      * This method is called every 20 ms, no matter the mode. Use this for items like diagnostics
      * that you want ran during disabled, autonomous, teleoperated and test.
@@ -57,10 +55,9 @@ public class Robot extends TimedRobot
         // and running subsystem periodic() methods.  This must be called from the robot's periodic
         // block in order for anything in the Command-based framework to work.
         CommandScheduler.getInstance().run();
-        swervee.updateOdometry();
+        swerve.updateOdometry();
     }
-    
-    
+
     /** This method is called once each time the robot enters Disabled mode. */
     @Override
     public void disabledInit() {}
@@ -68,7 +65,7 @@ public class Robot extends TimedRobot
     
     @Override
     public void disabledPeriodic() {
-        swervee.updateOdometry();
+        swerve.updateOdometry();
     }
     
     /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
@@ -88,7 +85,7 @@ public class Robot extends TimedRobot
     /** This method is called periodically during autonomous. */
     @Override
     public void autonomousPeriodic() {
-        swervee.updateOdometry();
+        swerve.updateOdometry();
     }
     
     
@@ -109,15 +106,15 @@ public class Robot extends TimedRobot
     /** This method is called periodically during operator control. */
     @Override
     public void teleopPeriodic() {
-      //joystick1 is for driving
-        robotContainer.xdirection= joystick1.getX();
-        robotContainer.ydirection= joystick1.getY();
+        //joystick1 is for driving
+        robotContainer.xdirection= robotContainer.joystick1.getX();
+        robotContainer.ydirection= robotContainer.joystick1.getY();
 
         //joystick2 is for rotation
-        robotContainer.rotation= joystick2.getDirectionRadians();
+        robotContainer.rotation= robotContainer.joystick2.getDirectionRadians();
 
         //set the module states based on joystick
-        swervee.drive(
+        swerve.drive(
                 robotContainer.xdirection,
                 robotContainer.ydirection,
                 robotContainer.rotation,
@@ -125,7 +122,7 @@ public class Robot extends TimedRobot
                 driveConstants.DriveConstants.pdsec);
 
         //updates position
-        swervee.updateOdometry();
+        swerve.updateOdometry();
     }
     
     
@@ -140,7 +137,7 @@ public class Robot extends TimedRobot
     /** This method is called periodically during test mode. */
     @Override
     public void testPeriodic() {
-        swervee.updateOdometry();
+        swerve.updateOdometry();
     }
     
     
