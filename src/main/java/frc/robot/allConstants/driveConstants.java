@@ -33,7 +33,7 @@ public final class driveConstants {
         public static final double kModuleMaxAngularAcceleration = 2 * Math.PI;
 
 
-        //location of the wheels
+        //location of the wheels at the start
         public static final double frontLeftLocationx = 0.381;
         public static final double frontLeftLocationy = 0.381;
 
@@ -65,7 +65,6 @@ public final class driveConstants {
 
 
 
-        //
         public static final double Analog_gyro = 0;
 
 
