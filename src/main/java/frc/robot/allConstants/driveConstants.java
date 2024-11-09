@@ -41,6 +41,9 @@ public final class driveConstants {
         public static final double turnmotor = 2;
         public static final double turn_encoder1 = 3;
 
+        //
+        public static final double Analog_gyro = 0;
+
 
 
 
