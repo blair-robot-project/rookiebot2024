@@ -50,25 +50,22 @@ public final class driveConstants {
 
         //8 motor ids
         //ALL THE VALUES ARE FILLERS PLEASE CHANGE THEM WITH THE REAL IDS!!!!!!
-        public static final double drivemotor1 = -21;
-        public static final double turnmotor1 = -20;
+        public static final int drivemotor1 = -21;
+        public static final int turnmotor1 = -20;
 
-        public static final double drivemotor2 = -21;
-        public static final double turnmotor2 = -20;
+        public static final int drivemotor2 = -21;
+        public static final int turnmotor2 = -20;
 
-        public static final double drivemotor3 = -21;
-        public static final double turnmotor3 = -20;
+        public static final int drivemotor3 = -21;
+        public static final int turnmotor3 = -20;
 
-        public static final double drivemotor4 = -21;
-        public static final double turnmotor4 = -20;
+        public static final int drivemotor4 = -21;
+        public static final int turnmotor4 = -20;
 
 
 
 
         public static final double Analog_gyro = 0;
-
-
-
 
     }
 }
