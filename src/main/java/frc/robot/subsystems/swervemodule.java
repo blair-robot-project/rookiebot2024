@@ -76,7 +76,7 @@ public class swervemodule extends SubsystemBase {
 
         // optimization things that don't work
         optimize(desiredState, encoderRotation);
-        //desiredState.cosineScale(encoderRotation);
+        desiredState.cosineScale(encoderRotation);
 
         // kWheelCircumference
 
@@ -91,12 +91,12 @@ public class swervemodule extends SubsystemBase {
     }
 
     public void periodic(){
-        turn_encoder.setDistancePerRotation(2*Math.PI);
-        double a = drive_encoder.getPosition();
-        double b = turn_encoder.getPosition();
+        // turn_encoder.setDistancePerRotation(2*Math.PI);
+        // double a = drive_encoder.getPosition();
+        // double b = turn_encoder.getPosition();
 
-        System.out.println(a);
-        System.out.println(b);
+        // System.out.println(a);
+        // System.out.println(b);
     }
     public void SetDesired(SwerveModuleState desiredState) {
         var encoderRotation = new Rotation2d(turn_encoder.getPosition());
