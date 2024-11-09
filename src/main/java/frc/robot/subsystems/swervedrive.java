@@ -15,10 +15,10 @@ public class swervedrive {
     private final Translation2d m_backLeftLocation = new Translation2d(-0.381, 0.381);
     private final Translation2d m_backRightLocation = new Translation2d(-0.381, -0.381);
 
-    public final swervemodule m_frontLeft = new swervemodule(1, 2, 2);
-    private final swervemodule m_frontRight = new swervemodule(1,2,3);
-    private final swervemodule m_backLeft = new swervemodule(1,2,3);
-    private final swervemodule m_backRight = new swervemodule(1,2,3);
+    public final swervemodule m_frontLeft = new swervemodule(1, 2);
+    private final swervemodule m_frontRight = new swervemodule(1,2);
+    private final swervemodule m_backLeft = new swervemodule(1,2);
+    private final swervemodule m_backRight = new swervemodule(1,2);
 
     private final AnalogGyro m_gyro = new AnalogGyro(0);
 
@@ -35,6 +35,9 @@ public class swervedrive {
                             m_backLeft.getPosition(),
                             m_backRight.getPosition()
                     });
+    public void Drivetrain() {
+        m_gyro.reset();
+    }
     //joystick info stuff
     public void drive(
 
