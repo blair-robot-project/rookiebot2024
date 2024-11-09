@@ -1,11 +1,8 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.math.kinematics.*;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics.SwerveDriveWheelStates;
-import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
-import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.wpilibj.AnalogGyro;
 
 public class swervedrive {
@@ -51,6 +48,14 @@ public class swervedrive {
         m_backLeft.SetDesired(swerveModuleStates.states[2]);
         m_backRight.SetDesired(swerveModuleStates.states[3]);
 
+    }
+    public void updateOdometry(){
+        m_odometry.update(m_gyro.getRotation2d(), new SwerveModulePosition[]{
+                m_frontLeft.getPosition(),
+                m_frontRight.getPosition(),
+                m_backLeft.getPosition(),
+                m_backRight.getPosition()
+        });
     }
 
 }
