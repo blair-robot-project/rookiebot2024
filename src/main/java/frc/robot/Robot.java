@@ -8,6 +8,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.subsystems.swervedrive;
 
 /**
  * The VM is configured to automatically run this class, and to call the methods corresponding to
@@ -20,6 +21,7 @@ public class Robot extends TimedRobot
     private Command autonomousCommand;
     
     private RobotContainer robotContainer;
+    public swervedrive swervee;
     
     
     /**
@@ -50,6 +52,7 @@ public class Robot extends TimedRobot
         // and running subsystem periodic() methods.  This must be called from the robot's periodic
         // block in order for anything in the Command-based framework to work.
         CommandScheduler.getInstance().run();
+        swervee.updateOdometry();
     }
     
     
@@ -59,7 +62,9 @@ public class Robot extends TimedRobot
     
     
     @Override
-    public void disabledPeriodic() {}
+    public void disabledPeriodic() {
+        swervee.updateOdometry();
+    }
     
     
     /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
@@ -78,7 +83,9 @@ public class Robot extends TimedRobot
     
     /** This method is called periodically during autonomous. */
     @Override
-    public void autonomousPeriodic() {}
+    public void autonomousPeriodic() {
+        swervee.updateOdometry();
+    }
     
     
     @Override
@@ -98,7 +105,7 @@ public class Robot extends TimedRobot
     /** This method is called periodically during operator control. */
     @Override
     public void teleopPeriodic() {
-
+        swervee.updateOdometry();
     }
     
     
@@ -112,7 +119,9 @@ public class Robot extends TimedRobot
     
     /** This method is called periodically during test mode. */
     @Override
-    public void testPeriodic() {}
+    public void testPeriodic() {
+        swervee.updateOdometry();
+    }
     
     
     /** This method is called once when the robot is first started up. */
