@@ -81,7 +81,7 @@ public class swervemodule extends SubsystemBase {
         // kWheelCircumference
 
         final double driveOutput = pid1.calculate(drive_encoder.getVelocity()*kWheelCircumference/60, desiredState.speedMetersPerSecond);
-        final double drive_feedforward = feedforward_d.calculate(desiredState.speedMetersPerSecond).in(Volts);
+        final double drive_feedforward = feedforward_d.calculate(desiredState.speedMetersPerSecond);
         final double turnOutput=pid1.calculate(turn_encoder.getPosition(),desiredState.angle.getRadians());
         final double turn_feedforward = feedforward_t.calculate(RadiansPerSecond.of(turn_encoder.getVelocity())).in(Volts);
 
