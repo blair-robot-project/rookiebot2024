@@ -33,29 +33,39 @@ public final class driveConstants {
         public static final double kModuleMaxAngularAcceleration = 2 * Math.PI;
 
 
-        //location of the wheels
-        public static final double[] m_frontLeftLocation = new double[]{0.381, 0.381};
-        public static final double[] m_frontRightLocation = new double[]{0.381, -0.381};
-        public static final double[] m_backLeftLocation = new double[]{-0.381, 0.381};
-        public static final double[] m_backRightLocation = new double[]{-0.381, -0.381};
+        //location of the wheels at the start
+        public static final double frontLeftLocationx = 0.381;
+        public static final double frontLeftLocationy = 0.381;
+
+        public static final double frontRightLocationx = 0.381;
+        public static final double frontRightLocationy = -0.381;
+
+        public static final double backLeftLocationx = -0.381;
+        public static final double backLeftLocationy = 0.381;
+
+        public static final double backRightLocationx = -0.381;
+        public static final double backRightLocationy = -0.381;
 
 
-        //motor ids
+
+        //8 motor ids
+        //ALL THE VALUES ARE FILLERS PLEASE CHANGE THEM WITH THE REAL IDS!!!!!!
         public static final double drivemotor1 = -21;
         public static final double turnmotor1 = -20;
+
         public static final double drivemotor2 = -21;
         public static final double turnmotor2 = -20;
+
         public static final double drivemotor3 = -21;
         public static final double turnmotor3 = -20;
+
         public static final double drivemotor4 = -21;
         public static final double turnmotor4 = -20;
 
 
 
 
-        //
         public static final double Analog_gyro = 0;
-
 
 
 
