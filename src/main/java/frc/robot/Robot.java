@@ -7,9 +7,9 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.allConstants.driveConstants;
 import frc.robot.subsystems.swervedrive;
 
 /**
@@ -116,6 +116,15 @@ public class Robot extends TimedRobot
         //joystick2 is for rotation
         robotContainer.rotation= joystick2.getDirectionRadians();
 
+        //set the module states based on joystick
+        swervee.drive(
+                robotContainer.xdirection,
+                robotContainer.ydirection,
+                robotContainer.rotation,
+                driveConstants.DriveConstants.frfr,
+                driveConstants.DriveConstants.pdsec);
+
+        //updates position
         swervee.updateOdometry();
     }
     
