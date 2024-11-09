@@ -83,11 +83,10 @@ public class swervemodule extends SubsystemBase {
         // System.out.println(a);
         // System.out.println(b);
     }
-    /*
+
     public void SetDesired(SwerveModuleState desiredState) {
         var encoderRotation = new Rotation2d(turn_encoder.getPosition());
         optimize(desiredState, encoderRotation);
     }
-     */
 
 }

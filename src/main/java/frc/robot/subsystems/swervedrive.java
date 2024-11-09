@@ -6,21 +6,24 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics.SwerveDriveWheelState
 import edu.wpi.first.wpilibj.AnalogGyro;
 
 import static frc.robot.allConstants.driveConstants.DriveConstants.frontLeftLocationx;
+import static frc.robot.allConstants.driveConstants.DriveConstants.*;
 
 public class swervedrive {
     public static final double kMaxSpeed=3.0; // 3 m/s
     public static final double kMaxAngularSpeed=Math.PI; // 1/2 rotation per second (in radians, so pi radians is 1/2 of a rotation)
     // There should probably be a constant for these distance values otherwise it could be confusing.
     //the initial position of the four wheels and
-    private final Translation2d m_frontLeftLocation = new Translation2d(frontLeftLocationx, 0.381);
-    private final Translation2d m_frontRightLocation = new Translation2d(0.381, -0.381);
-    private final Translation2d m_backLeftLocation = new Translation2d(-0.381, 0.381);
-    private final Translation2d m_backRightLocation = new Translation2d(-0.381, -0.381);
 
-    public final swervemodule m_frontLeft = new swervemodule(1, 2);
-    private final swervemodule m_frontRight = new swervemodule(1,2);
-    private final swervemodule m_backLeft = new swervemodule(1,2);
-    private final swervemodule m_backRight = new swervemodule(1,2);
+    private final Translation2d m_frontLeftLocation = new Translation2d(frontLeftLocationx, frontLeftLocationy);
+    private final Translation2d m_frontRightLocation = new Translation2d(frontRightLocationx, frontRightLocationy);
+    private final Translation2d m_backLeftLocation = new Translation2d(backLeftLocationx, backLeftLocationy);
+    private final Translation2d m_backRightLocation = new Translation2d(backRightLocationx,backRightLocationy);
+
+
+    public final swervemodule m_frontLeft = new swervemodule(drivemotor1, turnmotor1);
+    private final swervemodule m_frontRight = new swervemodule(drivemotor2,turnmotor2);
+    private final swervemodule m_backLeft = new swervemodule(drivemotor3,turnmotor3);
+    private final swervemodule m_backRight = new swervemodule(drivemotor4,turnmotor4);
 
     private final AnalogGyro m_gyro = new AnalogGyro(0);
 
@@ -69,5 +72,4 @@ public class swervedrive {
                 m_backRight.getPosition()
         });
     }
-
 }
