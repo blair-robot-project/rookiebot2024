@@ -49,30 +49,25 @@ public final class driveConstants {
 
 
         //8 motor ids
-        //ALL THE VALUES ARE FILLERS PLEASE CHANGE THEM WITH THE REAL IDS!!!!!!
-        public static final int drivemotor1 = -21;
-        public static final int turnmotor1 = -20;
+        public static final int drivemotor1 = 20;
+        public static final int turnmotor1 = 21;
 
-        public static final int drivemotor2 = -21;
-        public static final int turnmotor2 = -20;
+        public static final int drivemotor2 = 17;
+        public static final int turnmotor2 = 61;
 
-        public static final int drivemotor3 = -21;
-        public static final int turnmotor3 = -20;
+        public static final int drivemotor3 = 1;
+        public static final int turnmotor3 = 2;
 
-        public static final int drivemotor4 = -21;
-        public static final int turnmotor4 = -20;
-
-
+        public static final int drivemotor4 = 4;
+        public static final int turnmotor4 = 3;
 
         //the interavals in which the motor loops
         public static final double pdsec = 0.02;
 
-        //no matter the robot position forward is forward (frfr = field relative)
+        //no matter the robot position forward is forward (frfr = field relative:)
         public static final boolean frfr = true;
 
-
-
-
+        //don't really know what this is or does
         public static final double Analog_gyro = 0;
 
     }
