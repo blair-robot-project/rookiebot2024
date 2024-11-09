@@ -25,12 +25,15 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  */
 public class RobotContainer
 {
+    double xdirection;
+    double ydirection;
+    double rotation;
     // The robot's subsystems and commands are defined here...
     private final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
     // EXAMPLE MOTOR IDs
     private final ClawSubsystem clawSubsystem = new ClawSubsystem(11,14);
 
-    Joystick exampleJoystick = new Joystick(0);
+    Joystick joystick = new Joystick(0);
 
     // Replace with CommandPS4Controller or CommandJoystick if needed
     private final CommandXboxController driverController =
@@ -66,6 +69,11 @@ public class RobotContainer
 
         driverController.rightTrigger().onTrue(clawSubsystem.Intake()).onFalse(clawSubsystem.HoldBucket());
         driverController.leftTrigger().onTrue(clawSubsystem.Outtake()).onFalse(clawSubsystem.HoldBucket());
+
+        xdirection=joystick.getX();
+        ydirection=joystick.getY();
+        rotation=joystick.getDirectionRadians();
+
     }
     
     
