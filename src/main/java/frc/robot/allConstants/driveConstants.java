@@ -31,6 +31,17 @@ public final class driveConstants {
         public static final double kModuleMaxAngularVelocity = swervedrive.kMaxAngularSpeed;
         public static final double kModuleMaxAngularAcceleration = 2 * Math.PI;
 
+      //motor ids
+        public static final double drivemotor1 = 21;
+        public static final double m_frontLeft = 20;
+
+        //swerve module channels
+        //pls replace the values with real ones
+        public static final double drivemotor = 1;
+        public static final double turnmotor = 2;
+        public static final double turn_encoder1 = 3;
+
+
 
 
     }
