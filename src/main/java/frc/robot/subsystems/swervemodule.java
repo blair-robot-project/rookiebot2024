@@ -32,24 +32,27 @@ public class swervemodule extends SubsystemBase {
     double drivevoltage1;
     double turnvoltage1;
     RelativeEncoder drive_encoder;
-    DutyCycleEncoder turn_encoder;
+    RelativeEncoder turn_encoder;
 
     PIDController pid1;
 
-    private final SimpleMotorFeedforward feedforward_d = new SimpleMotorFeedforward(1,2);
-    private final SimpleMotorFeedforward feedforward_t = new SimpleMotorFeedforward(1,2);
+    // ks = volts
+    // kv = volts * seconds / distance
+    // ka = volts * seconds^2 / distance
+    private final SimpleMotorFeedforward feedforward_d = new SimpleMotorFeedforward(1,2,3);
+    private final SimpleMotorFeedforward feedforward_t = new SimpleMotorFeedforward(1,2,3);
 
     public swervemodule(
             int drivemotor,
-            int turnmotor,
-            int turn_encoder1
+            int turnmotor
     )
     {
         drivemotor1 = new CANSparkMax(drivemotor, CANSparkLowLevel.MotorType.kBrushless);
         turnmotor1 = new CANSparkMax(turnmotor, CANSparkLowLevel.MotorType.kBrushless);
         pid1 = new PIDController(0.25,0.0,0.0);
         drive_encoder =drivemotor1.getEncoder();
-        turn_encoder=new DutyCycleEncoder(turn_encoder1);
+        //turn_encoder=new DutyCycleEncoder(turn_encoder1);
+        turn_encoder=turnmotor1.getEncoder();
     }
 
     public void moving() {
@@ -74,10 +77,13 @@ public class swervemodule extends SubsystemBase {
         // optimization things that don't work
         optimize(desiredState, encoderRotation);
         desiredState.cosineScale(encoderRotation);
-        final double driveOutput = pid1.calculate(drive_encoder.getPosition(),desiredState.speedMetersPerSecond);
-        final double drive_feedforward = feedforward_d.calculate(MetersPerSecond.of(desiredState.speedMetersPerSecond)).in(Volts);
-        final double turnOutput=pid1.calculate(turn_encoder.getDistance(),desiredState.angle.getRadians());
-        final double turn_feedforward = feedforward_t.calculate(RadiansPerSecond.of(turn_encoder.getDistance().velocity)).in(Volts);
+
+        // kWheelCircumference
+
+        final double driveOutput = pid1.calculate(drive_encoder.getVelocity()*kWheelCircumference/60, desiredState.speedMetersPerSecond);
+        final double drive_feedforward = feedforward_d.calculate(desiredState.speedMetersPerSecond).in(Volts);
+        final double turnOutput=pid1.calculate(turn_encoder.getAbsolutePosition(),desiredState.angle.getRadians());
+        final double turn_feedforward = feedforward_t.calculate(RadiansPerSecond.of(turn_encoder.getVelocity())).in(Volts);
 
 
         drivemotor1.setVoltage(driveOutput+drive_feedforward);
