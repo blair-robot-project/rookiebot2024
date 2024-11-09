@@ -92,8 +92,8 @@ public class swervemodule extends SubsystemBase {
 
     public void periodic(){
         turn_encoder.setDistancePerRotation(2*Math.PI);
-        double a= drive_encoder.getPosition();
-        double b= turn_encoder.getPosition();
+        double a = drive_encoder.getPosition();
+        double b = turn_encoder.getPosition();
 
         System.out.println(a);
         System.out.println(b);
