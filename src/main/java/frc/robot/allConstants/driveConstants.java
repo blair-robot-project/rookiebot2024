@@ -41,6 +41,7 @@ public final class driveConstants {
 
 
         //motor ids
+        //ALL THE VALUES ARE FILLERS PLEASE CHANGE THEM WITH THE REAL IDS!!!!!!
         public static final double drivemotor1 = -21;
         public static final double turnmotor1 = -20;
         public static final double drivemotor2 = -21;
