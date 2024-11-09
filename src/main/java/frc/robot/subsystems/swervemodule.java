@@ -64,15 +64,15 @@ public class swervemodule extends SubsystemBase {
     // idk how you would do this
     public SwerveModulePosition getPosition() {
         return new SwerveModulePosition(
-                drive_encoder.getCountsPerRevolution(), new Rotation2d(turn_encoder.getDistance()));
+                drive_encoder.getCountsPerRevolution(), new Rotation2d(turn_encoder.getPosition()));
     }
 
     public SwerveModuleState getState(){
-        return new SwerveModuleState(drive_encoder.getCountsPerRevolution(),new Rotation2d(turn_encoder.getDistance()));
+        return new SwerveModuleState(drive_encoder.getCountsPerRevolution(),new Rotation2d(turn_encoder.getPosition()));
     }
 
     public void set(SwerveModuleState desiredState){
-        var encoderRotation=new Rotation2d(turn_encoder.getDistance());
+        var encoderRotation=new Rotation2d(turn_encoder.getPosition());
 
         // optimization things that don't work
         optimize(desiredState, encoderRotation);
