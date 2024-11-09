@@ -82,7 +82,7 @@ public class swervemodule extends SubsystemBase {
 
         final double driveOutput = pid1.calculate(drive_encoder.getVelocity()*kWheelCircumference/60, desiredState.speedMetersPerSecond);
         final double drive_feedforward = feedforward_d.calculate(desiredState.speedMetersPerSecond).in(Volts);
-        final double turnOutput=pid1.calculate(turn_encoder.getAbsolutePosition(),desiredState.angle.getRadians());
+        final double turnOutput=pid1.calculate(turn_encoder.getPosition(),desiredState.angle.getRadians());
         final double turn_feedforward = feedforward_t.calculate(RadiansPerSecond.of(turn_encoder.getVelocity())).in(Volts);
 
 
@@ -93,13 +93,13 @@ public class swervemodule extends SubsystemBase {
     public void periodic(){
         turn_encoder.setDistancePerRotation(2*Math.PI);
         double a= drive_encoder.getPosition();
-        double b= turn_encoder.getAbsolutePosition();
+        double b= turn_encoder.getPosition();
 
         System.out.println(a);
         System.out.println(b);
     }
     public void SetDesired(SwerveModuleState desiredState) {
-        var encoderRotation = new Rotation2d(turn_encoder.getDistance());
+        var encoderRotation = new Rotation2d(turn_encoder.getPosition());
         optimize(desiredState, encoderRotation);
     }
 
