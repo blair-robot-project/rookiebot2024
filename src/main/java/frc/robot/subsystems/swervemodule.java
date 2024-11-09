@@ -72,12 +72,12 @@ public class swervemodule extends SubsystemBase {
         var encoderRotation=new Rotation2d(turn_encoder.getDistance());
 
         // optimization things that don't work
-        desiredState.optimize(encoderRotation);
+        optimize(desiredState, encoderRotation);
         desiredState.cosineScale(encoderRotation);
-        final double driveOutput = pid1.calculate(drive_encoder.getRate(),desiredState.speedMetersPerSecond);
+        final double driveOutput = pid1.calculate(drive_encoder.getPosition(),desiredState.speedMetersPerSecond);
         final double drive_feedforward = feedforward_d.calculate(MetersPerSecond.of(desiredState.speedMetersPerSecond)).in(Volts);
         final double turnOutput=pid1.calculate(turn_encoder.getDistance(),desiredState.angle.getRadians());
-        final double turn_feedforward = feedforward_t.calculate(RadiansPerSecond.of(turn_encoder.getSetpoint().velocity)).in(Volts);
+        final double turn_feedforward = feedforward_t.calculate(RadiansPerSecond.of(turn_encoder.getDistance().velocity)).in(Volts);
 
         drivemotor1.setVoltage(driveOutput+drive_feedforward);
         turnmotor1.setVoltage(turnOutput+turn_feedforward);
