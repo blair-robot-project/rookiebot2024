@@ -5,6 +5,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -18,8 +19,8 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
  */
 public class Robot extends TimedRobot
 {
-    XboxController joystick1;
-    XboxController joystick2;
+    Joystick joystick1;
+    Joystick joystick2;
 
     private Command autonomousCommand;
     
@@ -102,7 +103,7 @@ public class Robot extends TimedRobot
     /** This method is called periodically during operator control. */
     @Override
     public void teleopPeriodic() {
-      //joystick1 is for driving
+        //joystick1 is for driving
         robotContainer.xdirection= joystick1.getX();
         robotContainer.ydirection= joystick1.getY();
 
