@@ -10,6 +10,8 @@ import com.revrobotics.CANSparkMax;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
+import static frc.robot.Constants.ClawConstants;
+import static frc.robot.Constants.ClawConstants.*;
 
 
 public class ClawSubsystem extends SubsystemBase
@@ -19,9 +21,11 @@ public class ClawSubsystem extends SubsystemBase
     /** Creates a new Claw Subsystem. */
     public ClawSubsystem(int motorId, int inverseFollowMotorId) {
 
-        motor = new CANSparkMax(motorId, CANSparkLowLevel.MotorType.kBrushless);
-        inverseFollowMotor = new CANSparkMax(inverseFollowMotorId, CANSparkLowLevel.MotorType.kBrushless);
+        motor = new CANSparkMax(CLAW_MOTOR_ID, CANSparkLowLevel.MotorType.kBrushless);
+        inverseFollowMotor = new CANSparkMax(CLAW_FOLLOW_MOTOR_ID, CANSparkLowLevel.MotorType.kBrushless);
         inverseFollowMotor.follow(motor, true);
+
+
     }
 
 
@@ -35,12 +39,14 @@ public class ClawSubsystem extends SubsystemBase
 
         return runOnce(
                 () -> {
+                    motor.setVoltage(Claw_Voltage_Intake);
 
                 });
     }
 
     public Command Outtake() {
         return runOnce( () -> {
+            motor.setVoltage(Claw_Voltage_Outtake);
 
         });
     }
@@ -55,6 +61,7 @@ public class ClawSubsystem extends SubsystemBase
     public Command HoldBucket() {
 
     return runOnce( () -> {
+        motor.setVoltage(Claw_Voltage_Hold);
 
     });
 }
@@ -75,7 +82,7 @@ public class ClawSubsystem extends SubsystemBase
     @Override
     public void periodic()
     {
-        // This method will be called once per scheduler run
+
     }
 
 
