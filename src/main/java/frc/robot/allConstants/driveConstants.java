@@ -68,7 +68,11 @@ public final class driveConstants {
         //no matter the robot position forward is forward (frfr = field relative:)
         public static final boolean frfr = true;
 
-        //don't really know what this is or does
+
+        public static final double kMaxSpeed=3.0; // 3 m/s
+        public static final double kMaxAngularSpeed=Math.PI; // 1/2 rotation per second (in radians, so pi radians is 1/2 of a rotation)
+
+        //don't really know what this is or what it does
         public static final double Analog_gyro = 0;
 
     }
