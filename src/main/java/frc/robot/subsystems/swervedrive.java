@@ -47,14 +47,11 @@ public class swervedrive {
 
         var chassisSpeeds = new ChassisSpeeds(xSpeed,ySpeed,rot);
         if (fieldRelative) {
-            chassisSpeeds.toRobotRelativeSpeeds(m_gyro.getRotation2d());
+            ChassisSpeeds.fromFieldRelativeSpeeds(chassisSpeeds,m_gyro.getRotation2d());
         }
         // forward, sideways, angular, period
         ChassisSpeeds.discretize(xSpeed,ySpeed,rot,periodSeconds);
-        var swerveModuleStates = m_kinematics.toWheelSpeeds(chassisSpeeds);
-        SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, kMaxSpeed);
         SwerveDriveWheelStates swerveModuleStates = m_kinematics.toWheelSpeeds(chassisSpeeds);
-
         SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates.states, kMaxSpeed);
         m_frontLeft.SetDesired(swerveModuleStates.states[0]);
         m_frontRight.SetDesired(swerveModuleStates.states[1]);
