@@ -13,6 +13,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import static edu.wpi.first.math.kinematics.SwerveModuleState.optimize;
 import static edu.wpi.first.units.Units.*;
+import static frc.robot.allConstants.driveConstants.DriveConstants.kWheelCircumference;
+import static frc.robot.allConstants.driveConstants.DriveConstants;
 
 
 // the encoders commands don't work bc we're using a diff type of encoder
@@ -20,11 +22,11 @@ import static edu.wpi.first.units.Units.*;
 
 
 public class swervemodule extends SubsystemBase {
-    private static final double kWheelRadius = 0.0508;
-    private static final double kWheelCircumference=2*kWheelRadius*Math.PI;
-    private static final int kEncoderResolution = 4096;
-    private static final double kModuleMaxAngularVelocity = swervedrive.kMaxAngularSpeed;
-    private static final double kModuleMaxAngularAcceleration = 2 * Math.PI; // radians per second squared
+    //private static final double kWheelRadius = 0.0508;
+    //private static final double kWheelCircumference=2*kWheelRadius*Math.PI;
+    //private static final int kEncoderResolution = 4096;
+    //private static final double kModuleMaxAngularVelocity = swervedrive.kMaxAngularSpeed;
+    //private static final double kModuleMaxAngularAcceleration = 2 * Math.PI; // radians per second squared
     CANSparkMax drivemotor1;
     CANSparkMax turnmotor1;
     double voltage1;
@@ -83,11 +85,13 @@ public class swervemodule extends SubsystemBase {
         final double driveOutput = pid1.calculate(drive_encoder.getVelocity()*kWheelCircumference/60, desiredState.speedMetersPerSecond);
         final double drive_feedforward = feedforward_d.calculate(desiredState.speedMetersPerSecond);
         final double turnOutput=pid1.calculate(turn_encoder.getPosition(),desiredState.angle.getRadians());
-        final double turn_feedforward = feedforward_t.calculate(RadiansPerSecond.of(turn_encoder.getVelocity())).in(Volts);
+        //final double turn_feedforward = feedforward_t.calculate(RadiansPerSecond.of(turn_encoder.getVelocity())).in(Volts);
+        //final double turn_feedforward = feedforward_t.calculate(RadiansPerSecond.of(turn_encoder.getVelocity())).in(Volts);
+        //final double turn_feedforward = feedforward_t.calculate(turn_encoder.getVelocity()).in(Volts);
 
 
         drivemotor1.setVoltage(driveOutput+drive_feedforward);
-        turnmotor1.setVoltage(turnOutput+turn_feedforward);
+        //turnmotor1.setVoltage(turnOutput+turn_feedforward);
     }
 
     public void periodic(){
