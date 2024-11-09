@@ -7,35 +7,21 @@ package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkLowLevel;
 import com.revrobotics.CANSparkMax;
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-import static frc.robot.Constants.ClawConstants.*;
 
 
 public class ClawSubsystem extends SubsystemBase
 {
     CANSparkMax motor;
     CANSparkMax inverseFollowMotor;
-    PIDController Claw_pidController;
-    double setpoint_Claw ;
-    double Current_Position_Claw;
-
-
-
     /** Creates a new Claw Subsystem. */
     public ClawSubsystem(int motorId, int inverseFollowMotorId) {
-        //Needs some editing ; waiting for some values
+
         motor = new CANSparkMax(motorId, CANSparkLowLevel.MotorType.kBrushless);
         inverseFollowMotor = new CANSparkMax(inverseFollowMotorId, CANSparkLowLevel.MotorType.kBrushless);
         inverseFollowMotor.follow(motor, true);
-        Claw_pidController= new PIDController(CLAW_P,CLAW_I,CLAW_D);
-        setpoint_Claw=0.0;
-        Current_Position_Claw=0.0;
-
-
-
     }
 
 
@@ -46,20 +32,15 @@ public class ClawSubsystem extends SubsystemBase
      */
     public Command Intake()
     {
-        // Inline construction of command goes here.
-        // Subsystem::RunOnce implicitly requires `this` subsystem.
-        return runOnce( () -> {
-            setpoint_Claw=Claw_Setpoint_Intake;
 
-            /* one-time action goes here */
+        return runOnce(
+                () -> {
+
                 });
     }
 
     public Command Outtake() {
-        return runOnce( () -> {;
-             //Constants
-            setpoint_Claw=Claw_Setpoint_Outtake;
-
+        return runOnce( () -> {
 
         });
     }
@@ -74,7 +55,6 @@ public class ClawSubsystem extends SubsystemBase
     public Command HoldBucket() {
 
     return runOnce( () -> {
-        setpoint_Claw=Claw_Setpoint_Hold;
 
     });
 }
@@ -95,10 +75,6 @@ public class ClawSubsystem extends SubsystemBase
     @Override
     public void periodic()
     {
-        Current_Position_Claw=motor.getEncoder().getPosition();
-        double Voltage=Claw_pidController.calculate(setpoint_Claw,Current_Position_Claw);
-        motor.setVoltage(Voltage);
-
         // This method will be called once per scheduler run
     }
 
