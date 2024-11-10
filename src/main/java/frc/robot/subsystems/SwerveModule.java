@@ -46,6 +46,7 @@ public class SwerveModule {
         driveEncoder = this.driveMotor.getEncoder();
     }
 
+
     public void moving() {
         turnMotor.setVoltage(turnVoltage);
         driveMotor.setVoltage(driveVoltage);
