@@ -37,6 +37,7 @@ public class RobotContainer
     double ydirection;
     double rotation;
 
+
     Joystick joystick1 = new Joystick(0);
     Joystick joystick2 = new Joystick(0);
 
