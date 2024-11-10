@@ -11,6 +11,9 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.allConstants.driveConstants;
 import frc.robot.subsystems.swervedrive;
 
+import static frc.robot.allConstants.driveConstants.kMaxAngularSpeed;
+import static frc.robot.allConstants.driveConstants.kMaxSpeed;
+
 /**
  * The VM is configured to automatically run this class, and to call the methods corresponding to
  * each mode, as described in the TimedRobot documentation. If you change the name of this class or
@@ -105,11 +108,11 @@ public class Robot extends TimedRobot
     @Override
     public void teleopPeriodic() {
         //joystick1 is for driving
-        robotContainer.xdirection= robotContainer.joystick1.getX();
-        robotContainer.ydirection= robotContainer.joystick1.getY();
+        robotContainer.xdirection= robotContainer.joystick1.getX()*kMaxSpeed;
+        robotContainer.ydirection= robotContainer.joystick1.getY()*kMaxSpeed;
 
         //joystick2 is for rotation
-        robotContainer.rotation= robotContainer.joystick2.getX()*Math.PI;
+        robotContainer.rotation= robotContainer.joystick2.getX()*kMaxAngularSpeed;
 
         //set the module states based on joystick
         swerve.drive(
