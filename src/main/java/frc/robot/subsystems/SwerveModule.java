@@ -63,6 +63,8 @@ public class SwerveModule {
                 driveEncoder.getCountsPerRevolution(), new Rotation2d(turnEncoder.getDistance()));
     }
 
+    // never used, idk if we have to
+    // same problem as in getposition
     public SwerveModuleState getState(){
         return new SwerveModuleState(driveEncoder.getCountsPerRevolution(),new Rotation2d(turnEncoder.getDistance()));
     }
