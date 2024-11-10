@@ -44,6 +44,7 @@ public class RobotContainer
         xdirection= joystick1.getX()*kMaxSpeed;
         ydirection= joystick1.getY()*kMaxSpeed;
 
+
         //joystick2 is for rotation
         rotation= joystick2.getX()*kMaxAngularSpeed;
 
