@@ -17,6 +17,7 @@ import frc.robot.subsystems.ExampleSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.subsystems.swervedrive;
 
 import static frc.robot.allConstants.driveConstants.kMaxAngularSpeed;
 import static frc.robot.allConstants.driveConstants.kMaxSpeed;
@@ -30,23 +31,27 @@ import static frc.robot.allConstants.driveConstants.kMaxSpeed;
  */
 public class RobotContainer
 {
+    public swervedrive swervee;
+
     double xdirection;
     double ydirection;
     double rotation;
 
+    Joystick joystick1 = new Joystick(0);
+    Joystick joystick2 = new Joystick(0);
 
     public RunCommand drive = new RunCommand(() -> {
         xdirection= joystick1.getX()*kMaxSpeed;
-        ydirection= robotContainer.joystick1.getY()*kMaxSpeed;
+        ydirection= joystick1.getY()*kMaxSpeed;
 
         //joystick2 is for rotation
-        robotContainer.rotation= robotContainer.joystick2.getX()*kMaxAngularSpeed;
+        rotation= joystick2.getX()*kMaxAngularSpeed;
 
         //set the module states based on joystick
-        swerve.drive(
-                robotContainer.xdirection,
-                robotContainer.ydirection,
-                robotContainer.rotation,
+        swervee.drive(
+                xdirection,
+                ydirection,
+                rotation,
                 driveConstants.frfr,
                 driveConstants.pdsec);
 
@@ -58,8 +63,7 @@ public class RobotContainer
     private final ClawSubsystem clawSubsystem = new ClawSubsystem(11,14);
     private final ArmSubsystem armSub = new ArmSubsystem(0.25, 0);
 
-    Joystick joystick1 = new Joystick(0);
-    Joystick joystick2 = new Joystick(0);
+
 
     // Replace with CommandPS4Controller or CommandJoystick if needed
     private final CommandXboxController driverController =
