@@ -60,11 +60,9 @@ public class swerveModule {
         return new SwerveModuleState(driveEncoder.getCountsPerRevolution(),new Rotation2d(turnEncoder.getPosition()));
     }
 
-    public void set(SwerveModuleState desiredState){
-        var encoderRotation=new Rotation2d(turnEncoder.getPosition());
-
+    public void SetDesired(SwerveModuleState desiredState) {
+        var encoderRotation = new Rotation2d(turnEncoder.getPosition());
         optimize(desiredState, encoderRotation);
-        //desiredState.cosineScale(encoderRotation); maybe add/fix later
 
         final double driveOutput = pid.calculate(driveEncoder.getVelocity()*kWheelCircumference/60, desiredState.speedMetersPerSecond);
         final double drive_feedforward = feedForward_d.calculate(desiredState.speedMetersPerSecond);
@@ -73,11 +71,6 @@ public class swerveModule {
 
         driveMotor.setVoltage(driveOutput+drive_feedforward);
         turnMotor.setVoltage(turnOutput+turn_feedforward);
-    }
-
-    public void SetDesired(SwerveModuleState desiredState) {
-        var encoderRotation = new Rotation2d(turnEncoder.getPosition());
-        optimize(desiredState, encoderRotation);
     }
 
 }
