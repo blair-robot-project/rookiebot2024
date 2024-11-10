@@ -10,7 +10,7 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 
 import static edu.wpi.first.math.kinematics.SwerveModuleState.optimize;
-import static frc.robot.allConstants.driveConstants.kWheelCircumference;
+import static frc.robot.allConstants.driveConstants.*;
 
 // the encoders commands don't work bc we're using a diff type of encoder
 // idk how to get distance traveled on a relative encoder
@@ -39,7 +39,7 @@ public class swerveModule {
     public swerveModule(int driveMotor, int turnMotor) {
         this.driveMotor = new CANSparkMax(driveMotor, CANSparkLowLevel.MotorType.kBrushless);
         this.turnMotor = new CANSparkMax(turnMotor, CANSparkLowLevel.MotorType.kBrushless);
-        pid = new PIDController(0.25,0.0,0.0);
+        pid = new PIDController(swervePIDkp,swervePIDki,swervePIDkd);
         driveEncoder = this.driveMotor.getEncoder();
         //turn_encoder=new DutyCycleEncoder(turn_encoder1);
         turnEncoder = this.turnMotor.getEncoder();

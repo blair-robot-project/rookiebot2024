@@ -41,7 +41,11 @@ public final class driveConstants {
         public static final double backRightLocationx = -0.381;
         public static final double backRightLocationy = -0.381;
 
+        //PID calculator values for swerve
 
+        public static final double swervePIDkp = 0.25;
+        public static final double swervePIDki = 0.0;
+        public static final double swervePIDkd = 0.0;
 
         //8 motor ids
         public static final int drivemotor1 = 20;
