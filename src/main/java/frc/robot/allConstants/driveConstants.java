@@ -43,9 +43,13 @@ public final class driveConstants {
 
         //PID calculator values for swerve
 
-        public static final double swervePIDkp = 0.25;
-        public static final double swervePIDki = 0.0;
-        public static final double swervePIDkd = 0.0;
+        public static final double drivePIDkp = 0.25;
+        public static final double drivePIDki = 0.0;
+        public static final double drivePIDkd = 0.0;
+
+        public static final double turnPIDkp = 0.25;
+        public static final double turnPIDki = 0.0;
+        public static final double turnPIDkd = 0.0;
 
         //feedForward calc values for swerve
 

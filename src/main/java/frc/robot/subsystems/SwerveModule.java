@@ -29,7 +29,8 @@ public class SwerveModule {
     double turnVoltage;
     RelativeEncoder driveEncoder;
     DutyCycleEncoder turnEncoder;
-    PIDController pid;
+    PIDController drivePid;
+    PIDController turnPid;
 
 
 
@@ -42,7 +43,8 @@ public class SwerveModule {
     public SwerveModule(int driveMotor, int turnMotor) {
         this.driveMotor = new CANSparkMax(driveMotor, CANSparkLowLevel.MotorType.kBrushless);
         this.turnMotor = new CANSparkMax(turnMotor, CANSparkLowLevel.MotorType.kBrushless);
-        pid = new PIDController(swervePIDkp,swervePIDki,swervePIDkd);
+        drivePid = new PIDController(drivePIDkp, drivePIDki, drivePIDkd);
+        turnPid=new PIDController(turnPIDkp,turnPIDki,turnPIDkd);
         driveEncoder = this.driveMotor.getEncoder();
     }
 
@@ -53,6 +55,9 @@ public class SwerveModule {
     }
 
     // return the current position of the module
+    // wrong, expects distance in meters and a rotation2d representing the angle of the wheel
+    // the rotation2d being passed in is wrong, it expects radians by default
+    // - james p
     public SwerveModulePosition getPosition() {
         return new SwerveModulePosition(
                 driveEncoder.getCountsPerRevolution(), new Rotation2d(turnEncoder.getDistance()));
@@ -66,9 +71,9 @@ public class SwerveModule {
         var encoderRotation = new Rotation2d(turnEncoder.getDistance());
         optimize(desiredState, encoderRotation);
 
-        final double driveOutput = pid.calculate(driveEncoder.getVelocity()*kWheelCircumference/60, desiredState.speedMetersPerSecond);
+        final double driveOutput = drivePid.calculate(driveEncoder.getVelocity()*kWheelCircumference/60, desiredState.speedMetersPerSecond);
         final double drive_feedforward = feedForward_d.calculate(desiredState.speedMetersPerSecond);
-        final double turnOutput= pid.calculate(turnEncoder.getDistance(),desiredState.angle.getRadians());
+        final double turnOutput= turnPid.calculate(turnEncoder.getDistance(),desiredState.angle.getRadians());
 
         driveMotor.setVoltage(driveOutput+drive_feedforward);
         turnMotor.setVoltage(turnOutput+feedForward_t.ks);
