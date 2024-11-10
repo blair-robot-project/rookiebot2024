@@ -8,6 +8,7 @@ import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.DutyCycleEncoder;
 
 import static edu.wpi.first.math.kinematics.SwerveModuleState.optimize;
 import static frc.robot.allConstants.driveConstants.*;
@@ -27,7 +28,7 @@ public class SwerveModule {
     double driveVoltage;
     double turnVoltage;
     RelativeEncoder driveEncoder;
-    RelativeEncoder turnEncoder;
+    DutyCycleEncoder turnEncoder;
     PIDController pid;
 
 
@@ -43,8 +44,6 @@ public class SwerveModule {
         this.turnMotor = new CANSparkMax(turnMotor, CANSparkLowLevel.MotorType.kBrushless);
         pid = new PIDController(swervePIDkp,swervePIDki,swervePIDkd);
         driveEncoder = this.driveMotor.getEncoder();
-        //turn_encoder=new DutyCycleEncoder(turn_encoder1);
-        turnEncoder = this.turnMotor.getEncoder();
     }
 
     public void moving() {
@@ -55,20 +54,20 @@ public class SwerveModule {
     // return the current position of the module
     public SwerveModulePosition getPosition() {
         return new SwerveModulePosition(
-                driveEncoder.getCountsPerRevolution(), new Rotation2d(turnEncoder.getPosition()));
+                driveEncoder.getCountsPerRevolution(), new Rotation2d(turnEncoder.getDistance()));
     }
 
     public SwerveModuleState getState(){
-        return new SwerveModuleState(driveEncoder.getCountsPerRevolution(),new Rotation2d(turnEncoder.getPosition()));
+        return new SwerveModuleState(driveEncoder.getCountsPerRevolution(),new Rotation2d(turnEncoder.getDistance()));
     }
 
     public void SetDesired(SwerveModuleState desiredState) {
-        var encoderRotation = new Rotation2d(turnEncoder.getPosition());
+        var encoderRotation = new Rotation2d(turnEncoder.getDistance());
         optimize(desiredState, encoderRotation);
 
         final double driveOutput = pid.calculate(driveEncoder.getVelocity()*kWheelCircumference/60, desiredState.speedMetersPerSecond);
         final double drive_feedforward = feedForward_d.calculate(desiredState.speedMetersPerSecond);
-        final double turnOutput= pid.calculate(turnEncoder.getPosition(),desiredState.angle.getRadians());
+        final double turnOutput= pid.calculate(turnEncoder.getDistance(),desiredState.angle.getRadians());
 
         driveMotor.setVoltage(driveOutput+drive_feedforward);
         turnMotor.setVoltage(turnOutput+feedForward_t.ks);

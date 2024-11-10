@@ -29,17 +29,17 @@ public final class driveConstants {
         public static final double kModuleMaxAngularAcceleration = 2 * Math.PI;
 
         //location of the wheels at the start
-        public static final double frontLeftLocationx = 0.381;
-        public static final double frontLeftLocationy = 0.381;
+        public static final double frontLeftLocationX = 0.381;
+        public static final double frontLeftLocationY = 0.381;
 
-        public static final double frontRightLocationx = 0.381;
-        public static final double frontRightLocationy = -0.381;
+        public static final double frontRightLocationX = 0.381;
+        public static final double frontRightLocationY = -0.381;
 
-        public static final double backLeftLocationx = -0.381;
-        public static final double backLeftLocationy = 0.381;
+        public static final double backLeftLocationX = -0.381;
+        public static final double backLeftLocationY = 0.381;
 
-        public static final double backRightLocationx = -0.381;
-        public static final double backRightLocationy = -0.381;
+        public static final double backRightLocationX = -0.381;
+        public static final double backRightLocationY = -0.381;
 
         //PID calculator values for swerve
 
@@ -48,17 +48,17 @@ public final class driveConstants {
         public static final double swervePIDkd = 0.0;
 
         //8 motor ids
-        public static final int drivemotor1 = 20;
-        public static final int turnmotor1 = 21;
+        public static final int driveMotor1 = 20;
+        public static final int turnMotor1 = 21;
 
-        public static final int drivemotor2 = 17;
-        public static final int turnmotor2 = 61;
+        public static final int driveMotor2 = 17;
+        public static final int turnMotor2 = 61;
 
-        public static final int drivemotor3 = 1;
-        public static final int turnmotor3 = 2;
+        public static final int driveMotor3 = 1;
+        public static final int turnMotor3 = 2;
 
-        public static final int drivemotor4 = 4;
-        public static final int turnmotor4 = 3;
+        public static final int driveMotor4 = 4;
+        public static final int turnMotor4 = 3;
 
         //the interavals in which the motor loops
         public static final double pdsec = 0.02;
