@@ -109,7 +109,7 @@ public class Robot extends TimedRobot
         robotContainer.ydirection= robotContainer.joystick1.getY();
 
         //joystick2 is for rotation
-        robotContainer.rotation= robotContainer.joystick2.getDirectionRadians();
+        robotContainer.rotation= robotContainer.joystick2.getX()*Math.PI;
 
         //set the module states based on joystick
         swerve.drive(

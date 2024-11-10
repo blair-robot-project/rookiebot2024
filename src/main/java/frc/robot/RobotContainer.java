@@ -49,8 +49,8 @@ public class RobotContainer
         // Configure the trigger bindings
         configureBindings();
     }
-    
-    
+
+
     /**
      * Use this method to define your trigger->command mappings. Triggers can be created via the
      * {@link Trigger#Trigger(java.util.function.BooleanSupplier)} constructor with an arbitrary
@@ -65,7 +65,7 @@ public class RobotContainer
         // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
         new Trigger(exampleSubsystem::exampleCondition)
                 .onTrue(new ExampleCommand(exampleSubsystem));
-        
+
         // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
         // cancelling on release.
         driverController.x().onTrue(armSub.goToSetpoint());
@@ -77,8 +77,8 @@ public class RobotContainer
 
 
     }
-    
-    
+
+
     /**
      * Use this to pass the autonomous command to the main {@link Robot} class.
      *
