@@ -20,7 +20,6 @@ public class swerveDrive extends SubsystemBase {
     private final Translation2d m_backLeftLocation = new Translation2d(backLeftLocationx, backLeftLocationy);
     private final Translation2d m_backRightLocation = new Translation2d(backRightLocationx,backRightLocationy);
 
-
     public final SwerveModule m_frontLeft = new SwerveModule(drivemotor1, turnmotor1);
     private final SwerveModule m_frontRight = new SwerveModule(drivemotor2,turnmotor2);
     private final SwerveModule m_backLeft = new SwerveModule(drivemotor3,turnmotor3);
