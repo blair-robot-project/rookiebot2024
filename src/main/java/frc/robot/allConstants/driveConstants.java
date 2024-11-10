@@ -19,13 +19,13 @@ object driveConstants{
 **/
 
 package frc.robot.allConstants;
-import frc.robot.subsystems.swervedrive;
+import frc.robot.subsystems.swerveDrive;
 public final class driveConstants {
 
         public static final double kWheelRadius = 0.0508;
         public static final double kWheelCircumference=2*kWheelRadius*Math.PI;
         public static final double kEncoderResolution = 4096;
-        public static final double kModuleMaxAngularVelocity = swervedrive.kMaxAngularSpeed;
+        public static final double kModuleMaxAngularVelocity = swerveDrive.kMaxAngularSpeed;
         public static final double kModuleMaxAngularAcceleration = 2 * Math.PI;
 
         //location of the wheels at the start

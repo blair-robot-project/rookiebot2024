@@ -8,11 +8,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.allConstants.driveConstants;
-import frc.robot.subsystems.swervedrive;
-
-import static frc.robot.allConstants.driveConstants.kMaxAngularSpeed;
-import static frc.robot.allConstants.driveConstants.kMaxSpeed;
+import frc.robot.subsystems.swerveDrive;
 
 /**
  * The VM is configured to automatically run this class, and to call the methods corresponding to
@@ -27,7 +23,7 @@ public class Robot extends TimedRobot
     private Command autonomousCommand;
     
     private RobotContainer robotContainer;
-    private swervedrive swerve;
+    private swerveDrive swerve;
     
     
     /**
@@ -39,7 +35,7 @@ public class Robot extends TimedRobot
     {
         // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
         // autonomous chooser on the dashboard.
-        swerve =new swervedrive();
+        swerve =new swerveDrive();
         robotContainer = new RobotContainer();
     }
 

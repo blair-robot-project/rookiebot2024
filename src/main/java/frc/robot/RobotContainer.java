@@ -17,7 +17,7 @@ import frc.robot.subsystems.ExampleSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.subsystems.swervedrive;
+import frc.robot.subsystems.swerveDrive;
 
 import static frc.robot.allConstants.driveConstants.kMaxAngularSpeed;
 import static frc.robot.allConstants.driveConstants.kMaxSpeed;
@@ -31,7 +31,7 @@ import static frc.robot.allConstants.driveConstants.kMaxSpeed;
  */
 public class RobotContainer
 {
-    public swervedrive swervee;
+    public swerveDrive swervee;
 
     double xdirection;
     double ydirection;
@@ -44,7 +44,6 @@ public class RobotContainer
     public RunCommand drive = new RunCommand(() -> {
         xdirection= joystick1.getX()*kMaxSpeed;
         ydirection= joystick1.getY()*kMaxSpeed;
-
 
         //joystick2 is for rotation
         rotation= joystick2.getX()*kMaxAngularSpeed;
