@@ -108,6 +108,7 @@ public class Robot extends TimedRobot
     @Override
     public void teleopPeriodic() {
         //joystick1 is for driving
+
         robotContainer.xdirection= robotContainer.joystick1.getX()*kMaxSpeed;
         robotContainer.ydirection= robotContainer.joystick1.getY()*kMaxSpeed;
 
