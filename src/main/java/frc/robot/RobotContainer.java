@@ -36,8 +36,8 @@ public class RobotContainer
 
 
     public RunCommand drive = new RunCommand(() -> {
-        robotContainer.xdirection= robotContainer.joystick1.getX()*kMaxSpeed;
-        robotContainer.ydirection= robotContainer.joystick1.getY()*kMaxSpeed;
+        xdirection= joystick1.getX()*kMaxSpeed;
+        ydirection= robotContainer.joystick1.getY()*kMaxSpeed;
 
         //joystick2 is for rotation
         robotContainer.rotation= robotContainer.joystick2.getX()*kMaxAngularSpeed;
