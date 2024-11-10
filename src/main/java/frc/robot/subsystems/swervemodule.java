@@ -15,7 +15,7 @@ import static frc.robot.allConstants.driveConstants.DriveConstants.kWheelCircumf
 // the encoders commands don't work bc we're using a diff type of encoder
 // idk how to get distance traveled on a relative encoder
 
-public class swervemodule extends SubsystemBase {
+public class swervemodule {
     /**private static final double kWheelRadius = 0.0508;
     //private static final double kWheelCircumference=2*kWheelRadius*Math.PI;
     //private static final int kEncoderResolution = 4096;
@@ -73,15 +73,6 @@ public class swervemodule extends SubsystemBase {
 
         drivemotor1.setVoltage(driveOutput+drive_feedforward);
         turnmotor1.setVoltage(turnOutput+turn_feedforward);
-    }
-
-    public void periodic(){
-        // turn_encoder.setDistancePerRotation(2*Math.PI);
-        // double a = drive_encoder.getPosition();
-        // double b = turn_encoder.getPosition();
-
-        // System.out.println(a);
-        // System.out.println(b);
     }
 
     public void SetDesired(SwerveModuleState desiredState) {
