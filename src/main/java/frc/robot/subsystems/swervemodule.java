@@ -51,7 +51,6 @@ public class swervemodule extends SubsystemBase {
     }
 
     // return the current position of the module
-    // idk how you would do this
     public SwerveModulePosition getPosition() {
         return new SwerveModulePosition(
                 drive_encoder.getCountsPerRevolution(), new Rotation2d(turn_encoder.getPosition()));
