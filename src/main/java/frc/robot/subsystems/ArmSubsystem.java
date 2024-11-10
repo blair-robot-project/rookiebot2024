@@ -14,17 +14,18 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import java.util.function.DoubleSupplier;
 import java.util.function.Supplier;
+import frc.robot.allConstants.armConstants;
 
 public class ArmSubsystem extends SubsystemBase {
 
-    CANSparkMax motor = new CANSparkMax(11, MotorType.kBrushless);
-    CANSparkMax motorFollower = new CANSparkMax(12, MotorType.kBrushless);
-    double kP = 0.1, kI = 0, kD = 0;
+    CANSparkMax motor = new CANSparkMax(armConstants.armMotorID, MotorType.kBrushless);
+    CANSparkMax motorFollower = new CANSparkMax(armConstants.armMotorFollowerID, MotorType.kBrushless);
+    double kP = armConstants.armKP, kI = armConstants.armKI, kD = armConstants.armKD;
     PIDController pid = new PIDController(kP, kI, kD);
     double current;
     double desired;
-    double desiredVal = 0.25;
-    double baseVal = 0;
+    double desiredVal;
+    double baseVal;
     /** Creates a new ExampleSubsystem. */
     public ArmSubsystem(double des, double base) {
         motorFollower.follow(motor, false);
@@ -36,15 +37,15 @@ public class ArmSubsystem extends SubsystemBase {
     public ArmSubsystem(double des) {
         motorFollower.follow(motor, false);
         desiredVal = des;
-        baseVal = 0;
-        current = 0;
+        baseVal = armConstants.armDefaultBaseValue;
+        current = armConstants.armDefaultBaseValue;
     }
 
     public ArmSubsystem() {
         motorFollower.follow(motor, false);
-        desiredVal = 0.25;
-        baseVal = 0;
-        current = 0;
+        desiredVal = armConstants.armDefaultDesiredValue;
+        baseVal = armConstants.armDefaultBaseValue;
+        current = armConstants.armDefaultBaseValue;
     }
 
     /**
