@@ -47,6 +47,16 @@ public final class driveConstants {
         public static final double swervePIDki = 0.0;
         public static final double swervePIDkd = 0.0;
 
+        //feedForward calc values for swerve
+
+        public static final double swerveFeedForwardDriveks = 1;
+        public static final double swerveFeedForwardDrivekv = 1;
+        public static final double swerveFeedForwardDriveka = 1;
+
+        public static final double swerveFeedForwardTurnks = 1;
+        public static final double swerveFeedForwardTurnkv = 1;
+        public static final double swerveFeedForwardTurnka = 1;
+
         //8 motor ids
         public static final int driveMotor1 = 20;
         public static final int turnMotor1 = 21;

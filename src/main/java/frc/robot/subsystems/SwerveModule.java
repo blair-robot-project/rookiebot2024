@@ -10,12 +10,12 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 
 import static edu.wpi.first.math.kinematics.SwerveModuleState.optimize;
-import static frc.robot.allConstants.driveConstants.kWheelCircumference;
+import static frc.robot.allConstants.driveConstants.*;
 
 // the encoders commands don't work bc we're using a diff type of encoder
 // idk how to get distance traveled on a relative encoder
 
-public class swerveModule {
+public class SwerveModule {
     /**private static final double kWheelRadius = 0.0508;
     //private static final double kWheelCircumference=2*kWheelRadius*Math.PI;
     //private static final int kEncoderResolution = 4096;
@@ -30,16 +30,18 @@ public class swerveModule {
     RelativeEncoder turnEncoder;
     PIDController pid;
 
+
+
     // ks = volts
     // kv = volts * seconds / distance
     // ka = volts * seconds^2 / distance
-    private final SimpleMotorFeedforward feedForward_d = new SimpleMotorFeedforward(1,2,3);
-    private final SimpleMotorFeedforward feedForward_t = new SimpleMotorFeedforward(1,2,3);
+    private final SimpleMotorFeedforward feedForward_d = new SimpleMotorFeedforward(swerveFeedForwardDriveks,swerveFeedForwardDrivekv,swerveFeedForwardDriveka);
+    private final SimpleMotorFeedforward feedForward_t = new SimpleMotorFeedforward(swerveFeedForwardTurnks,swerveFeedForwardTurnkv,swerveFeedForwardTurnka);
 
-    public swerveModule(int driveMotor, int turnMotor) {
+    public SwerveModule(int driveMotor, int turnMotor) {
         this.driveMotor = new CANSparkMax(driveMotor, CANSparkLowLevel.MotorType.kBrushless);
         this.turnMotor = new CANSparkMax(turnMotor, CANSparkLowLevel.MotorType.kBrushless);
-        pid = new PIDController(0.25,0.0,0.0);
+        pid = new PIDController(swervePIDkp,swervePIDki,swervePIDkd);
         driveEncoder = this.driveMotor.getEncoder();
         //turn_encoder=new DutyCycleEncoder(turn_encoder1);
         turnEncoder = this.turnMotor.getEncoder();
@@ -67,10 +69,9 @@ public class swerveModule {
         final double driveOutput = pid.calculate(driveEncoder.getVelocity()*kWheelCircumference/60, desiredState.speedMetersPerSecond);
         final double drive_feedforward = feedForward_d.calculate(desiredState.speedMetersPerSecond);
         final double turnOutput= pid.calculate(turnEncoder.getPosition(),desiredState.angle.getRadians());
-        final double turn_feedforward = feedForward_t.calculate(turnEncoder.getVelocity()*kWheelCircumference/60);
 
         driveMotor.setVoltage(driveOutput+drive_feedforward);
-        turnMotor.setVoltage(turnOutput+turn_feedforward);
+        turnMotor.setVoltage(turnOutput+feedForward_t.ks);
     }
 
 }
