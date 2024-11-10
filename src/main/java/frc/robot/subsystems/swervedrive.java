@@ -4,11 +4,12 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.*;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics.SwerveDriveWheelStates;
 import edu.wpi.first.wpilibj.AnalogGyro;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import static frc.robot.allConstants.driveConstants.DriveConstants.frontLeftLocationx;
 import static frc.robot.allConstants.driveConstants.DriveConstants.*;
 
-public class swervedrive {
+public class swervedrive extends SubsystemBase {
     public static final double kMaxSpeed=3.0; // 3 m/s
     public static final double kMaxAngularSpeed=Math.PI; // 1/2 rotation per second (in radians, so pi radians is 1/2 of a rotation)
     // There should probably be a constant for these distance values otherwise it could be confusing.
@@ -71,5 +72,8 @@ public class swervedrive {
                 m_backLeft.getPosition(),
                 m_backRight.getPosition()
         });
+    }
+    public void periodic(){
+        updateOdometry();
     }
 }

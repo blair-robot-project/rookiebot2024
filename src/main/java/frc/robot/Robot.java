@@ -65,7 +65,6 @@ public class Robot extends TimedRobot
     
     @Override
     public void disabledPeriodic() {
-        swerve.updateOdometry();
     }
     
     /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
@@ -85,7 +84,6 @@ public class Robot extends TimedRobot
     /** This method is called periodically during autonomous. */
     @Override
     public void autonomousPeriodic() {
-        swerve.updateOdometry();
     }
     
     
@@ -121,8 +119,6 @@ public class Robot extends TimedRobot
                 driveConstants.DriveConstants.frfr,
                 driveConstants.DriveConstants.pdsec);
 
-        //updates position
-        swerve.updateOdometry();
     }
     
     
@@ -137,7 +133,6 @@ public class Robot extends TimedRobot
     /** This method is called periodically during test mode. */
     @Override
     public void testPeriodic() {
-        swerve.updateOdometry();
     }
     
     
