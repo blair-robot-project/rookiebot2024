@@ -5,9 +5,8 @@ import edu.wpi.first.math.kinematics.*;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics.SwerveDriveWheelStates;
 import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.allConstants.driveConstants;
 
-import static frc.robot.allConstants.driveConstants.frontLeftLocationx;
-import static frc.robot.allConstants.driveConstants.*;
 
 public class swerveDrive extends SubsystemBase {
     public static final double kMaxSpeed=3.0; // 3 m/s
@@ -15,15 +14,15 @@ public class swerveDrive extends SubsystemBase {
     // There should probably be a constant for these distance values otherwise it could be confusing.
     //the initial position of the four wheels and
 
-    private final Translation2d m_frontLeftLocation = new Translation2d(frontLeftLocationx, frontLeftLocationy);
-    private final Translation2d m_frontRightLocation = new Translation2d(frontRightLocationx, frontRightLocationy);
-    private final Translation2d m_backLeftLocation = new Translation2d(backLeftLocationx, backLeftLocationy);
-    private final Translation2d m_backRightLocation = new Translation2d(backRightLocationx,backRightLocationy);
+    private final Translation2d m_frontLeftLocation = new Translation2d(driveConstants.frontLeftLocationX, driveConstants.frontLeftLocationY);
+    private final Translation2d m_frontRightLocation = new Translation2d(driveConstants.frontRightLocationX,driveConstants.frontRightLocationY);
+    private final Translation2d m_backLeftLocation = new Translation2d(driveConstants.backLeftLocationX, driveConstants.backLeftLocationY);
+    private final Translation2d m_backRightLocation = new Translation2d(driveConstants.backRightLocationX,driveConstants.backRightLocationY);
 
-    public final SwerveModule m_frontLeft = new SwerveModule(drivemotor1, turnmotor1);
-    private final SwerveModule m_frontRight = new SwerveModule(drivemotor2,turnmotor2);
-    private final SwerveModule m_backLeft = new SwerveModule(drivemotor3,turnmotor3);
-    private final SwerveModule m_backRight = new SwerveModule(drivemotor4,turnmotor4);
+    public final SwerveModule m_frontLeft = new SwerveModule(driveConstants.driveMotor1, driveConstants.turnMotor1);
+    private final SwerveModule m_frontRight = new SwerveModule(driveConstants.driveMotor2,driveConstants.turnMotor2);
+    private final SwerveModule m_backLeft = new SwerveModule(driveConstants.driveMotor3,driveConstants.turnMotor3);
+    private final SwerveModule m_backRight = new SwerveModule(driveConstants.driveMotor4,driveConstants.turnMotor4);
 
     private final AnalogGyro m_gyro = new AnalogGyro(0);
 
