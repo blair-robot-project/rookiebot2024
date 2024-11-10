@@ -109,19 +109,6 @@ public class Robot extends TimedRobot
     public void teleopPeriodic() {
         //joystick1 is for driving
 
-        robotContainer.xdirection= robotContainer.joystick1.getX()*kMaxSpeed;
-        robotContainer.ydirection= robotContainer.joystick1.getY()*kMaxSpeed;
-
-        //joystick2 is for rotation
-        robotContainer.rotation= robotContainer.joystick2.getX()*kMaxAngularSpeed;
-
-        //set the module states based on joystick
-        swerve.drive(
-                robotContainer.xdirection,
-                robotContainer.ydirection,
-                robotContainer.rotation,
-                driveConstants.frfr,
-                driveConstants.pdsec);
 
     }
     

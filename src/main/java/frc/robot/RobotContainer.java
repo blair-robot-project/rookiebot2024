@@ -6,7 +6,9 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.allConstants.driveConstants;
 import frc.robot.commands.Autos;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.ArmSubsystem;
@@ -16,6 +18,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
+import static frc.robot.allConstants.driveConstants.kMaxAngularSpeed;
+import static frc.robot.allConstants.driveConstants.kMaxSpeed;
 
 
 /**
@@ -29,6 +33,24 @@ public class RobotContainer
     double xdirection;
     double ydirection;
     double rotation;
+
+
+    public RunCommand drive = new RunCommand(() -> {
+        robotContainer.xdirection= robotContainer.joystick1.getX()*kMaxSpeed;
+        robotContainer.ydirection= robotContainer.joystick1.getY()*kMaxSpeed;
+
+        //joystick2 is for rotation
+        robotContainer.rotation= robotContainer.joystick2.getX()*kMaxAngularSpeed;
+
+        //set the module states based on joystick
+        swerve.drive(
+                robotContainer.xdirection,
+                robotContainer.ydirection,
+                robotContainer.rotation,
+                driveConstants.frfr,
+                driveConstants.pdsec);
+
+    });
 
     // The robot's subsystems and commands are defined here...
     private final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
