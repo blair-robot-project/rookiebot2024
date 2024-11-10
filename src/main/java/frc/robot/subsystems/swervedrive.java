@@ -6,8 +6,8 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics.SwerveDriveWheelState
 import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-import static frc.robot.allConstants.driveConstants.DriveConstants.frontLeftLocationx;
-import static frc.robot.allConstants.driveConstants.DriveConstants.*;
+import static frc.robot.allConstants.driveConstants.frontLeftLocationx;
+import static frc.robot.allConstants.driveConstants.*;
 
 public class swervedrive extends SubsystemBase {
     public static final double kMaxSpeed=3.0; // 3 m/s

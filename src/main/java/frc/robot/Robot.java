@@ -116,8 +116,8 @@ public class Robot extends TimedRobot
                 robotContainer.xdirection,
                 robotContainer.ydirection,
                 robotContainer.rotation,
-                driveConstants.DriveConstants.frfr,
-                driveConstants.DriveConstants.pdsec);
+                driveConstants.frfr,
+                driveConstants.pdsec);
 
     }
     

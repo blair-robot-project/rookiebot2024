@@ -10,7 +10,7 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import static edu.wpi.first.math.kinematics.SwerveModuleState.optimize;
-import static frc.robot.allConstants.driveConstants.DriveConstants.kWheelCircumference;
+import static frc.robot.allConstants.driveConstants.kWheelCircumference;
 
 // the encoders commands don't work bc we're using a diff type of encoder
 // idk how to get distance traveled on a relative encoder

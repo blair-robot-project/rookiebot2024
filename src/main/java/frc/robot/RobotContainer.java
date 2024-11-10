@@ -29,6 +29,7 @@ public class RobotContainer
     double xdirection;
     double ydirection;
     double rotation;
+
     // The robot's subsystems and commands are defined here...
     private final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
     // EXAMPLE MOTOR IDs
@@ -41,8 +42,7 @@ public class RobotContainer
     // Replace with CommandPS4Controller or CommandJoystick if needed
     private final CommandXboxController driverController =
             new CommandXboxController(OperatorConstants.DRIVER_CONTROLLER_PORT);
-    
-    
+
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer()
     {
