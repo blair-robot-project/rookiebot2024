@@ -10,8 +10,6 @@ import com.revrobotics.CANSparkMax;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-import static frc.robot.Constants.ClawConstants;
-import static frc.robot.Constants.ClawConstants.*;
 
 
 public class ClawSubsystem extends SubsystemBase
@@ -21,69 +19,62 @@ public class ClawSubsystem extends SubsystemBase
     /** Creates a new Claw Subsystem. */
     public ClawSubsystem(int motorId, int inverseFollowMotorId) {
 
-        motor = new CANSparkMax(CLAW_MOTOR_ID, CANSparkLowLevel.MotorType.kBrushless);
-        inverseFollowMotor = new CANSparkMax(CLAW_FOLLOW_MOTOR_ID, CANSparkLowLevel.MotorType.kBrushless);
+        motor = new CANSparkMax(motorId, CANSparkLowLevel.MotorType.kBrushless);
+        inverseFollowMotor = new CANSparkMax(inverseFollowMotorId, CANSparkLowLevel.MotorType.kBrushless);
         inverseFollowMotor.follow(motor, true);
-
-
-
     }
 
 
     /**
-     * Example command factory method.
+     * Intake command factory method.
      *
      * @return a command
      */
     public Command Intake()
     {
-
         return runOnce(
                 () -> {
-                    motor.setVoltage(Claw_Voltage_Intake);
-
+                    motor.setVoltage(0.2);
                 });
     }
-
+    /**
+     * Outtake command factory method.
+     *
+     * @return a command
+     */
     public Command Outtake() {
         return runOnce( () -> {
-            motor.setVoltage(Claw_Voltage_Outtake);
-
+            motor.setVoltage(-0.2);
         });
     }
-
+    /**
+     * DoNothing command factory method.
+     *
+     * @return a command
+     */
     public Command DoNothing() {
 
         return runOnce( () -> {
             motor.stopMotor();
         });
     }
-
+    /**
+     * HoldBucket command factory method.
+     *
+     * @return a command
+     */
     public Command HoldBucket() {
 
     return runOnce( () -> {
-        motor.setVoltage(Claw_Voltage_Hold);
 
     });
 }
 
 
-    /**
-     * An example method querying a boolean state of the subsystem (for example, a digital sensor).
-     *
-     * @return value of some boolean subsystem state, such as a digital sensor.
-     */
-    public boolean exampleCondition()
-    {
-        // Query some boolean state, such as a digital sensor.
-        return false;
-    }
-
-
     @Override
     public void periodic()
     {
-
+        // This method will be called once per scheduler run
     }
 
 
