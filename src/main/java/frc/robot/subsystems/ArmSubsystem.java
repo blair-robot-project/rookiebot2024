@@ -14,13 +14,13 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import java.util.function.DoubleSupplier;
 import java.util.function.Supplier;
-import frc.robot.allConstants.armConstants;
+import static frc.robot.allConstants.armConstants.*;
 
 public class ArmSubsystem extends SubsystemBase {
 
-    CANSparkMax motor = new CANSparkMax(armConstants.armMotorID, MotorType.kBrushless);
-    CANSparkMax motorFollower = new CANSparkMax(armConstants.armMotorFollowerID, MotorType.kBrushless);
-    double kP = armConstants.armKP, kI = armConstants.armKI, kD = armConstants.armKD;
+    CANSparkMax motor = new CANSparkMax(armMotorID, MotorType.kBrushless);
+    CANSparkMax motorFollower = new CANSparkMax(armMotorFollowerID, MotorType.kBrushless);
+    double kP = armKP, kI = armKI, kD = armKD;
     PIDController pid = new PIDController(kP, kI, kD);
     double current;
     double desired;
@@ -37,15 +37,15 @@ public class ArmSubsystem extends SubsystemBase {
     public ArmSubsystem(double des) {
         motorFollower.follow(motor, false);
         desiredVal = des;
-        baseVal = armConstants.armDefaultBaseValue;
-        current = armConstants.armDefaultBaseValue;
+        baseVal = armDefaultBaseValue;
+        current = armDefaultBaseValue;
     }
 
     public ArmSubsystem() {
         motorFollower.follow(motor, false);
-        desiredVal = armConstants.armDefaultDesiredValue;
-        baseVal = armConstants.armDefaultBaseValue;
-        current = armConstants.armDefaultBaseValue;
+        desiredVal = armDefaultDesiredValue;
+        baseVal = armDefaultBaseValue;
+        current = armDefaultBaseValue;
     }
 
     /**
@@ -122,7 +122,7 @@ public class ArmSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
-        this.current = this.returnMotorPos()/armConstants.armGearRatio; // gear ratio maybe somewhere?
+        this.current = this.returnMotorPos()/armGearRatio; // gear ratio maybe somewhere?
         double voltage = pid.calculate(this.current, this.desired);
         System.out.println(voltage);
         this.motor.setVoltage(voltage);

@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.allConstants.clawConstants;
-import frc.robot.allConstants.armConstants;
+import static frc.robot.allConstants.armConstants.*;
 import frc.robot.allConstants.driveConstants;
 import frc.robot.commands.Autos;
 import frc.robot.commands.ExampleCommand;
@@ -65,7 +65,7 @@ public class RobotContainer
     private final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
     // EXAMPLE MOTOR IDs
     private final ClawSubsystem clawSubsystem = new ClawSubsystem();
-    private final ArmSubsystem armSub = new ArmSubsystem(armConstants.armDesiredValue, armConstants.armBaseValue);
+    private final ArmSubsystem armSub = new ArmSubsystem(armDesiredValue, armBaseValue);
 
 
 

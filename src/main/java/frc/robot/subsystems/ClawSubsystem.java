@@ -9,13 +9,13 @@ import com.revrobotics.CANSparkLowLevel;
 import com.revrobotics.CANSparkMax;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.allConstants.clawConstants;
+import static frc.robot.allConstants.clawConstants.*;
 
 
 public class ClawSubsystem extends SubsystemBase
 {
-    CANSparkMax motor = new CANSparkMax(clawConstants.clawMotorId, CANSparkLowLevel.MotorType.kBrushless);
-    CANSparkMax inverseFollowMotor = new CANSparkMax(clawConstants.clawFollowerMotorId, CANSparkLowLevel.MotorType.kBrushless);
+    CANSparkMax motor = new CANSparkMax(clawMotorId, CANSparkLowLevel.MotorType.kBrushless);
+    CANSparkMax inverseFollowMotor = new CANSparkMax(clawFollowerMotorId, CANSparkLowLevel.MotorType.kBrushless);
     /** Creates a new Claw Subsystem. */
     public ClawSubsystem() {
         inverseFollowMotor.follow(motor, true);
@@ -31,7 +31,7 @@ public class ClawSubsystem extends SubsystemBase
     {
         return runOnce(
                 () -> {
-                    motor.setVoltage(clawConstants.clawMotorVoltage);
+                    motor.setVoltage(clawMotorVoltage);
                 });
     }
     /**
@@ -41,7 +41,7 @@ public class ClawSubsystem extends SubsystemBase
      */
     public Command Outtake() {
         return runOnce( () -> {
-            motor.setVoltage(clawConstants.clawMotorInvVoltage);
+            motor.setVoltage(clawMotorInvVoltage);
         });
     }
     /**
