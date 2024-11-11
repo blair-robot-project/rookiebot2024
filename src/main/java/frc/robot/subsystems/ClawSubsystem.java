@@ -26,6 +26,7 @@ public class ClawSubsystem extends SubsystemBase
         inverseFollowMotor.follow(motor, true);
 
 
+
     }
 
 
