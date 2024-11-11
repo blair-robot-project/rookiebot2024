@@ -9,7 +9,7 @@ import com.revrobotics.CANSparkLowLevel;
 import com.revrobotics.CANSparkMax;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
+import frc.robot.allConstants.clawConstants;
 
 
 public class ClawSubsystem extends SubsystemBase
@@ -34,7 +34,7 @@ public class ClawSubsystem extends SubsystemBase
     {
         return runOnce(
                 () -> {
-                    motor.setVoltage(0.2);
+                    motor.setVoltage(clawConstants.clawMotorVoltage);
                 });
     }
     /**
@@ -44,7 +44,7 @@ public class ClawSubsystem extends SubsystemBase
      */
     public Command Outtake() {
         return runOnce( () -> {
-            motor.setVoltage(-0.2);
+            motor.setVoltage(-clawConstants.clawMotorVoltage);
         });
     }
     /**
