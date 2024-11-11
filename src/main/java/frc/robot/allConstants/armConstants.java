@@ -13,4 +13,8 @@ public class armConstants {
     public static final double armDefaultBaseValue = 0;
     //gear ratio
     public static final double armGearRatio = 1;
+    //desired arm value
+    public static final double armDesiredValue = 0.25;
+    //base arm value
+    public static final double armBaseValue = 0;
 }

@@ -14,13 +14,10 @@ import frc.robot.allConstants.clawConstants;
 
 public class ClawSubsystem extends SubsystemBase
 {
-    CANSparkMax motor;
-    CANSparkMax inverseFollowMotor;
+    CANSparkMax motor = new CANSparkMax(clawConstants.clawMotorId, CANSparkLowLevel.MotorType.kBrushless);
+    CANSparkMax inverseFollowMotor = new CANSparkMax(clawConstants.clawFollowerMotorId, CANSparkLowLevel.MotorType.kBrushless);
     /** Creates a new Claw Subsystem. */
-    public ClawSubsystem(int motorId, int inverseFollowMotorId) {
-
-        motor = new CANSparkMax(motorId, CANSparkLowLevel.MotorType.kBrushless);
-        inverseFollowMotor = new CANSparkMax(inverseFollowMotorId, CANSparkLowLevel.MotorType.kBrushless);
+    public ClawSubsystem() {
         inverseFollowMotor.follow(motor, true);
     }
 
@@ -44,7 +41,7 @@ public class ClawSubsystem extends SubsystemBase
      */
     public Command Outtake() {
         return runOnce( () -> {
-            motor.setVoltage(-clawConstants.clawMotorVoltage);
+            motor.setVoltage(clawConstants.clawMotorInvVoltage);
         });
     }
     /**
