@@ -9,8 +9,7 @@ import frc.robot.allConstants.driveConstants;
 
 
 public class swerveDrive extends SubsystemBase {
-    public static final double kMaxSpeed=3.0; // 3 m/s
-    public static final double kMaxAngularSpeed=Math.PI; // 1/2 rotation per second (in radians, so pi radians is 1/2 of a rotation)
+    // 1/2 rotation per second (in radians, so pi radians is 1/2 of a rotation)
     // There should probably be a constant for these distance values otherwise it could be confusing.
     //the initial position of the four wheels and
 
@@ -56,7 +55,7 @@ public class swerveDrive extends SubsystemBase {
         // forward, sideways, angular, period
         ChassisSpeeds.discretize(xSpeed,ySpeed,rot,periodSeconds);
         SwerveDriveWheelStates swerveModuleStates = m_kinematics.toWheelSpeeds(chassisSpeeds);
-        SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates.states, kMaxSpeed);
+        SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates.states, driveConstants.kMaxSpeed);
         m_frontLeft.SetDesired(swerveModuleStates.states[0]);
         m_frontRight.SetDesired(swerveModuleStates.states[1]);
         m_backLeft.SetDesired(swerveModuleStates.states[2]);
