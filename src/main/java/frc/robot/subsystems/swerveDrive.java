@@ -13,10 +13,10 @@ public class swerveDrive extends SubsystemBase {
     // There should probably be a constant for these distance values otherwise it could be confusing.
     //the initial position of the four wheels and
 
-    private final Translation2d m_frontLeftLocation = new Translation2d(driveConstants.frontLeftLocationX, driveConstants.frontLeftLocationY);
-    private final Translation2d m_frontRightLocation = new Translation2d(driveConstants.frontRightLocationX,driveConstants.frontRightLocationY);
-    private final Translation2d m_backLeftLocation = new Translation2d(driveConstants.backLeftLocationX, driveConstants.backLeftLocationY);
-    private final Translation2d m_backRightLocation = new Translation2d(driveConstants.backRightLocationX,driveConstants.backRightLocationY);
+    private final Translation2d m_frontLeftLocation = new Translation2d(driveConstants.moduleDistanceX, driveConstants.moduleDistanceY);
+    private final Translation2d m_frontRightLocation = new Translation2d(-1*driveConstants.moduleDistanceX,driveConstants.moduleDistanceY);
+    private final Translation2d m_backLeftLocation = new Translation2d(driveConstants.moduleDistanceX, -1*driveConstants.moduleDistanceY);
+    private final Translation2d m_backRightLocation = new Translation2d(-1*driveConstants.moduleDistanceX,-1*driveConstants.moduleDistanceY);
 
     public final SwerveModule m_frontLeft = new SwerveModule(driveConstants.driveMotor1, driveConstants.turnMotor1);
     private final SwerveModule m_frontRight = new SwerveModule(driveConstants.driveMotor2,driveConstants.turnMotor2);
