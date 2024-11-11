@@ -12,7 +12,6 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import static frc.robot.Constants.ClawConstants;
 import static frc.robot.Constants.ClawConstants.*;
-import static frc.robot.subsystems.swervedrive.*;
 
 
 public class ClawSubsystem extends SubsystemBase
