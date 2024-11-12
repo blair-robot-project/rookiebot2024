@@ -37,8 +37,8 @@ public class SwerveModule {
     // ks = volts
     // kv = volts * seconds / distance
     // ka = volts * seconds^2 / distance
-    private final SimpleMotorFeedforward feedForward_d = new SimpleMotorFeedforward(swerveFeedForwardDriveks,swerveFeedForwardDrivekv,swerveFeedForwardDriveka);
-    private final SimpleMotorFeedforward feedForward_t = new SimpleMotorFeedforward(swerveFeedForwardTurnks,swerveFeedForwardTurnkv,swerveFeedForwardTurnka);
+    private final SimpleMotorFeedforward feedForward_d = new SimpleMotorFeedforward(swerveFeedForwardDriveKs, swerveFeedForwardDriveKv, swerveFeedForwardDriveKa);
+    private final SimpleMotorFeedforward feedForward_t = new SimpleMotorFeedforward(swerveFeedForwardTurnKs, swerveFeedForwardTurnKv, swerveFeedForwardTurnKa);
 
     public SwerveModule(int driveMotor, int turnMotor) {
         this.driveMotor = new CANSparkMax(driveMotor, CANSparkLowLevel.MotorType.kBrushless);
