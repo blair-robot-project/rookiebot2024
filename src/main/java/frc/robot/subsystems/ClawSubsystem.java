@@ -66,7 +66,7 @@ public class ClawSubsystem extends SubsystemBase
     public Command HoldBucket() {
 
     return runOnce( () -> {
-
+        motor.setVoltage(0); // Intention is to tension the motor
     });
 }
 

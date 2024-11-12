@@ -21,25 +21,18 @@ object driveConstants{
 package frc.robot.allConstants;
 import frc.robot.subsystems.swerveDrive;
 public final class driveConstants {
+        public static final double kMaxSpeed=3.0; // 3 m/s
+        public static final double kMaxAngularSpeed=Math.PI; // 1/2 rotation per second (in radians, so pi radians is 1/2 of a rotation)
 
         public static final double kWheelRadius = 0.0508;
         public static final double kWheelCircumference=2*kWheelRadius*Math.PI;
         public static final double kEncoderResolution = 4096;
-        public static final double kModuleMaxAngularVelocity = swerveDrive.kMaxAngularSpeed;
+        public static final double kModuleMaxAngularVelocity = kMaxAngularSpeed;
         public static final double kModuleMaxAngularAcceleration = 2 * Math.PI;
 
-        //location of the wheels at the start
-        public static final double frontLeftLocationX = 0.381;
-        public static final double frontLeftLocationY = 0.381;
-
-        public static final double frontRightLocationX = 0.381;
-        public static final double frontRightLocationY = -0.381;
-
-        public static final double backLeftLocationX = -0.381;
-        public static final double backLeftLocationY = 0.381;
-
-        public static final double backRightLocationX = -0.381;
-        public static final double backRightLocationY = -0.381;
+        //location of the wheels relative to the center of the robot
+        public static final double moduleDistanceX = 0.381;
+        public static final double moduleDistanceY = 0.381;
 
         //PID calculator values for swerve
 
@@ -79,10 +72,6 @@ public final class driveConstants {
 
         //no matter the robot position forward is forward (frfr = field relative:)
         public static final boolean frfr = true;
-
-
-        public static final double kMaxSpeed=3.0; // 3 m/s
-        public static final double kMaxAngularSpeed=Math.PI; // 1/2 rotation per second (in radians, so pi radians is 1/2 of a rotation)
 
         //don't really know what this is or what it does
         public static final double Analog_gyro = 0;

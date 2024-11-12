@@ -9,15 +9,14 @@ import frc.robot.allConstants.driveConstants;
 
 
 public class swerveDrive extends SubsystemBase {
-    public static final double kMaxSpeed=3.0; // 3 m/s
-    public static final double kMaxAngularSpeed=Math.PI; // 1/2 rotation per second (in radians, so pi radians is 1/2 of a rotation)
+    // 1/2 rotation per second (in radians, so pi radians is 1/2 of a rotation)
     // There should probably be a constant for these distance values otherwise it could be confusing.
     //the initial position of the four wheels and
 
-    private final Translation2d m_frontLeftLocation = new Translation2d(driveConstants.frontLeftLocationX, driveConstants.frontLeftLocationY);
-    private final Translation2d m_frontRightLocation = new Translation2d(driveConstants.frontRightLocationX,driveConstants.frontRightLocationY);
-    private final Translation2d m_backLeftLocation = new Translation2d(driveConstants.backLeftLocationX, driveConstants.backLeftLocationY);
-    private final Translation2d m_backRightLocation = new Translation2d(driveConstants.backRightLocationX,driveConstants.backRightLocationY);
+    private final Translation2d m_frontLeftLocation = new Translation2d(driveConstants.moduleDistanceX, driveConstants.moduleDistanceY);
+    private final Translation2d m_frontRightLocation = new Translation2d(-1*driveConstants.moduleDistanceX,driveConstants.moduleDistanceY);
+    private final Translation2d m_backLeftLocation = new Translation2d(driveConstants.moduleDistanceX, -1*driveConstants.moduleDistanceY);
+    private final Translation2d m_backRightLocation = new Translation2d(-1*driveConstants.moduleDistanceX,-1*driveConstants.moduleDistanceY);
 
     public final SwerveModule m_frontLeft = new SwerveModule(driveConstants.driveMotor1, driveConstants.turnMotor1);
     private final SwerveModule m_frontRight = new SwerveModule(driveConstants.driveMotor2,driveConstants.turnMotor2);
@@ -56,7 +55,7 @@ public class swerveDrive extends SubsystemBase {
         // forward, sideways, angular, period
         ChassisSpeeds.discretize(xSpeed,ySpeed,rot,periodSeconds);
         SwerveDriveWheelStates swerveModuleStates = m_kinematics.toWheelSpeeds(chassisSpeeds);
-        SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates.states, kMaxSpeed);
+        SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates.states, driveConstants.kMaxSpeed);
         m_frontLeft.SetDesired(swerveModuleStates.states[0]);
         m_frontRight.SetDesired(swerveModuleStates.states[1]);
         m_backLeft.SetDesired(swerveModuleStates.states[2]);
