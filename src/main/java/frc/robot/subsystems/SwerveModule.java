@@ -60,13 +60,14 @@ public class SwerveModule {
     // - james p
     public SwerveModulePosition getPosition() {
         return new SwerveModulePosition(
-                driveEncoder.getPosition()*driveGearing, new Rotation2d(turnEncoder.getDistance()/(2*Math.PI)));
+                driveEncoder.getPosition()*kWheelCircumference*driveGearing, new Rotation2d(turnEncoder.getAbsolutePosition()/(2*Math.PI)));
     }
 
     // never used, idk if we have to
     // same problem as in getposition
     public SwerveModuleState getState(){
-        return new SwerveModuleState(driveEncoder.getVelocity()*driveGearing,new Rotation2d(turnEncoder.getDistance()));
+        return new SwerveModuleState(
+                driveEncoder.getPosition()*kWheelCircumference*driveGearing,new Rotation2d(turnEncoder.getAbsolutePosition()/(2*Math.PI)));
     }
 
     public void SetDesired(SwerveModuleState desiredState) {
