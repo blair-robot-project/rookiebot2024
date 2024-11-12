@@ -19,7 +19,7 @@ object driveConstants{
 **/
 
 package frc.robot.allConstants;
-import frc.robot.subsystems.swerveDrive;
+
 public final class driveConstants {
         public static final double kMaxSpeed=3.0; // 3 m/s
         public static final double kMaxAngularSpeed=Math.PI; // 1/2 rotation per second (in radians, so pi radians is 1/2 of a rotation)
@@ -46,18 +46,17 @@ public final class driveConstants {
 
         //feedForward calc values for swerve
 
-        public static final double swerveFeedForwardDriveks = 1;
-        public static final double swerveFeedForwardDrivekv = 1;
-        public static final double swerveFeedForwardDriveka = 1;
+        public static final double swerveFeedForwardDriveKs = 1;
+        public static final double swerveFeedForwardDriveKv = 1;
+        public static final double swerveFeedForwardDriveKa = 1;
 
-        public static final double swerveFeedForwardTurnks = 1;
-        public static final double swerveFeedForwardTurnkv = 1;
-        public static final double swerveFeedForwardTurnka = 1;
+        public static final double swerveFeedForwardTurnKs = 1;
+        public static final double swerveFeedForwardTurnKv = 1;
+        public static final double swerveFeedForwardTurnKa = 1;
 
         //8 motor ids
         public static final int driveMotor1 = 20;
         public static final int turnMotor1 = 21;
-
         public static final int driveMotor2 = 17;
         public static final int turnMotor2 = 61;
 
