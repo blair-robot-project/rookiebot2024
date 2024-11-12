@@ -7,8 +7,11 @@ package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkLowLevel;
 import com.revrobotics.CANSparkMax;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.allConstants.clawConstants.*;
 
+import static frc.robot.allConstants.clawConstants.*;
 
 
 public class ClawSubsystem extends SubsystemBase
@@ -33,7 +36,7 @@ public class ClawSubsystem extends SubsystemBase
     {
         return runOnce(
                 () -> {
-                    motor.setVoltage(0.2);
+                    motor.setVoltage(CLAW_INTAKE_VOLTAGE);
                 });
     }
     /**
@@ -43,7 +46,7 @@ public class ClawSubsystem extends SubsystemBase
      */
     public Command Outtake() {
         return runOnce( () -> {
-            motor.setVoltage(-0.2);
+            motor.setVoltage(CLAW_OUTTAKE_VOLTAGE);
         });
     }
     /**
@@ -65,7 +68,8 @@ public class ClawSubsystem extends SubsystemBase
     public Command HoldBucket() {
 
     return runOnce( () -> {
-        motor.setVoltage(0); // Intention is to tension the motor
+        motor.setVoltage(CLAW_HOLD_VOLTAGE);
+
     });
 }
 
@@ -76,9 +80,11 @@ public class ClawSubsystem extends SubsystemBase
         // This method will be called once per scheduler run
     }
 
-   @Override
+
+    @Override
     public void simulationPeriodic()
     {
+
         // This method will be called once per scheduler run during simulation
     }
 }
