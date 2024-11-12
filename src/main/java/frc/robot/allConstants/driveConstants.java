@@ -26,10 +26,11 @@ public final class driveConstants {
 
         public static final double kWheelRadius = 0.0508;
         public static final double kWheelCircumference=2*kWheelRadius*Math.PI;
+        /*
         public static final double kEncoderResolution = 4096;
         public static final double kModuleMaxAngularVelocity = kMaxAngularSpeed;
         public static final double kModuleMaxAngularAcceleration = 2 * Math.PI;
-
+         */
         //location of the wheels relative to the center of the robot
         public static final double moduleDistanceX = 0.381;
         public static final double moduleDistanceY = 0.381;
