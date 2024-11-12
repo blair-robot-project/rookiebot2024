@@ -75,5 +75,7 @@ public final class driveConstants {
         //don't really know what this is or what it does
         public static final double Analog_gyro = 0;
 
+        public static final double driveGearing=10;
+
 
 }
