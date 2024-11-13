@@ -59,7 +59,7 @@ public class RobotContainer
                 driveConstants.fRel,
                 driveConstants.pdsec);
 
-    });
+});
 
     // The robot's subsystems and commands are defined here...
     private final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();

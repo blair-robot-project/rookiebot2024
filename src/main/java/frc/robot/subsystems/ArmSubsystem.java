@@ -26,6 +26,24 @@ public class ArmSubsystem extends SubsystemBase {
     double desired;
     double desiredVal;
     double baseVal;
+    /*
+    gearbox - The type of and number of motors in the arm gearbox.
+    gearing - The gearing of the arm (numbers greater than 1 represent reductions).
+    jKgMetersSquared - The moment of inertia of the arm, can be calculated from CAD software.
+    armLengthMeters - The length of the arm.
+    minAngleRads - The minimum angle that the arm is capable of.
+    maxAngleRads - The maximum angle that the arm is capable of.
+    simulateGravity - Whether gravity should be simulated or not.
+    startingAngleRads - The initial position of the Arm simulation in radians.
+    */
+    private final SingleJointedArmSim armSim = new SingleJointedArmSim(
+        armGearbox,
+        armGearing,
+        armInertia,
+        armMinAngleRads,
+        armMaxAngleRads,
+        arm
+    );
     /** Creates a new ExampleSubsystem. */
     public ArmSubsystem(double des, double base) {
         motorFollower.follow(motor, false);
@@ -131,5 +149,14 @@ public class ArmSubsystem extends SubsystemBase {
     @Override
     public void simulationPeriodic() {
         // This method will be called once per scheduler run during simulation
+
+    }
+
+    @Override
+    public void teleopPeriodic() {
+        this.current = this.returnMotorPos()/armGearRatio; // gear ratio maybe somewhere?
+        double voltage = pid.calculate(this.current, this.desired);
+        System.out.println(voltage);
+        this.motor.setVoltage(voltage);
     }
 }
