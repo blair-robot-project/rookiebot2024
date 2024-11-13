@@ -8,8 +8,9 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import frc.robot.Constants.OperatorConstants;
-import frc.robot.allConstants.clawConstants;
+
 import static frc.robot.allConstants.armConstants.*;
+
 import frc.robot.allConstants.driveConstants;
 import frc.robot.commands.Autos;
 import frc.robot.commands.ExampleCommand;
@@ -21,8 +22,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.subsystems.swerveDrive;
 
-import static frc.robot.allConstants.driveConstants.kMaxAngularSpeed;
-import static frc.robot.allConstants.driveConstants.kMaxSpeed;
+import frc.robot.allConstants.driveConstants;
 
 
 /**
@@ -44,11 +44,11 @@ public class RobotContainer
     Joystick joystick2 = new Joystick(0);
 
     public RunCommand drive = new RunCommand(() -> {
-        xdirection= joystick1.getX()*kMaxSpeed;
-        ydirection= joystick1.getY()*kMaxSpeed;
+        xdirection= joystick1.getX()*driveConstants.kMaxSpeed;
+        ydirection= joystick1.getY()*driveConstants.kMaxSpeed;
 
         //joystick2 is for rotation
-        rotation= joystick2.getX()*kMaxAngularSpeed;
+        rotation= joystick2.getX()*driveConstants.kMaxAngularSpeed;
 
 
         //set the module states based on joystick
@@ -56,7 +56,7 @@ public class RobotContainer
                 xdirection,
                 ydirection,
                 rotation,
-                driveConstants.frfr,
+                driveConstants.fRel,
                 driveConstants.pdsec);
 
     });

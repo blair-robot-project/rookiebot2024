@@ -54,17 +54,11 @@ public class SwerveModule {
         driveMotor.setVoltage(driveVoltage);
     }
 
-    // return the current position of the module
-    // wrong, expects distance in meters and a rotation2d representing the angle of the wheel
-    // the rotation2d being passed in is wrong, it expects radians by default
-    // - james p
     public SwerveModulePosition getPosition() {
         return new SwerveModulePosition(
                 driveEncoder.getPosition()*kWheelCircumference*driveGearing, new Rotation2d(turnEncoder.getAbsolutePosition()/(2*Math.PI)));
     }
 
-    // never used, idk if we have to
-    // same problem as in getposition
     public SwerveModuleState getState(){
         return new SwerveModuleState(
                 driveEncoder.getPosition()*kWheelCircumference*driveGearing,new Rotation2d(turnEncoder.getAbsolutePosition()/(2*Math.PI)));
