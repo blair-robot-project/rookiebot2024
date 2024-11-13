@@ -6,6 +6,7 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics.SwerveDriveWheelState
 import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.allConstants.driveConstants;
+import com.kauailabs.navx.frc.AHRS;
 
 
 public class swerveDrive extends SubsystemBase {
@@ -13,35 +14,35 @@ public class swerveDrive extends SubsystemBase {
     // There should probably be a constant for these distance values otherwise it could be confusing.
     //the initial position of the four wheels and
 
-    private final Translation2d m_frontLeftLocation = new Translation2d(driveConstants.moduleDistanceX, driveConstants.moduleDistanceY);
-    private final Translation2d m_frontRightLocation = new Translation2d(-1*driveConstants.moduleDistanceX,driveConstants.moduleDistanceY);
-    private final Translation2d m_backLeftLocation = new Translation2d(driveConstants.moduleDistanceX, -1*driveConstants.moduleDistanceY);
-    private final Translation2d m_backRightLocation = new Translation2d(-1*driveConstants.moduleDistanceX,-1*driveConstants.moduleDistanceY);
+    private final Translation2d frontLeftLocation = new Translation2d(driveConstants.moduleDistanceX, driveConstants.moduleDistanceY);
+    private final Translation2d frontRightLocation = new Translation2d(-1*driveConstants.moduleDistanceX,driveConstants.moduleDistanceY);
+    private final Translation2d backLeftLocation = new Translation2d(driveConstants.moduleDistanceX, -1*driveConstants.moduleDistanceY);
+    private final Translation2d backRightLocation = new Translation2d(-1*driveConstants.moduleDistanceX,-1*driveConstants.moduleDistanceY);
 
-    public final SwerveModule m_frontLeft = new SwerveModule(driveConstants.driveMotor1, driveConstants.turnMotor1);
-    private final SwerveModule m_frontRight = new SwerveModule(driveConstants.driveMotor2,driveConstants.turnMotor2);
-    private final SwerveModule m_backLeft = new SwerveModule(driveConstants.driveMotor3,driveConstants.turnMotor3);
-    private final SwerveModule m_backRight = new SwerveModule(driveConstants.driveMotor4,driveConstants.turnMotor4);
+    public final SwerveModule frontLeft = new SwerveModule(driveConstants.driveMotor1, driveConstants.turnMotor1);
+    private final SwerveModule frontRight = new SwerveModule(driveConstants.driveMotor2,driveConstants.turnMotor2);
+    private final SwerveModule backLeft = new SwerveModule(driveConstants.driveMotor3,driveConstants.turnMotor3);
+    private final SwerveModule backRight = new SwerveModule(driveConstants.driveMotor4,driveConstants.turnMotor4);
 
-    private final AnalogGyro m_gyro = new AnalogGyro(0);
+    private final AnalogGyro gyro = new AHRS(0);
 
     private final SwerveDriveKinematics m_kinematics =
             new SwerveDriveKinematics(
-                    m_frontLeftLocation, m_frontRightLocation, m_backLeftLocation, m_backRightLocation);
+                    frontLeftLocation, frontRightLocation, backLeftLocation, backRightLocation);
 
     private final SwerveDriveOdometry m_odometry =
             new SwerveDriveOdometry(
                     m_kinematics,
-                    m_gyro.getRotation2d(),
+                    gyro.getRotation2d(),
                     new SwerveModulePosition[] {
-                            m_frontLeft.getPosition(),
-                            m_frontRight.getPosition(),
-                            m_backLeft.getPosition(),
-                            m_backRight.getPosition()
+                            frontLeft.getPosition(),
+                            frontRight.getPosition(),
+                            backLeft.getPosition(),
+                            backRight.getPosition()
                     });
 
     public void Drivetrain() {
-        m_gyro.reset();
+        gyro.reset();
     }
     //joystick info stuff
     public void drive(
@@ -50,24 +51,24 @@ public class swerveDrive extends SubsystemBase {
 
         var chassisSpeeds = new ChassisSpeeds(xSpeed,ySpeed,rot);
         if (fieldRelative) {
-            ChassisSpeeds.fromFieldRelativeSpeeds(chassisSpeeds,m_gyro.getRotation2d());
+            ChassisSpeeds.fromFieldRelativeSpeeds(chassisSpeeds, gyro.getRotation2d());
         }
         // forward, sideways, angular, period
         ChassisSpeeds.discretize(xSpeed,ySpeed,rot,periodSeconds);
         SwerveDriveWheelStates swerveModuleStates = m_kinematics.toWheelSpeeds(chassisSpeeds);
         SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates.states, driveConstants.kMaxSpeed);
-        m_frontLeft.SetDesired(swerveModuleStates.states[0]);
-        m_frontRight.SetDesired(swerveModuleStates.states[1]);
-        m_backLeft.SetDesired(swerveModuleStates.states[2]);
-        m_backRight.SetDesired(swerveModuleStates.states[3]);
+        frontLeft.SetDesired(swerveModuleStates.states[0]);
+        frontRight.SetDesired(swerveModuleStates.states[1]);
+        backLeft.SetDesired(swerveModuleStates.states[2]);
+        backRight.SetDesired(swerveModuleStates.states[3]);
     }
 
     public void updateOdometry(){
-        m_odometry.update(m_gyro.getRotation2d(), new SwerveModulePosition[]{
-                m_frontLeft.getPosition(),
-                m_frontRight.getPosition(),
-                m_backLeft.getPosition(),
-                m_backRight.getPosition()
+        m_odometry.update(gyro.getRotation2d(), new SwerveModulePosition[]{
+                frontLeft.getPosition(),
+                frontRight.getPosition(),
+                backLeft.getPosition(),
+                backRight.getPosition()
         });
     }
     public void periodic(){
