@@ -7,9 +7,10 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.RunCommand;
-import frc.robot.Constants.OperatorConstants;
 
 import static frc.robot.allConstants.armConstants.*;
+import static frc.robot.allConstants.operatorConstants.DRIVE_CONTROLLER_PORT;
+import static frc.robot.allConstants.operatorConstants.MECH_CONTROLLER_PORT;
 
 import frc.robot.allConstants.driveConstants;
 import frc.robot.commands.Autos;
@@ -21,8 +22,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.subsystems.SwerveDrive;
-import frc.robot.allConstants.driveConstants;
-
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -37,6 +36,7 @@ public class RobotContainer
     double xdirection;
     double ydirection;
     double rotation;
+
 
 
     Joystick joystick1 = new Joystick(0);
@@ -63,14 +63,18 @@ public class RobotContainer
     // The robot's subsystems and commands are defined here...
     private final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
     // EXAMPLE MOTOR IDs
-    private final ClawSubsystem clawSubsystem = new ClawSubsystem();
+    private final ClawSubsystem clawSubsystem = new ClawSubsystem(
+            Constants.ClawConstants.CLAW_MOTOR_ID,
+            Constants.ClawConstants.CLAW_FOLLOW_MOTOR_ID
+    );
     private final ArmSubsystem armSub = new ArmSubsystem(armDesiredValue, armBaseValue);
 
 
 
     // Replace with CommandPS4Controller or CommandJoystick if needed
     private final CommandXboxController driverController =
-            new CommandXboxController(OperatorConstants.DRIVER_CONTROLLER_PORT);
+            new CommandXboxController(DRIVE_CONTROLLER_PORT);
+    private final CommandXboxController mechController= new CommandXboxController(MECH_CONTROLLER_PORT);
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer()
@@ -97,12 +101,12 @@ public class RobotContainer
 
         // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
         // cancelling on release.
-        driverController.x().onTrue(armSub.goToSetpoint());
-        driverController.b().onTrue(armSub.goToBase());
-        driverController.a().onTrue(armSub.goToHalf());
+        mechController.x().onTrue(armSub.goToSetpoint());
+        mechController.b().onTrue(armSub.goToBase());
+        mechController.a().onTrue(armSub.goToHalf());
 
-        driverController.rightTrigger().onTrue(clawSubsystem.Intake()).onFalse(clawSubsystem.HoldBucket());
-        driverController.leftTrigger().onTrue(clawSubsystem.Outtake()).onFalse(clawSubsystem.HoldBucket());
+        mechController.rightTrigger().onTrue(clawSubsystem.Intake()).onFalse(clawSubsystem.HoldBucket());
+        mechController.leftTrigger().onTrue(clawSubsystem.Outtake()).onFalse(clawSubsystem.HoldBucket());
 
 
     }
