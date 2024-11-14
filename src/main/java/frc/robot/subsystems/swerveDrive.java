@@ -3,7 +3,7 @@ package frc.robot.subsystems;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.*;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics.SwerveDriveWheelStates;
-import edu.wpi.first.wpilibj.AnalogGyro;
+import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.allConstants.driveConstants;
 import com.kauailabs.navx.frc.AHRS;
@@ -24,15 +24,15 @@ public class swerveDrive extends SubsystemBase {
     private final SwerveModule backLeft = new SwerveModule(driveConstants.driveMotor3,driveConstants.turnMotor3);
     private final SwerveModule backRight = new SwerveModule(driveConstants.driveMotor4,driveConstants.turnMotor4);
 
-    private final AnalogGyro gyro = new AHRS(0);
+    private final AHRS gyro = new AHRS(SPI.Port.kMXP);
 
-    private final SwerveDriveKinematics m_kinematics =
+    private final SwerveDriveKinematics kinematics =
             new SwerveDriveKinematics(
                     frontLeftLocation, frontRightLocation, backLeftLocation, backRightLocation);
 
-    private final SwerveDriveOdometry m_odometry =
+    private final SwerveDriveOdometry odometry =
             new SwerveDriveOdometry(
-                    m_kinematics,
+                    kinematics,
                     gyro.getRotation2d(),
                     new SwerveModulePosition[] {
                             frontLeft.getPosition(),
@@ -41,7 +41,7 @@ public class swerveDrive extends SubsystemBase {
                             backRight.getPosition()
                     });
 
-    public void Drivetrain() {
+    public void resetGyro() {
         gyro.reset();
     }
     //joystick info stuff
@@ -55,7 +55,7 @@ public class swerveDrive extends SubsystemBase {
         }
         // forward, sideways, angular, period
         ChassisSpeeds.discretize(xSpeed,ySpeed,rot,periodSeconds);
-        SwerveDriveWheelStates swerveModuleStates = m_kinematics.toWheelSpeeds(chassisSpeeds);
+        SwerveDriveWheelStates swerveModuleStates = kinematics.toWheelSpeeds(chassisSpeeds);
         SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates.states, driveConstants.kMaxSpeed);
         frontLeft.SetDesired(swerveModuleStates.states[0]);
         frontRight.SetDesired(swerveModuleStates.states[1]);
@@ -64,7 +64,7 @@ public class swerveDrive extends SubsystemBase {
     }
 
     public void updateOdometry(){
-        m_odometry.update(gyro.getRotation2d(), new SwerveModulePosition[]{
+        odometry.update(gyro.getRotation2d(), new SwerveModulePosition[]{
                 frontLeft.getPosition(),
                 frontRight.getPosition(),
                 backLeft.getPosition(),
