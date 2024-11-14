@@ -9,7 +9,6 @@ import com.revrobotics.CANSparkLowLevel;
 import com.revrobotics.CANSparkMax;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.allConstants.clawConstants.*;
 
 import static frc.robot.allConstants.clawConstants.*;
 
@@ -19,10 +18,10 @@ public class ClawSubsystem extends SubsystemBase
     CANSparkMax motor;
     CANSparkMax inverseFollowMotor;
     /** Creates a new Claw Subsystem. */
-    public ClawSubsystem(int motorId, int inverseFollowMotorId) {
+    public ClawSubsystem() {
 
-        motor = new CANSparkMax(motorId, CANSparkLowLevel.MotorType.kBrushless);
-        inverseFollowMotor = new CANSparkMax(inverseFollowMotorId, CANSparkLowLevel.MotorType.kBrushless);
+        motor = new CANSparkMax(CLAW_MOTOR_ID, CANSparkLowLevel.MotorType.kBrushless);
+        inverseFollowMotor = new CANSparkMax(CLAW_FOLLOWER_ID, CANSparkLowLevel.MotorType.kBrushless);
         inverseFollowMotor.follow(motor, true);
     }
 
@@ -84,6 +83,7 @@ public class ClawSubsystem extends SubsystemBase
     @Override
     public void simulationPeriodic()
     {
+
           //idkk
         // This method will be called once per scheduler run during simulation
     }

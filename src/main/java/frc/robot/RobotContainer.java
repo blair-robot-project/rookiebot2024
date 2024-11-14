@@ -20,8 +20,7 @@ import frc.robot.subsystems.ExampleSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.subsystems.swerveDrive;
-
+import frc.robot.subsystems.SwerveDrive;
 import frc.robot.allConstants.driveConstants;
 
 
@@ -33,7 +32,7 @@ import frc.robot.allConstants.driveConstants;
  */
 public class RobotContainer
 {
-    public swerveDrive swervee;
+    public SwerveDrive swervee;
 
     double xdirection;
     double ydirection;

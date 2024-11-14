@@ -9,7 +9,7 @@ import frc.robot.allConstants.driveConstants;
 import com.kauailabs.navx.frc.AHRS;
 
 
-public class swerveDrive extends SubsystemBase {
+public class SwerveDrive extends SubsystemBase {
     // 1/2 rotation per second (in radians, so pi radians is 1/2 of a rotation)
     // There should probably be a constant for these distance values otherwise it could be confusing.
     //the initial position of the four wheels and
