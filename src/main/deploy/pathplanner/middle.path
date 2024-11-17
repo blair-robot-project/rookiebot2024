@@ -1,0 +1,94 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 1.7089862321622717,
+        "y": 3.879452479968998
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 1.9356112642433896,
+        "y": 3.773901095164098
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 6.25227849282185,
+        "y": 3.183467112557545
+      },
+      "prevControl": {
+        "x": 6.486105293709442,
+        "y": 3.271926296290352
+      },
+      "nextControl": {
+        "x": 5.6055498344056005,
+        "y": 2.9388027327561157
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 1.7089862321622717,
+        "y": 3.183467112557545
+      },
+      "prevControl": {
+        "x": 2.598334009106795,
+        "y": 3.1566230583473565
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": null
+    }
+  ],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 1.0,
+      "rotationDegrees": 0.0
+    }
+  ],
+  "constraintZones": [],
+  "pointTowardsZones": [],
+  "eventMarkers": [
+    {
+      "name": "outtake",
+      "waypointRelativePos": 0.0,
+      "endWaypointRelativePos": 0.0,
+      "command": null
+    },
+    {
+      "name": "stop&intake",
+      "waypointRelativePos": 0.9940447351421188,
+      "endWaypointRelativePos": null,
+      "command": null
+    },
+    {
+      "name": "stop&outtake",
+      "waypointRelativePos": 2.0,
+      "endWaypointRelativePos": null,
+      "command": null
+    }
+  ],
+  "globalConstraints": {
+    "maxVelocity": 3.0,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": -179.44215494037368
+  },
+  "reversed": false,
+  "folder": null,
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": -179.13163039252197
+  },
+  "useDefaultConstraints": true
+}
