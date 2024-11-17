@@ -1,5 +1,7 @@
 package frc.robot.allConstants;
 
+import edu.wpi.first.math.system.plant.DCMotor;
+
 public class armConstants {
     //motor id
     public static final int armMotorID = 11;

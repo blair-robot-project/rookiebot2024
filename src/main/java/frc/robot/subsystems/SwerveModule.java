@@ -17,10 +17,10 @@ import static frc.robot.allConstants.driveConstants.*;
 // idk how to get distance traveled on a relative encoder
 
 public class SwerveModule {
-    /**private static final double kWheelRadius = 0.0508;
-    //private static final double kWheelCircumference=2*kWheelRadius*Math.PI;
+    /**private static final double WHEEL_RADIUS = 0.0508;
+    //private static final double WHEEL_CIRCUMFERENCE=2*WHEEL_RADIUS*Math.PI;
     //private static final int kEncoderResolution = 4096;
-    //private static final double kModuleMaxAngularVelocity = swervedrive.kMaxAngularSpeed;
+    //private static final double kModuleMaxAngularVelocity = swervedrive.MAX_ANGULAR_SPEED;
     //private static final double kModuleMaxAngularAcceleration = 2 * Math.PI; // radians per second squared
     **/
     CANSparkMax driveMotor;
@@ -48,33 +48,31 @@ public class SwerveModule {
         driveEncoder = this.driveMotor.getEncoder();
     }
 
-
-    public void moving() {
-        turnMotor.setVoltage(turnVoltage);
-        driveMotor.setVoltage(driveVoltage);
-    }
-
     public SwerveModulePosition getPosition() {
         return new SwerveModulePosition(
-                driveEncoder.getPosition()*kWheelCircumference*driveGearing, new Rotation2d(turnEncoder.getAbsolutePosition()/(2*Math.PI)));
+                driveEncoder.getPosition()* WHEEL_CIRCUMFERENCE *driveGearing, new Rotation2d(turnEncoder.getAbsolutePosition()/(2*Math.PI)));
     }
 
     public SwerveModuleState getState(){
         return new SwerveModuleState(
-                driveEncoder.getPosition()*kWheelCircumference*driveGearing,new Rotation2d(turnEncoder.getAbsolutePosition()/(2*Math.PI)));
+                driveEncoder.getPosition()* WHEEL_CIRCUMFERENCE *driveGearing,new Rotation2d(turnEncoder.getAbsolutePosition()/(2*Math.PI)));
     }
 
     public void SetDesired(SwerveModuleState desiredState) {
+        turnEncoder.setDistancePerRotation(WHEEL_CIRCUMFERENCE);
+
         var encoderRotation = new Rotation2d(turnEncoder.getDistance());
         optimize(desiredState, encoderRotation);
 
-        final double driveOutput = drivePid.calculate(driveEncoder.getVelocity()*kWheelCircumference/60, desiredState.speedMetersPerSecond);
+        final double driveOutput = drivePid.calculate(driveEncoder.getVelocity(), desiredState.speedMetersPerSecond);
         final double drive_feedforward = feedForward_d.calculate(desiredState.speedMetersPerSecond);
-        final double turnOutput= turnPid.calculate(turnEncoder.getDistance(),desiredState.angle.getRadians());
+
+        final double turnOutput= turnPid.calculate(turnEncoder.getAbsolutePosition()/(2*Math.PI),desiredState.angle.getRadians());
 
         driveMotor.setVoltage(driveOutput+drive_feedforward);
         turnMotor.setVoltage(turnOutput+feedForward_t.ks);
     }
+
 
 
 

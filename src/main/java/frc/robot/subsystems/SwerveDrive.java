@@ -44,6 +44,7 @@ public class SwerveDrive extends SubsystemBase {
     public void resetGyro() {
         gyro.reset();
     }
+
     //joystick info stuff
     public void drive(
             double xSpeed,double ySpeed,double rot, boolean fieldRelative, double periodSeconds
@@ -56,7 +57,7 @@ public class SwerveDrive extends SubsystemBase {
         // forward, sideways, angular, period
         ChassisSpeeds.discretize(xSpeed,ySpeed,rot,periodSeconds);
         SwerveDriveWheelStates swerveModuleStates = kinematics.toWheelSpeeds(chassisSpeeds);
-        SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates.states, driveConstants.kMaxSpeed);
+        SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates.states, driveConstants.MAX_SPEED);
         frontLeft.SetDesired(swerveModuleStates.states[0]);
         frontRight.SetDesired(swerveModuleStates.states[1]);
         backLeft.SetDesired(swerveModuleStates.states[2]);
@@ -71,7 +72,6 @@ public class SwerveDrive extends SubsystemBase {
                 backRight.getPosition()
         });
     }
-    public void periodic(){
-        updateOdometry();
-    }
+
+
 }
