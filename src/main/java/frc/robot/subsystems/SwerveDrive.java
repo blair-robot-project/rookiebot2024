@@ -1,5 +1,7 @@
 package frc.robot.subsystems;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.*;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics.SwerveDriveWheelStates;
@@ -40,6 +42,21 @@ public class SwerveDrive extends SubsystemBase {
                             backLeft.getPosition(),
                             backRight.getPosition()
                     });
+
+    public Pose2d getPose(){
+        return odometry.getPoseMeters();
+    }
+    public Rotation2d gyroAngle(){
+        return new Rotation2d(gyro.getAngle());
+    }
+
+
+
+    // the current gyro angle, an array of the current module positions
+    // (as in the constructor and update method), and the new field-relative pose
+    public Pose2d resetPose(){
+        return odometry.resetPosition(gyroAngle(),a,getPose());
+    }
 
     public void resetGyro() {
         gyro.reset();
