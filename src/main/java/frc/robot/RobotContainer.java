@@ -43,11 +43,11 @@ public class RobotContainer
     Joystick joystick2 = new Joystick(0);
 
     public RunCommand drive = new RunCommand(() -> {
-        xdirection= joystick1.getX()*driveConstants.MAX_SPEED;
-        ydirection= joystick1.getY()*driveConstants.MAX_SPEED;
+        xdirection= joystick1.getX()*driveConstants.kMaxSpeedl;
+        ydirection= joystick1.getY()*driveConstants.kMaxSpeed;
 
         //joystick2 is for rotation
-        rotation= joystick2.getX()*driveConstants.MAX_ANGULAR_SPEED;
+        rotation= joystick2.getX()*driveConstants.kMaxAngularSpeed;
 
 
         //set the module states based on joystick
@@ -118,6 +118,5 @@ public class RobotContainer
     {
         // An example command will be run in autonomous
         return Autos.exampleAuto(exampleSubsystem);
-
     }
 }

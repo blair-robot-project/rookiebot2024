@@ -1,11 +1,8 @@
 package frc.robot.subsystems;
 
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.*;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics.SwerveDriveWheelStates;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.allConstants.driveConstants;
@@ -44,59 +41,29 @@ public class SwerveDrive extends SubsystemBase {
                             backRight.getPosition()
                     });
 
-    public Pose2d getPose(){
-        return odometry.getPoseMeters();
-    }
-    public Rotation2d gyroAngle(){
-        return new Rotation2d(gyro.getAngle());
-    }
-    public SwerveModulePosition[] positions(){
-        return new SwerveModulePosition[] {
-                frontLeft.getPosition(),
-                frontRight.getPosition(),
-                backLeft.getPosition(),
-                backRight.getPosition()
-        };
-    }
-
-    // the current gyro angle, an array of the current module positions
-    // (as in the constructor and update method), and the new field-relative pose
-    public void resetPose(){
-        odometry.resetPosition(gyroAngle(),positions(),getPose());
-    }
-
     public void resetGyro() {
         gyro.reset();
     }
+    //joystick info stuff
+    public void drive(
+            double xSpeed,double ySpeed,double rot, boolean fieldRelative, double periodSeconds
+    ){
 
-    public ChassisSpeeds getCurrentSpeeds(double xSpeed,double ySpeed,double rot, boolean fieldRelative, double periodSeconds){
         var chassisSpeeds = new ChassisSpeeds(xSpeed,ySpeed,rot);
         if (fieldRelative) {
             ChassisSpeeds.fromFieldRelativeSpeeds(chassisSpeeds, gyro.getRotation2d());
         }
         // forward, sideways, angular, period
         ChassisSpeeds.discretize(xSpeed,ySpeed,rot,periodSeconds);
-        return chassisSpeeds;
-    }
-    //joystick info stuff
-    public void drive(
-            double xSpeed,double ySpeed,double rot, boolean fieldRelative, double periodSeconds
-    ){
-        SwerveDriveWheelStates swerveModuleStates = kinematics.toWheelSpeeds(getCurrentSpeeds(xSpeed, ySpeed, rot,
-        fieldRelative, periodSeconds));
-        SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates.states, driveConstants.MAX_SPEED);
+        SwerveDriveWheelStates swerveModuleStates = kinematics.toWheelSpeeds(chassisSpeeds);
+        SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates.states, driveConstants.kMaxSpeed);
         frontLeft.SetDesired(swerveModuleStates.states[0]);
         frontRight.SetDesired(swerveModuleStates.states[1]);
         backLeft.SetDesired(swerveModuleStates.states[2]);
         backRight.SetDesired(swerveModuleStates.states[3]);
     }
 
-    public boolean isRed() {
-        return DriverStation.getAlliance().get() == DriverStation.Alliance.Red;
-    }
-
     public void updateOdometry(){
-        //DriverStation.getAlliance().get() == DriverStation.Alliance.Red;
         odometry.update(gyro.getRotation2d(), new SwerveModulePosition[]{
                 frontLeft.getPosition(),
                 frontRight.getPosition(),
@@ -104,6 +71,7 @@ public class SwerveDrive extends SubsystemBase {
                 backRight.getPosition()
         });
     }
-
-
+    public void periodic(){
+        updateOdometry();
+    }
 }
