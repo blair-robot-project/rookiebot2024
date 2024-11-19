@@ -62,7 +62,6 @@ public class RobotContainer
 
     // The robot's subsystems and commands are defined here...
     private final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
-    // EXAMPLE MOTOR IDs
     private final ClawSubsystem clawSubsystem = new ClawSubsystem();
     private final ArmSubsystem armSub = new ArmSubsystem(armDesiredValue, armBaseValue);
 
