@@ -9,6 +9,6 @@ public class clawConstants {
     public static final double CLAW_OUTTAKE_VOLTAGE = -0.2; //notional
     public static final double CLAW_HOLD_VOLTAGE=0.0;//notional
     public static final double CLAW_GEARING=0.0; // notional
-    public static final int CLAW_JKG=0.0;//// notional
+    public static final int CLAW_JKG=0; // notional
 
 }
