@@ -74,7 +74,6 @@ public final class driveConstants {
         //no matter the robot position forward is forward (fRel = field relative)
         public static final boolean fRel = true; // probably will stay this way
 
-        //don't really know what this is or what it does
 
         public static final double driveGearing=10; // placeholder
         public static final double turnGearing=10; // placeholder

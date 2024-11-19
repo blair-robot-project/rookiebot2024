@@ -56,7 +56,7 @@ public class SwerveDrive extends SubsystemBase {
         // forward, sideways, angular, period
         ChassisSpeeds.discretize(xSpeed,ySpeed,rot,periodSeconds);
         SwerveDriveWheelStates swerveModuleStates = kinematics.toWheelSpeeds(chassisSpeeds);
-        SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates.states, driveConstants.kMaxSpeed);
+        SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates.states, driveConstants.MAX_SPEED);
         frontLeft.SetDesired(swerveModuleStates.states[0]);
         frontRight.SetDesired(swerveModuleStates.states[1]);
         backLeft.SetDesired(swerveModuleStates.states[2]);
