@@ -1,30 +1,30 @@
 package frc.robot.autos;
 
 import com.pathplanner.lib.auto.AutoBuilder;
-import com.pathplanner.lib.path.PathConstraints;
-import com.pathplanner.lib.path.PathPlannerTrajectory;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.subsystems.SwerveDrive;
 import frc.robot.subsystems.SwerveModule;
 
-public class DriveSubsystem extends SubsystemBase {
+import java.util.function.Supplier;
+
+public class redLine extends SubsystemBase {
     SwerveDrive swervee = new SwerveDrive();
-    SwerveModule modulee=new SwerveModule();
      {
         // All other subsystem initialization
         // ...
 
         // Configure AutoBuilder last
         AutoBuilder.configureHolonomic(
-                modulee.getPosition(), // Robot pose supplier
-                modulee.resetPose, // Method to reset odometry (will be called if your auto has a starting pose)
-                this::getRobotRelativeSpeeds, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
-                this::driveRobotRelative, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds
+                swervee::getPose, // Robot pose supplier
+                (Pose2d p) -> swervee.resetPoseGiven(p), // Method to reset odometry (will be called if your auto has a starting pose)
+                swervee::getSpeeds, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
+                (ChassisSpeeds s) -> {swervee.driveSpeeds(s);}, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds
                 new HolonomicPathFollowerConfig( // HolonomicPathFollowerConfig, this should likely live in your Constants class
                         new PIDConstants(5.0, 0.0, 0.0), // Translation PID constants
                         new PIDConstants(5.0, 0.0, 0.0), // Rotation PID constants
