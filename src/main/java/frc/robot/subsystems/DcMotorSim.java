@@ -10,18 +10,19 @@ import edu.wpi.first.wpilibj.simulation.LinearSystemSim;
 
 
 public class DcMotorSim extends LinearSystemSim<N2, N1, N2> {
-    private final DCMotor m_gearbox;
-    private final double m_Gearing;
+    private final DCMotor claawGearbox;
+    private final double clawGearing;
 
     public DcMotorSim(LinearSystem<N2, N1, N2> plant, DCMotor gearbox, double gearing) {
         super(plant);
-        m_gearbox = gearbox;
-        m_Gearing = gearing;
+        claawGearbox = gearbox;
+        clawGearing = gearing;
     }
 
 
     public void setState(double clawAngularPositionRad, double clawAngularVelocityRadPerSec) {
         setState(clawAngularPositionRad,clawAngularVelocityRadPerSec);
+
     }
 
 
@@ -37,5 +38,12 @@ public class DcMotorSim extends LinearSystemSim<N2, N1, N2> {
 
     public void setClawSimInputVoltage(double clawSimVoltage) {
         setInput(clawSimVoltage);
+    }
+
+    public void simulationPeriodic() {
+        setState(getClawAngularPositionRad(),getClawAngularVelocityRadPerSec());
+
+
+
     }
 }
