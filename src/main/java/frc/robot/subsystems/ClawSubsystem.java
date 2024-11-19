@@ -7,6 +7,8 @@ package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkLowLevel;
 import com.revrobotics.CANSparkMax;
+import edu.wpi.first.math.system.plant.DCMotor;
+import edu.wpi.first.wpilibj.simulation.DCMotorSim;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -83,6 +85,9 @@ public class ClawSubsystem extends SubsystemBase
     @Override
     public void simulationPeriodic()
     {
+        DCMotorSim motorSim = new DCMotorSim(DCMotor.getNEO(1), 1, 1);
+        motorSim.setInputVoltage(motor.getBusVoltage());
+
         //idkk
         // This method will be called once per scheduler run during simulation
     }

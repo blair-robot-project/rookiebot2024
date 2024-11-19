@@ -27,7 +27,7 @@ public class DcMotorSim extends LinearSystemSim<N2, N1, N2> {
 
 
     public double getClawAngularPositionRad() {
-        return getOutput(0);
+        return getOutput(00);
     }
 
 
