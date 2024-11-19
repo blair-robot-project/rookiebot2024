@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.*;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics.SwerveDriveWheelStates;
@@ -41,8 +42,24 @@ public class SwerveDrive extends SubsystemBase {
                             backRight.getPosition()
                     });
 
-    public void resetGyro() {
-        gyro.reset();
+    public SwerveModulePosition[] positions(){
+        return new SwerveModulePosition[] {
+                frontLeft.getPosition(),
+                frontRight.getPosition(),
+                backLeft.getPosition(),
+                backRight.getPosition()
+        };
+    }
+
+    public Rotation2d gyroAngle(){
+        return new Rotation2d(gyro.getAngle());
+    }
+    public void resetPose() {
+        odometry.resetPosition(gyroAngle(), positions(), getPose());
+        public void resetGyro() {
+            gyro.reset();
+        }
+
     }
     //joystick info stuff
     public void drive(
