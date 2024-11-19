@@ -13,15 +13,14 @@ package frc.robot;
  * <p>It is advised to statically import this class (or one of its inner classes) wherever the
  * constants are needed, to reduce verbosity.
  */
-public final class Constants
-{
+public final class Constants {
 
     public static class ClawConstants {
-        public static final double Claw_Voltage_Outtake=0.0;
-        public static final double Claw_Voltage_Intake=0.0;
-        public static final double Claw_Voltage_Hold =0.0;
-        public static final int CLAW_MOTOR_ID= 0;
-        public static final int CLAW_FOLLOW_MOTOR_ID=0;
+        public static final double Claw_Voltage_Outtake = 0.0;
+        public static final double Claw_Voltage_Intake = 0.0;
+        public static final double Claw_Voltage_Hold = 0.0;
+        public static final int CLAW_MOTOR_ID = 0;
+        public static final int CLAW_FOLLOW_MOTOR_ID = 0;
     }
 
 }

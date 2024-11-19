@@ -6,22 +6,22 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
-
-import static frc.robot.allConstants.armConstants.*;
-import static frc.robot.allConstants.operatorConstants.DRIVE_CONTROLLER_PORT;
-import static frc.robot.allConstants.operatorConstants.MECH_CONTROLLER_PORT;
-
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.allConstants.driveConstants;
 import frc.robot.commands.Autos;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.ClawSubsystem;
 import frc.robot.subsystems.ExampleSubsystem;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.subsystems.SwerveDrive;
+
+import static frc.robot.allConstants.armConstants.armBaseValue;
+import static frc.robot.allConstants.armConstants.armDesiredValue;
+import static frc.robot.allConstants.operatorConstants.DRIVE_CONTROLLER_PORT;
+import static frc.robot.allConstants.operatorConstants.MECH_CONTROLLER_PORT;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -29,8 +29,7 @@ import frc.robot.subsystems.SwerveDrive;
  * periodic methods (other than the scheduler calls). Instead, the structure of the robot (including
  * subsystems, commands, and trigger mappings) should be declared here.
  */
-public class RobotContainer
-{
+public class RobotContainer {
     public SwerveDrive swervee;
 
     double xdirection;
@@ -38,16 +37,15 @@ public class RobotContainer
     double rotation;
 
 
-
     Joystick joystick1 = new Joystick(0);
     Joystick joystick2 = new Joystick(0);
 
     public RunCommand drive = new RunCommand(() -> {
-        xdirection= joystick1.getX()*driveConstants.MAX_SPEED;
-        ydirection= joystick1.getY()*driveConstants.MAX_SPEED;
+        xdirection = joystick1.getX() * driveConstants.MAX_SPEED;
+        ydirection = joystick1.getY() * driveConstants.MAX_SPEED;
 
         //joystick2 is for rotation
-        rotation= joystick2.getX()*driveConstants.MAX_ANGULAR_SPEED;
+        rotation = joystick2.getX() * driveConstants.MAX_ANGULAR_SPEED;
 
 
         //set the module states based on joystick
@@ -58,7 +56,7 @@ public class RobotContainer
                 driveConstants.fRel,
                 driveConstants.pdsec);
 
-});
+    });
 
     // The robot's subsystems and commands are defined here...
     private final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
@@ -66,15 +64,15 @@ public class RobotContainer
     private final ArmSubsystem armSub = new ArmSubsystem(armDesiredValue, armBaseValue);
 
 
-
     // Replace with CommandPS4Controller or CommandJoystick if needed
     private final CommandXboxController driverController =
             new CommandXboxController(DRIVE_CONTROLLER_PORT);
-    private final CommandXboxController mechController= new CommandXboxController(MECH_CONTROLLER_PORT);
+    private final CommandXboxController mechController = new CommandXboxController(MECH_CONTROLLER_PORT);
 
-    /** The container for the robot. Contains subsystems, OI devices, and commands. */
-    public RobotContainer()
-    {
+    /**
+     * The container for the robot. Contains subsystems, OI devices, and commands.
+     */
+    public RobotContainer() {
         // Configure the trigger bindings
         configureBindings();
     }
@@ -89,8 +87,7 @@ public class RobotContainer
      * PS4} controllers or {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
      * joysticks}.
      */
-    private void configureBindings()
-    {
+    private void configureBindings() {
         // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
         new Trigger(exampleSubsystem::exampleCondition)
                 .onTrue(new ExampleCommand(exampleSubsystem));
@@ -113,8 +110,7 @@ public class RobotContainer
      *
      * @return the command to run in autonomous
      */
-    public Command getAutonomousCommand()
-    {
+    public Command getAutonomousCommand() {
         // An example command will be run in autonomous
         return Autos.exampleAuto(exampleSubsystem);
     }

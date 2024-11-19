@@ -1,11 +1,9 @@
 package frc.robot.subsystems;
 
-import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N2;
 import edu.wpi.first.math.system.LinearSystem;
 import edu.wpi.first.math.system.plant.DCMotor;
-import edu.wpi.first.units.Voltage;
 import edu.wpi.first.wpilibj.simulation.LinearSystemSim;
 
 
@@ -21,7 +19,7 @@ public class DcMotorSim extends LinearSystemSim<N2, N1, N2> {
 
 
     public void setState(double clawAngularPositionRad, double clawAngularVelocityRadPerSec) {
-        setState(clawAngularPositionRad,clawAngularVelocityRadPerSec);
+        setState(clawAngularPositionRad, clawAngularVelocityRadPerSec);
 
     }
 
@@ -41,10 +39,7 @@ public class DcMotorSim extends LinearSystemSim<N2, N1, N2> {
     }
 
     public void simulationPeriodic() {
-        setState(getClawAngularPositionRad(),getClawAngularVelocityRadPerSec());
-
-
-
+        setState(getClawAngularPositionRad(), getClawAngularVelocityRadPerSec());
 
 
     }

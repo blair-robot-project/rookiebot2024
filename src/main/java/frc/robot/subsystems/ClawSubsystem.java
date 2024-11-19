@@ -15,11 +15,13 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import static frc.robot.allConstants.clawConstants.*;
 
 
-public class ClawSubsystem extends SubsystemBase
-{
+public class ClawSubsystem extends SubsystemBase {
     CANSparkMax motor;
     CANSparkMax inverseFollowMotor;
-    /** Creates a new Claw Subsystem. */
+
+    /**
+     * Creates a new Claw Subsystem.
+     */
     public ClawSubsystem() {
 
         motor = new CANSparkMax(CLAW_MOTOR_ID, CANSparkLowLevel.MotorType.kBrushless);
@@ -33,23 +35,24 @@ public class ClawSubsystem extends SubsystemBase
      *
      * @return a command
      */
-    public Command Intake()
-    {
+    public Command Intake() {
         return runOnce(
                 () -> {
                     motor.setVoltage(CLAW_INTAKE_VOLTAGE);
                 });
     }
+
     /**
      * Outtake command factory method.
      *
      * @return a command
      */
     public Command Outtake() {
-        return runOnce( () -> {
+        return runOnce(() -> {
             motor.setVoltage(CLAW_OUTTAKE_VOLTAGE);
         });
     }
+
     /**
      * DoNothing command factory method.
      *
@@ -57,10 +60,11 @@ public class ClawSubsystem extends SubsystemBase
      */
     public Command DoNothing() {
 
-        return runOnce( () -> {
+        return runOnce(() -> {
             motor.stopMotor();
         });
     }
+
     /**
      * HoldBucket command factory method.
      *
@@ -68,23 +72,21 @@ public class ClawSubsystem extends SubsystemBase
      */
     public Command HoldBucket() {
 
-    return runOnce( () -> {
-        motor.setVoltage(CLAW_HOLD_VOLTAGE);
+        return runOnce(() -> {
+            motor.setVoltage(CLAW_HOLD_VOLTAGE);
 
-    });
-}
+        });
+    }
 
 
     @Override
-    public void periodic()
-    {
+    public void periodic() {
         // This method will be called once per scheduler run
     }
 
 
     @Override
-    public void simulationPeriodic()
-    {
+    public void simulationPeriodic() {
         DCMotorSim motorSim = new DCMotorSim(DCMotor.getNEO(1), 1, 1);
         motorSim.setInputVoltage(motor.getBusVoltage());
 

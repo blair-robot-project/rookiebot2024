@@ -4,9 +4,8 @@
 
 package frc.robot.subsystems;
 
-import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkLowLevel.MotorType;
-
+import com.revrobotics.CANSparkMax;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.simulation.SingleJointedArmSim;
@@ -14,7 +13,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import java.util.function.DoubleSupplier;
-import java.util.function.Supplier;
+
 import static frc.robot.allConstants.armConstants.*;
 
 public class ArmSubsystem extends SubsystemBase {
@@ -38,14 +37,19 @@ public class ArmSubsystem extends SubsystemBase {
     startingAngleRads - The initial position of the Arm simulation in radians.
     */
     private final SingleJointedArmSim armSim = new SingleJointedArmSim(
-        armGearbox,
-        armGearing,
-        armInertia,
-        armMinAngleRads,
-        armMaxAngleRads,
-        arm
+            armGearbox,
+            armGearing,
+            armInertia,
+            armLength,
+            minAngleRads,
+            maxAngleRads,
+            true,
+            minAngleRads
     );
-    /** Creates a new ExampleSubsystem. */
+
+    /**
+     * Creates a new ExampleSubsystem.
+     */
     public ArmSubsystem(double des, double base) {
         motorFollower.follow(motor, false);
         desiredVal = des;
@@ -104,7 +108,7 @@ public class ArmSubsystem extends SubsystemBase {
         // Subsystem::RunOnce implicitly requires `this` subsystem.
         return runOnce(
                 () -> {
-                    this.desired = this.desiredVal/2;
+                    this.desired = this.desiredVal / 2;
                 });
     }
 
@@ -141,7 +145,7 @@ public class ArmSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
-        this.current = this.returnMotorPos()/armGearRatio; // gear ratio maybe somewhere?
+        this.current = this.returnMotorPos() / armGearRatio; // gear ratio maybe somewhere?
         double voltage = pid.calculate(this.current, this.desired);
         System.out.println(voltage);
         this.motor.setVoltage(voltage);
@@ -153,11 +157,4 @@ public class ArmSubsystem extends SubsystemBase {
 
     }
 
-    @Override
-    public void teleopPeriodic() {
-        this.current = this.returnMotorPos()/armGearRatio; // gear ratio maybe somewhere?
-        double voltage = pid.calculate(this.current, this.desired);
-        System.out.println(voltage);
-        this.motor.setVoltage(voltage);
-    }
 }
