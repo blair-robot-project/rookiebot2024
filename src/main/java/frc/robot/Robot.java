@@ -19,7 +19,9 @@ import frc.robot.subsystems.SwerveDrive;
 public class Robot extends TimedRobot {
 
 
-    private Command autonomousCommand;
+    private Command autonomousCommandTaxi;
+    private Command autonomousCommandMiddle;
+    private Command autonomousCommandTop;
 
     private RobotContainer robotContainer;
     private SwerveDrive swerve;
@@ -72,11 +74,19 @@ public class Robot extends TimedRobot {
     @Override
 
     public void autonomousInit() {
-        autonomousCommand = robotContainer.taxiPath();
+        autonomousCommandTaxi = robotContainer.taxiPath();
+        autonomousCommandMiddle=robotContainer.middlePath();
+        autonomousCommandTop= robotContainer.topPath();
 
         // schedule the autonomous command (example)
-        if (autonomousCommand != null) {
-            autonomousCommand.schedule();
+        if (autonomousCommandTaxi != null) {
+            autonomousCommandTaxi.schedule();
+        }
+        if (autonomousCommandMiddle != null) {
+            autonomousCommandMiddle.schedule();
+        }
+        if (autonomousCommandTop != null) {
+            autonomousCommandTop.schedule();
         }
     }
 
@@ -97,8 +107,14 @@ public class Robot extends TimedRobot {
         // teleop starts running. If you want the autonomous to
         // continue until interrupted by another command, remove
         // this line or comment it out.
-        if (autonomousCommand != null) {
-            autonomousCommand.cancel();
+        if (autonomousCommandTaxi != null) {
+            autonomousCommandTaxi.cancel();
+        }
+        if (autonomousCommandMiddle != null) {
+            autonomousCommandMiddle.cancel();
+        }
+        if (autonomousCommandTop != null) {
+            autonomousCommandTop.cancel();
         }
     }
 
