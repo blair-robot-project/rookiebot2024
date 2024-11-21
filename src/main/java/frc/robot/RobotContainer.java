@@ -8,7 +8,9 @@ package frc.robot;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.allConstants.driveConstants;
@@ -110,16 +112,25 @@ public class RobotContainer {
 
 public Command taxiPath() {
     // An example command will be run in autonomous
-    return new PathPlannerAuto("passRedLine");
+    return new ParallelCommandGroup(
+            new PathPlannerAuto("passRedLine"),
+            new WaitCommand(1.0) // placeholder, will be arm
+    );
 }
 
 public Command middlePath() {
     // An example command will be run in autonomous
-    return new PathPlannerAuto("middle");
+    return new ParallelCommandGroup(
+            new PathPlannerAuto("middle"), // placeholder
+            new WaitCommand(1) // placeholder
+            );
 }
 public Command topPath() {
     // An example command will be run in autonomous
-    return new PathPlannerAuto("top");
+    return new ParallelCommandGroup(
+            new PathPlannerAuto("top"), // placeholder
+            new WaitCommand(1) // placeholder
+    );
 }
 
 }
