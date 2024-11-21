@@ -12,7 +12,6 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.allConstants.driveConstants;
-import frc.robot.commands.Autos;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.ClawSubsystem;
@@ -102,17 +101,25 @@ public class RobotContainer {
         mechController.rightTrigger().onTrue(clawSubsystem.Intake()).onFalse(clawSubsystem.HoldBucket());
         mechController.leftTrigger().onTrue(clawSubsystem.Outtake()).onFalse(clawSubsystem.HoldBucket());
 
+}
+/**
+ * Use this to pass the autonomous command to the main {@link Robot} class.
+ *
+ * @return the command to run in autonomous
+ */
 
-    }
+public Command taxiPath() {
+    // An example command will be run in autonomous
+    return new PathPlannerAuto("passRedLine");
+}
 
+public Command middlePath() {
+    // An example command will be run in autonomous
+    return new PathPlannerAuto("middle");
+}
+public Command topPath() {
+    // An example command will be run in autonomous
+    return new PathPlannerAuto("top");
+}
 
-    /**
-     * Use this to pass the autonomous command to the main {@link Robot} class.
-     *
-     * @return the command to run in autonomous
-     */
-    public Command getAutonomousCommand() {
-        // An example command will be run in autonomous
-        return new PathPlannerAuto(middleB);
-    }
 }
