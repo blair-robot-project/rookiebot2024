@@ -76,7 +76,7 @@ public class Robot extends TimedRobot {
     public void autonomousInit() {
         autonomousCommandTaxi = robotContainer.taxiPath();
         autonomousCommandMiddle=robotContainer.middlePath();
-        autonomousCommandTop= robotContainer.topPath();
+        autonomousCommandTop= robotContainer.bottomPath();
 
         // schedule the autonomous command (example)
         if (autonomousCommandTaxi != null) {

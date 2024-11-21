@@ -113,23 +113,24 @@ public class RobotContainer {
 public Command taxiPath() {
     // An example command will be run in autonomous
     return new ParallelCommandGroup(
-            new PathPlannerAuto("passRedLine"),
-            new WaitCommand(1.0) // placeholder, will be arm
+            new PathPlannerAuto("red") // placeholder, will be arm
     );
 }
 
 public Command middlePath() {
     // An example command will be run in autonomous
     return new ParallelCommandGroup(
-            new PathPlannerAuto("middle"), // placeholder
-            new WaitCommand(1) // placeholder
+            new PathPlannerAuto("toBucketMiddle"), // placeholder
+            new WaitCommand(1), // placeholder
+            new PathPlannerAuto("fromBucketMiddle")
             );
 }
-public Command topPath() {
+public Command bottomPath() {
     // An example command will be run in autonomous
     return new ParallelCommandGroup(
-            new PathPlannerAuto("top"), // placeholder
-            new WaitCommand(1) // placeholder
+            new PathPlannerAuto("toBucketBottom"), // placeholder
+            new WaitCommand(1), // placeholder
+            new PathPlannerAuto("fromBucketBottom")
     );
 }
 
