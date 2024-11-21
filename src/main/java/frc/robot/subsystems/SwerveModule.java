@@ -9,6 +9,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
+import frc.robot.allConstants.driveConstants;
 
 import static edu.wpi.first.math.kinematics.SwerveModuleState.optimize;
 import static frc.robot.allConstants.driveConstants.*;
@@ -29,9 +30,9 @@ public class SwerveModule {
     double driveVoltage;
     double turnVoltage;
     RelativeEncoder driveEncoder;
-    DutyCycleEncoder turnEncoder;
     PIDController drivePid;
     PIDController turnPid;
+    DutyCycleEncoder turnEncoder = new DutyCycleEncoder(driveConstants.turnEncoderChannel);
 
 
     // ks = volts
@@ -46,6 +47,7 @@ public class SwerveModule {
         drivePid = new PIDController(drivePIDkp, drivePIDki, drivePIDkd);
         turnPid = new PIDController(turnPIDkp, turnPIDki, turnPIDkd);
         driveEncoder = this.driveMotor.getEncoder();
+
     }
 
     public SwerveModulePosition getPosition() {
