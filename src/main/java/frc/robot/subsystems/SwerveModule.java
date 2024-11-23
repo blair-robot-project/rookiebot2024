@@ -32,7 +32,7 @@ public class SwerveModule {
     RelativeEncoder driveEncoder;
     PIDController drivePid;
     PIDController turnPid;
-    DutyCycleEncoder turnEncoder = new DutyCycleEncoder(driveConstants.turnEncoderChannel);
+    DutyCycleEncoder turnEncoder;
 
 
     // ks = volts
@@ -47,6 +47,8 @@ public class SwerveModule {
         drivePid = new PIDController(drivePIDkp, drivePIDki, drivePIDkd);
         turnPid = new PIDController(turnPIDkp, turnPIDki, turnPIDkd);
         driveEncoder = this.driveMotor.getEncoder();
+        this.turnEncoder = new DutyCycleEncoder(driveConstants.turnEncoderChannel);
+
 
     }
 
