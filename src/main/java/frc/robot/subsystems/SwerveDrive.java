@@ -163,16 +163,8 @@ public class SwerveDrive extends SubsystemBase {
     public void periodic(){
         updateOdometry();
     }
-    {
-
-        
 
 
-        // auto configuration
-        // All other subsystem initialization
-        // ...
 
-        // Configure AutoBuilder last
 
-    }
 }

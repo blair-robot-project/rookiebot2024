@@ -21,6 +21,8 @@ import frc.robot.allConstants.armConstants;
 import frc.robot.commands.Autos;
 
 public class ArmSim implements AutoCloseable {
+    private final ArmSubsystem arm = new ArmSubsystem();
+
     Encoder armEncoder = new Encoder(armConstants.encoderAChannel, armConstants.encoderBChannel);
     /*
     gearbox - The type of and number of motors in the arm gearbox.
@@ -56,7 +58,7 @@ public class ArmSim implements AutoCloseable {
     // This arm sim represents an arm that can travel from -75 degrees (rotated down front)
     // to 255 degrees (rotated down in the back).
     private final EncoderSim encoderSim = new EncoderSim(armEncoder);
-    private final CANSparkMax armMotor = new CANSparkMax(armConstants.armMotorID, CANSparkLowLevel.MotorType.kBrushless);
+    //private final CANSparkMax armMotor = new CANSparkMax(armConstants.armMotorID, CANSparkLowLevel.MotorType.kBrushless);
 
     // Create a Mechanism2d display of an Arm with a fixed ArmTower and moving Arm.
     private final Mechanism2d mech2d = new Mechanism2d(60, 60);
@@ -90,7 +92,7 @@ public class ArmSim implements AutoCloseable {
     public void simulationPeriodic() {
         // In this method, we update our simulation of what our arm is doing
         // First, we set our "inputs" (voltages)
-        armSim.setInput(armMotor.get() * RobotController.getBatteryVoltage());
+        armSim.setInput(arm.motor.get() * RobotController.getBatteryVoltage());
 
         // Next, we update it. The standard loop time is 20ms.
         armSim.update(0.020);
@@ -121,16 +123,16 @@ public class ArmSim implements AutoCloseable {
         var pidOutput =
             armPIDController.calculate(
                 encoder.getDistance(), Units.degreesToRadians(armSetpointDegrees));
-        armMotor.setVoltage(pidOutput);
+        arm.motor.setVoltage(pidOutput);
     }
 
     public void stop() {
-        armMotor.set(0.0);
+        arm.motor.set(0.0);
     }
 
     @Override
     public void close() {
-        armMotor.close();
+        arm.motor.close();
         encoder.close();
         mech2d.close();
         armPivot.close();
