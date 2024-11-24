@@ -19,12 +19,10 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics.SwerveDriveWheelState
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.allConstants.driveConstants;
 
-import static frc.robot.allConstants.driveConstants.*;
 
 
 public class SwerveDrive extends SubsystemBase {
@@ -56,6 +54,7 @@ public class SwerveDrive extends SubsystemBase {
     public SwerveDrive(int driveMotor, int turnMotor, int turnEncoder) {
         AutoBuilder.configureHolonomic(
                 this::getPose, // Robot pose supplier
+
                 (Pose2d p) -> this.resetPoseGiven(p), // Method to reset odometry (will be called if your auto has a starting pose)
                 this::getSpeeds, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
                 (ChassisSpeeds s) -> {this.driveSpeeds(s);}, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds
