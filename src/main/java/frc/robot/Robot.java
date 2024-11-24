@@ -124,6 +124,7 @@ public class Robot extends TimedRobot {
         double xdirection;
         double ydirection;
         double rotation;
+
         xdirection = robotContainer.joystick1.getX() * driveConstants.MAX_SPEED;
         ydirection = robotContainer.joystick1.getY() * driveConstants.MAX_SPEED;
 
