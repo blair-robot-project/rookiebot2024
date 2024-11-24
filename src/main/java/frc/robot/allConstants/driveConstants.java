@@ -1,23 +1,4 @@
-/**
- * package frc.robot.allConstants.driveConstants
- * <p>
- * import edu.wpi.first.math.geometry.Translation2d;
- * import frc.robot.subsystems.swervedrive;
- * <p>
- * object driveConstants{
- * const val WHEEL_RADIUS = 0.0508;
- * const val WHEEL_CIRCUMFERENCE=2*WHEEL_RADIUS*Math.PI;
- * const val kEncoderResolution = 4096;
- * const val kModuleMaxAngularVelocity = swervedrive.MAX_ANGULAR_SPEED;
- * const val kModuleMaxAngularAcceleration = 2 * Math.PI;
- * <p>
- * // the locations of the wheels
- * const val m_frontLeftLocation = (0.381, 0.381);
- * const val m_frontRightLocation = (0.381, -0.381)
- * const val m_backLeftLocation = (-0.381, 0.381);
- * const val m_backRightLocation = (-0.381, -0.381);
- * }
- **/
+
 
 package frc.robot.allConstants;
 
@@ -28,11 +9,6 @@ public final class driveConstants {
 
     public static final double WHEEL_RADIUS = 0.0508; // placeholder
     public static final double WHEEL_CIRCUMFERENCE = 2 * WHEEL_RADIUS * Math.PI; // placeholder
-    /*
-    public static final double kEncoderResolution = 4096;
-    public static final double kModuleMaxAngularVelocity = MAX_ANGULAR_SPEED;
-    public static final double kModuleMaxAngularAcceleration = 2 * Math.PI;
-     */
     // idk if we'll need these ^^^
     //location of the wheels relative to the center of the robot
     public static final double moduleDistanceX = 0.381; // placeholder

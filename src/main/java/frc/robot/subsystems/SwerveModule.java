@@ -9,7 +9,6 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
-import frc.robot.allConstants.driveConstants;
 
 import static edu.wpi.first.math.kinematics.SwerveModuleState.optimize;
 import static frc.robot.allConstants.driveConstants.*;
