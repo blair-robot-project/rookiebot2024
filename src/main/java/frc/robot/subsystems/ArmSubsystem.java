@@ -26,26 +26,6 @@ public class ArmSubsystem extends SubsystemBase {
     double desired;
     double desiredVal;
     double baseVal;
-    /*
-    gearbox - The type of and number of motors in the arm gearbox.
-    gearing - The gearing of the arm (numbers greater than 1 represent reductions).
-    jKgMetersSquared - The moment of inertia of the arm, can be calculated from CAD software.
-    armLengthMeters - The length of the arm.
-    minAngleRads - The minimum angle that the arm is capable of.
-    maxAngleRads - The maximum angle that the arm is capable of.
-    simulateGravity - Whether gravity should be simulated or not.
-    startingAngleRads - The initial position of the Arm simulation in radians.
-    */
-    private final SingleJointedArmSim armSim = new SingleJointedArmSim(
-            armGearbox,
-            armGearing,
-            armInertia,
-            armLength,
-            minAngleRads,
-            maxAngleRads,
-            true,
-            minAngleRads
-    );
 
     /**
      * Creates a new ExampleSubsystem.

@@ -1,6 +1,7 @@
 package frc.robot.allConstants;
 
 import edu.wpi.first.math.system.plant.DCMotor;
+import edu.wpi.first.math.util.Units;
 
 public class armConstants {
     //motor id
@@ -18,25 +19,35 @@ public class armConstants {
     //desired arm value
     public static final double armDesiredValue = 0.25;
     //base arm value
+    public static final double armBaseValue = 0;
 
     //VALUES NEEDED FOR ARM SIM
     //ALL VALUES BELOW ARE FAKE AND TEMPORARY
 
-    public static final double armBaseValue = 0;
-    //gearbox
-    public static final DCMotor armGearbox = null;
+    //arm dcmotor for arm sim
+    public static DCMotor armGearbox = DCMotor.getNEO(1);
     //gearing
     public static double armGearing = 0;
-    //moment inertia of the arm NEED FROM CAD
-    public static double armInertia = 1;
+    //moment inertia of the arm NEED FROM CAD (jkg per meters squared)
+    public static double armInertia = 200;
     //arm length (units?)
-    public static double armLength = 5;
+    public static double armLength = Units.inchesToMeters(30);
     //minAngle (radians)
-    public static double minAngleRads = 1;
+    public static double minAngleRads = Units.degreesToRadians(-60);
     //maxAngle (rads)
-    public static double maxAngleRads = 3;
+    public static double maxAngleRads = Units.degreesToRadians(120);
     //whether or not to simualte gravity
     public static boolean armSimGrav = true;
+
+    //Encoder Channels
+    public static int encoderAChannel = 0;
+    public static int encoderBChannel = 1;
+
+    // distance per pulse = (angle per revolution) / (pulses per revolution)
+    //  = (2 * PI rads) / (4096 pulses)
+    public static double kArmEncoderDistPerPulse = 2.0 * Math.PI / 4096;
+    public static final String kArmPositionKey = "ArmPosition";
+    public static final String kArmPKey = "ArmP";
     /*
     gearbox - The type of and number of motors in the arm gearbox.
     gearing - The gearing of the arm (numbers greater than 1 represent reductions).
