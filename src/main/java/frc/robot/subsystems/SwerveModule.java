@@ -48,34 +48,31 @@ public class SwerveModule {
         turnPid = new PIDController(turnPIDkp, turnPIDki, turnPIDkd);
         driveEncoder = this.driveMotor.getEncoder();
         this.turnEncoder = new DutyCycleEncoder(turnEncoder);
+        this.turnEncoder.setDistancePerRotation(WHEEL_CIRCUMFERENCE);
 
 
     }
 
     public SwerveModulePosition getPosition() {
         return new SwerveModulePosition(
-                driveEncoder.getPosition() * WHEEL_CIRCUMFERENCE * driveGearing, new Rotation2d(turnEncoder.getAbsolutePosition() / (2 * Math.PI)));
+                driveEncoder.getPosition() * WHEEL_CIRCUMFERENCE * driveGearing, new Rotation2d((turnEncoder.getAbsolutePosition() - turnEncoder.getPositionOffset()) / (2 * Math.PI)));
     }
 
     public SwerveModuleState getState() {
         return new SwerveModuleState(
-                driveEncoder.getPosition() * WHEEL_CIRCUMFERENCE * driveGearing, new Rotation2d(turnEncoder.getAbsolutePosition() / (2 * Math.PI)));
+                driveEncoder.getPosition() * WHEEL_CIRCUMFERENCE * driveGearing, new Rotation2d((turnEncoder.getAbsolutePosition()-turnEncoder.getPositionOffset()) / (2 * Math.PI)));
     }
 
     public void SetDesired(SwerveModuleState desiredState) {
-        turnEncoder.setDistancePerRotation(WHEEL_CIRCUMFERENCE);
-
         var encoderRotation = new Rotation2d(turnEncoder.getDistance());
         optimize(desiredState, encoderRotation);
 
         final double driveOutput = drivePid.calculate(driveEncoder.getVelocity(), desiredState.speedMetersPerSecond);
         final double drive_feedforward = feedForward_d.calculate(desiredState.speedMetersPerSecond);
 
-        final double turnOutput = turnPid.calculate(turnEncoder.getAbsolutePosition() / (2 * Math.PI), desiredState.angle.getRadians());
+        final double turnOutput = turnPid.calculate((turnEncoder.getAbsolutePosition()- turnEncoder.getPositionOffset()) / (2 * Math.PI), desiredState.angle.getRadians());
 
         driveMotor.setVoltage(driveOutput + drive_feedforward);
         turnMotor.setVoltage(turnOutput + feedForward_t.ks);
     }
-
-
 }
