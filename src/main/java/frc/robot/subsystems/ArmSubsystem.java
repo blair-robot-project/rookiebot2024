@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.simulation.SingleJointedArmSim;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -15,6 +16,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import java.util.function.DoubleSupplier;
 
 import static frc.robot.allConstants.armConstants.*;
+import static frc.robot.allConstants.driveConstants.*;
 
 public class ArmSubsystem extends SubsystemBase {
 
@@ -27,9 +29,8 @@ public class ArmSubsystem extends SubsystemBase {
     double desiredVal;
     double baseVal;
 
-    /**
-     * Creates a new ExampleSubsystem.
-     */
+    SimpleMotorFeedforward feedForward_a =new SimpleMotorFeedforward(armFeedForwardKs, armFeedForwardKv, armFeedForwardKa);
+
     public ArmSubsystem(double des, double base) {
         motorFollower.follow(motor, false);
         desiredVal = des;
@@ -49,6 +50,10 @@ public class ArmSubsystem extends SubsystemBase {
         desiredVal = armDefaultDesiredValue;
         baseVal = armDefaultBaseValue;
         current = armDefaultBaseValue;
+    }
+
+    public double getArmF(double des){
+        return feedForward_a.calculate(des);
     }
 
     /**
@@ -126,7 +131,7 @@ public class ArmSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         this.current = this.returnMotorPos() / armGearRatio; // gear ratio maybe somewhere?
-        double voltage = pid.calculate(this.current, this.desired);
+        double voltage = pid.calculate(this.current, this.desired)+getArmF(desired);
         System.out.println(voltage);
         this.motor.setVoltage(voltage);
     }
