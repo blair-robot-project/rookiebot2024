@@ -56,18 +56,23 @@ public final class driveConstants {
     public static final double swerveFeedForwardTurnKv = 1; // placeholder
     public static final double swerveFeedForwardTurnKa = 1; // placeholder
 
-    //8 motor ids
-    public static final int driveMotor1 = 20; // placeholder
-    public static final int turnMotor1 = 21; // placeholder
+    //8 motor ids, 4 encoder ids
+    public static final int driveMotor1 = 5; // placeholder
+    public static final int turnMotor1 = 6; // placeholder
+    public static final int turnEncoderChannel1 = 1; // placeholder
 
-    public static final int driveMotor2 = 17; // placeholder
-    public static final int turnMotor2 = 61; // placeholder
+    public static final int driveMotor2 = 7; // placeholder
+    public static final int turnMotor2 = 8; // placeholder
+    public static final int turnEncoderChannel2 = 2; // placeholder
 
-    public static final int driveMotor3 = 1; // placeholder
-    public static final int turnMotor3 = 2; // placeholder
+    public static final int driveMotor3 = 9; // placeholder
+    public static final int turnMotor3 = 10; // placeholder
+    public static final int turnEncoderChannel3 = 3; // placeholder
 
-    public static final int driveMotor4 = 4; // placeholder
-    public static final int turnMotor4 = 3; // placeholder
+    public static final int driveMotor4 = 11; // placeholder
+    public static final int turnMotor4 = 12; // placeholder
+    public static final int turnEncoderChannel4 = 4; // placeholder
+
 
     //the interavals in which the motor loops
     public static final double pdsec = 0.02; // always the same I think
@@ -79,6 +84,6 @@ public final class driveConstants {
     public static final double driveGearing = 10; // placeholder
     public static final double turnGearing = 10; // placeholder
 
-    public static final int turnEncoderChannel = 0; // placeholder
+
 
 }

@@ -5,9 +5,9 @@ import edu.wpi.first.math.util.Units;
 
 public class armConstants {
     //motor id
-    public static final int armMotorID = 11;
+    public static final int armMotorID = 1;
     //motor follower id
-    public static final int armMotorFollowerID = 12;
+    public static final int armMotorFollowerID = 2;
     //motor kp, ki, kd
     public static final double armKP = 0.1, armKI = 0, armKD = 0;
     //default desired arm value
@@ -27,7 +27,7 @@ public class armConstants {
     //arm dcmotor for arm sim
     public static DCMotor armGearbox = DCMotor.getNEO(1);
     //gearing
-    public static double armGearing = 0;
+    public static double armGearing = 1;
     //moment inertia of the arm NEED FROM CAD (jkg per meters squared)
     public static double armInertia = 200;
     //arm length (units?)

@@ -41,13 +41,13 @@ public class SwerveModule {
     private final SimpleMotorFeedforward feedForward_d = new SimpleMotorFeedforward(swerveFeedForwardDriveKs, swerveFeedForwardDriveKv, swerveFeedForwardDriveKa);
     private final SimpleMotorFeedforward feedForward_t = new SimpleMotorFeedforward(swerveFeedForwardTurnKs, swerveFeedForwardTurnKv, swerveFeedForwardTurnKa);
 
-    public SwerveModule(int driveMotor, int turnMotor) {
+    public SwerveModule(int driveMotor, int turnMotor, int turnEncoder) {
         this.driveMotor = new CANSparkMax(driveMotor, CANSparkLowLevel.MotorType.kBrushless);
         this.turnMotor = new CANSparkMax(turnMotor, CANSparkLowLevel.MotorType.kBrushless);
         drivePid = new PIDController(drivePIDkp, drivePIDki, drivePIDkd);
         turnPid = new PIDController(turnPIDkp, turnPIDki, turnPIDkd);
         driveEncoder = this.driveMotor.getEncoder();
-        this.turnEncoder = new DutyCycleEncoder(driveConstants.turnEncoderChannel);
+        this.turnEncoder = new DutyCycleEncoder(turnEncoder);
 
 
     }
