@@ -8,6 +8,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.allConstants.driveConstants;
 import frc.robot.subsystems.SwerveDrive;
 
 /**
@@ -25,6 +26,7 @@ public class Robot extends TimedRobot {
 
     private RobotContainer robotContainer;
     private SwerveDrive swerve;
+
 
 
     /**
@@ -90,16 +92,12 @@ public class Robot extends TimedRobot {
         }
     }
 
-
-
-
     /**
      * This method is called periodically during autonomous.
      */
     @Override
     public void autonomousPeriodic() {
     }
-
 
     @Override
     public void teleopInit() {
@@ -118,14 +116,26 @@ public class Robot extends TimedRobot {
         }
     }
 
-
     /**
      * This method is called periodically during operator control.
      */
     @Override
     public void teleopPeriodic() {
-        //joystick1 is for driving
+        double xdirection;
+        double ydirection;
+        double rotation;
+        xdirection = robotContainer.joystick1.getX() * driveConstants.MAX_SPEED;
+        ydirection = robotContainer.joystick1.getY() * driveConstants.MAX_SPEED;
 
+        //joystick2 is for rotation
+        rotation = robotContainer.joystick2.getX() * driveConstants.MAX_ANGULAR_SPEED;
+        //joystick1 is for driving
+        swerve.drive(
+                xdirection,
+                ydirection,
+                rotation,
+                driveConstants.fRel,
+                driveConstants.pdsec);
 
     }
 
@@ -144,14 +154,12 @@ public class Robot extends TimedRobot {
     public void testPeriodic() {
     }
 
-
     /**
      * This method is called once when the robot is first started up.
      */
     @Override
     public void simulationInit() {
     }
-
 
     /**
      * This method is called periodically whilst in simulation.

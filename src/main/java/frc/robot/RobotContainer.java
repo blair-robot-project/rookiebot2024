@@ -34,31 +34,8 @@ import static frc.robot.allConstants.operatorConstants.MECH_CONTROLLER_PORT;
 public class RobotContainer {
     public SwerveDrive swervee;
 
-    double xdirection;
-    double ydirection;
-    double rotation;
-
-
     Joystick joystick1 = new Joystick(0);
     Joystick joystick2 = new Joystick(0);
-
-    public RunCommand drive = new RunCommand(() -> {
-        xdirection = joystick1.getX() * driveConstants.MAX_SPEED;
-        ydirection = joystick1.getY() * driveConstants.MAX_SPEED;
-
-        //joystick2 is for rotation
-        rotation = joystick2.getX() * driveConstants.MAX_ANGULAR_SPEED;
-
-
-        //set the module states based on joystick
-        swervee.drive(
-                xdirection,
-                ydirection,
-                rotation,
-                driveConstants.fRel,
-                driveConstants.pdsec);
-
-    });
 
     // The robot's subsystems and commands are defined here...
     private final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
