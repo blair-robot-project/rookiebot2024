@@ -52,7 +52,7 @@ public class SwerveDrive extends SubsystemBase {
                     frontLeftLocation, frontRightLocation, backLeftLocation, backRightLocation);
 
 
-    public SwerveDrive(int driveMotor, int turnMotor, int turnEncoder) {
+    public SwerveDrive() {
         AutoBuilder.configureHolonomic(
                 this::getPose, // Robot pose supplier
 
