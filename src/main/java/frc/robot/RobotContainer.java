@@ -73,14 +73,14 @@ public class RobotContainer {
 
         // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
         // cancelling on release.
+        mechController.y().onTrue(armSub.goToTop());
         mechController.x().onTrue(armSub.goToSetpoint());
-        mechController.b().onTrue(armSub.goToBase());
-        mechController.a().onTrue(armSub.goToHalf());
+        mechController.b().onTrue(armSub.goToHalf());
+        mechController.a().onTrue(armSub.goToBase());
 
         mechController.rightTrigger().onTrue(clawSubsystem.Intake()).onFalse(clawSubsystem.HoldBucket());
         mechController.leftTrigger().onTrue(clawSubsystem.Outtake()).onFalse(clawSubsystem.HoldBucket());
-
-}
+    }
 /**
  * Use this to pass the autonomous command to the main {@link Robot} class.
  *

@@ -16,21 +16,21 @@ import frc.robot.allConstants.armConstants;
 
 import java.util.function.DoubleSupplier;
 
-import static frc.robot.allConstants.armConstants.*;
+import frc.robot.allConstants.armConstants;
 import static frc.robot.allConstants.driveConstants.*;
 
 public class ArmSubsystem extends SubsystemBase {
 
-    CANSparkMax motor = new CANSparkMax(armMotorID, MotorType.kBrushless);
-    CANSparkMax motorFollower = new CANSparkMax(armMotorFollowerID, MotorType.kBrushless);
-    double kP = armKP, kI = armKI, kD = armKD;
+    CANSparkMax motor = new CANSparkMax(armConstants.armMotorID, MotorType.kBrushless);
+    CANSparkMax motorFollower = new CANSparkMax(armConstants.armMotorFollowerID, MotorType.kBrushless);
+    double kP = armConstants.armKP, kI = armConstants.armKI, kD = armConstants.armKD;
     PIDController pid = new PIDController(kP, kI, kD);
     double current;
     double desired;
     double desiredVal;
     double baseVal;
 
-    SimpleMotorFeedforward feedForward_a =new SimpleMotorFeedforward(armFeedForwardKs, armFeedForwardKv, armFeedForwardKa);
+    SimpleMotorFeedforward feedForward_a = new SimpleMotorFeedforward(armConstants.armFeedForwardKs, armConstants.armFeedForwardKv, armConstants.armFeedForwardKa);
 
     public ArmSubsystem(double des, double base) {
         motorFollower.follow(motor, false);
@@ -42,15 +42,15 @@ public class ArmSubsystem extends SubsystemBase {
     public ArmSubsystem(double des) {
         motorFollower.follow(motor, false);
         desiredVal = des;
-        baseVal = armDefaultBaseValue;
-        current = armDefaultBaseValue;
+        baseVal = armConstants.armDefaultBaseValue;
+        current = armConstants.armDefaultBaseValue;
     }
 
     public ArmSubsystem() {
         motorFollower.follow(motor, false);
-        desiredVal = armDefaultDesiredValue;
-        baseVal = armDefaultBaseValue;
-        current = armDefaultBaseValue;
+        desiredVal = armConstants.armDefaultDesiredValue;
+        baseVal = armConstants.armDefaultBaseValue;
+        current = armConstants.armDefaultBaseValue;
     }
 
     public double getArmF(double des){
@@ -80,6 +80,15 @@ public class ArmSubsystem extends SubsystemBase {
                 });
     }
 
+    public Command goToTop() {
+        // Inline construction of command goes here.
+        // Subsystem::RunOnce implicitly requires `this` subsystem.
+        return runOnce(
+                () -> {
+                    this.desired = armConstants.armTopPositionValue;
+                });
+    }
+
     public Command goToSetpoint() {
         // Inline construction of command goes here.
         // Subsystem::RunOnce implicitly requires `this` subsystem.
@@ -106,13 +115,6 @@ public class ArmSubsystem extends SubsystemBase {
                     this.desired = this.baseVal;
                 });
     }
-    public Command topScore(){
-        return runOnce(
-                () -> {
-                    this.desired = armConstants.topScoreSetpoint;
-                });
-    }
-
 
     /**
      * An example method querying a boolean state of the subsystem (for example, a digital sensor).
@@ -138,7 +140,7 @@ public class ArmSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
-        this.current = this.returnMotorPos() / armGearRatio; // gear ratio maybe somewhere?
+        this.current = this.returnMotorPos() / armConstants.armGearRatio; // gear ratio maybe somewhere?
         double voltage = pid.calculate(this.current, this.desired)+getArmF(desired);
         System.out.println(voltage);
         this.motor.setVoltage(voltage);

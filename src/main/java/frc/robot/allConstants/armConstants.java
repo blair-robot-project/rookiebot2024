@@ -14,14 +14,14 @@ public class armConstants {
     public static final double armDefaultDesiredValue = 0.25;
     //default base arm value
     public static final double armDefaultBaseValue = 0;
+    //arm angle at the top
+    public static final double armTopPositionValue = 0.5;
     //gear ratio
     public static final double armGearRatio = 1;
     //desired arm value
     public static final double armDesiredValue = 0.25;
     //base arm value
     public static final double armBaseValue = 0;
-
-    public static final double topScoreSetpoint = 0.25;
 
     public static final double armFeedForwardKs=1;
     public static final double armFeedForwardKv=1;
@@ -31,27 +31,28 @@ public class armConstants {
     //VALUES NEEDED FOR ARM SIM
     //ALL VALUES BELOW ARE FAKE AND TEMPORARY
 
-    //arm dcmotor for arm sim
+    //arm dcmotor for arm sim FINALIZED
     public static DCMotor armGearbox = DCMotor.getNEO(1);
-    //gearing
+    //gearing UNFINALIZED
     public static double armGearing = 1;
     //moment inertia of the arm NEED FROM CAD (jkg per meters squared)
+    //UNFINALIZED
     public static double armInertia = 200;
-    //arm length (units?)
+    //arm length (units?) UNFINALIZED
     public static double armLength = Units.inchesToMeters(30);
-    //minAngle (radians)
+    //minAngle (radians) UNFINALIZED
     public static double minAngleRads = Units.degreesToRadians(-60);
-    //maxAngle (rads)
+    //maxAngle (rads) UNFINALIZED
     public static double maxAngleRads = Units.degreesToRadians(120);
-    //whether or not to simualte gravity
+    //whether or not to simualte gravity UNFINALIZED
     public static boolean armSimGrav = true;
 
-    //Encoder Channels
+    //Encoder Channels UNFINALIZED
     public static int encoderAChannel = 0;
     public static int encoderBChannel = 1;
 
     // distance per pulse = (angle per revolution) / (pulses per revolution)
-    //  = (2 * PI rads) / (4096 pulses)
+    //  = (2 * PI rads) / (4096 pulses) UNFINALIZED
     public static double kArmEncoderDistPerPulse = 2.0 * Math.PI / 4096;
     public static final String kArmPositionKey = "ArmPosition";
     public static final String kArmPKey = "ArmP";
