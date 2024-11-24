@@ -12,6 +12,7 @@ import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.simulation.SingleJointedArmSim;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.allConstants.armConstants;
 
 import java.util.function.DoubleSupplier;
 
@@ -105,6 +106,13 @@ public class ArmSubsystem extends SubsystemBase {
                     this.desired = this.baseVal;
                 });
     }
+    public Command topScore(){
+        return runOnce(
+                () -> {
+                    this.desired = armConstants.topScoreSetpoint;
+                });
+    }
+
 
     /**
      * An example method querying a boolean state of the subsystem (for example, a digital sensor).

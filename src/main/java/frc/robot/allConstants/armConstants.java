@@ -21,6 +21,8 @@ public class armConstants {
     //base arm value
     public static final double armBaseValue = 0;
 
+    public static final double topScoreSetpoint = 0.25;
+
     public static final double armFeedForwardKs=1;
     public static final double armFeedForwardKv=1;
     public static final double armFeedForwardKa=1;
