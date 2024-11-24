@@ -110,7 +110,7 @@ public class ArmSim implements AutoCloseable {
     public void loadPreferences() {
         // Read Preferences for Arm setpoint and kP on entering Teleop
         armSetpointDegrees = Preferences.getDouble(armConstants.kArmPositionKey, armSetpointDegrees);
-        if (armKP != Preferences.getDouble(armConstants.kArmPKey, armConstants.armKP)) {
+        if (armKP != Preferences.getDouble(armConstants.kArmPKey, armKP)) {
             armKP = Preferences.getDouble(armConstants.kArmPKey, armKP);
             armPIDController.setP(armKP);
         }
