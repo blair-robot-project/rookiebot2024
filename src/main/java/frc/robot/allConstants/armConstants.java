@@ -48,8 +48,8 @@ public class armConstants {
     public static boolean armSimGrav = true;
 
     //Encoder Channels UNFINALIZED
-    public static int encoderAChannel = 0;
-    public static int encoderBChannel = 1;
+    public static int encoderAChannel = 9;
+    public static int encoderBChannel = 8;
 
     // distance per pulse = (angle per revolution) / (pulses per revolution)
     //  = (2 * PI rads) / (4096 pulses) UNFINALIZED
