@@ -21,6 +21,7 @@
 
 package frc.robot.allConstants;
 
+
 public final class driveConstants {
     public static final double MAX_SPEED = 3.0; // placeholder, 3 m/s
     public static final double MAX_ANGULAR_SPEED = Math.PI; // placeholder, 1/2 rotation per second (in radians, so pi radians is 1/2 of a rotation)
@@ -36,6 +37,7 @@ public final class driveConstants {
     //location of the wheels relative to the center of the robot
     public static final double moduleDistanceX = 0.381; // placeholder
     public static final double moduleDistanceY = 0.381; // placeholder
+    public static final double moduleDistanceDiagonal=Math.sqrt(Math.pow(moduleDistanceX,2)+Math.pow(moduleDistanceY,2));
 
     //PID calculator values for swerve
 
