@@ -39,8 +39,6 @@ public class RobotContainer {
     private final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
     private final ClawSubsystem claw = new ClawSubsystem();
     private final ArmSubsystem armSub = new ArmSubsystem(armDesiredValue, armBaseValue);
-    private final ArmSubsystem arm = new ArmSubsystem();
-
 
     // Replace with CommandPS4Controller or CommandJoystick if needed
     private final CommandXboxController driverController =
@@ -96,15 +94,15 @@ public Command taxiPath() {
 public Command middlePath() {
     // An example command will be run in autonomous
     return new ParallelCommandGroup(
-            arm.goToBase(),
+            armSub.goToBase(),
             claw.Outtake(),
-            arm.goToTop(),
+            armSub.goToTop(),
             new PathPlannerAuto("toBucketMiddle"), // placeholder
-            arm.goToBase(),
+            armSub.goToBase(),
             claw.Intake(),
-            arm.goToTop(),
+            armSub.goToTop(),
             new PathPlannerAuto("fromBucketMiddle"),
-            arm.goToBase(),
+            armSub.goToBase(),
             claw.Outtake()
             );
 }

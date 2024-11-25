@@ -9,20 +9,16 @@ import com.revrobotics.CANSparkMax;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.util.sendable.SendableBuilder;
-import edu.wpi.first.wpilibj.simulation.SingleJointedArmSim;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.allConstants.armConstants;
 
 import java.util.function.DoubleSupplier;
 
-import frc.robot.allConstants.armConstants;
-import static frc.robot.allConstants.driveConstants.*;
-
 public class ArmSubsystem extends SubsystemBase {
 
-    CANSparkMax motor = new CANSparkMax(armConstants.armMotorID, MotorType.kBrushless);
-    CANSparkMax motorFollower = new CANSparkMax(armConstants.armMotorFollowerID, MotorType.kBrushless);
+    CANSparkMax armMotor;
+    CANSparkMax armMotorFollower;
     double kP = armConstants.armKP, kI = armConstants.armKI, kD = armConstants.armKD;
     PIDController pid = new PIDController(kP, kI, kD);
     double current;
@@ -33,21 +29,27 @@ public class ArmSubsystem extends SubsystemBase {
     SimpleMotorFeedforward feedForward_a = new SimpleMotorFeedforward(armConstants.armFeedForwardKs, armConstants.armFeedForwardKv, armConstants.armFeedForwardKa);
 
     public ArmSubsystem(double des, double base) {
-        motorFollower.follow(motor, false);
+        this.armMotor = new CANSparkMax(armConstants.armMotorIDa, MotorType.kBrushless);
+        this.armMotorFollower= new CANSparkMax(armConstants.armMotorFollowerID, MotorType.kBrushless);
+        armMotorFollower.follow(armMotor, false);
         desiredVal = des;
         baseVal = base;
         current = base;
     }
 
     public ArmSubsystem(double des) {
-        motorFollower.follow(motor, false);
+        this.armMotor = new CANSparkMax(armConstants.armMotorIDa, MotorType.kBrushless);
+        this.armMotorFollower= new CANSparkMax(armConstants.armMotorFollowerID, MotorType.kBrushless);
+        armMotorFollower.follow(armMotor, false);
         desiredVal = des;
         baseVal = armConstants.armDefaultBaseValue;
         current = armConstants.armDefaultBaseValue;
     }
 
     public ArmSubsystem() {
-        motorFollower.follow(motor, false);
+        this.armMotor = new CANSparkMax(armConstants.armMotorIDa, MotorType.kBrushless);
+        this.armMotorFollower= new CANSparkMax(armConstants.armMotorFollowerID, MotorType.kBrushless);
+        armMotorFollower.follow(armMotor, false);
         desiredVal = armConstants.armDefaultDesiredValue;
         baseVal = armConstants.armDefaultBaseValue;
         current = armConstants.armDefaultBaseValue;
@@ -67,7 +69,7 @@ public class ArmSubsystem extends SubsystemBase {
         // Subsystem::RunOnce implicitly requires `this` subsystem.
         return runOnce(
                 () -> {
-                    this.motor.setVoltage(voltage);
+                    this.armMotor.setVoltage(voltage);
                 });
     }
 
@@ -76,7 +78,7 @@ public class ArmSubsystem extends SubsystemBase {
         // Subsystem::RunOnce implicitly requires `this` subsystem.
         return runOnce(
                 () -> {
-                    this.motor.setVoltage(0);
+                    this.armMotor.setVoltage(0);
                 });
     }
 
@@ -127,7 +129,7 @@ public class ArmSubsystem extends SubsystemBase {
     }
 
     public double returnMotorPos() {
-        return this.motor.getEncoder().getPosition();
+        return this.armMotor.getEncoder().getPosition();
     }
 
     @Override
@@ -143,7 +145,7 @@ public class ArmSubsystem extends SubsystemBase {
         this.current = this.returnMotorPos() / armConstants.armGearRatio; // gear ratio maybe somewhere?
         double voltage = pid.calculate(this.current, this.desired)+getArmF(desired);
         System.out.println(voltage);
-        this.motor.setVoltage(voltage);
+        this.armMotor.setVoltage(voltage);
     }
 
     @Override

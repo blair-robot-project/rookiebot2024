@@ -5,7 +5,9 @@ import edu.wpi.first.math.util.Units;
 
 public class armConstants {
     //motor id
-    public static final int armMotorID = 1;
+    public static final int armMotorIDa = 62;
+    //motor id for sim
+    public static final int armSimID=19;
     //motor follower id
     public static final int armMotorFollowerID = 2;
     //motor kp, ki, kd
