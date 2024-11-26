@@ -73,9 +73,9 @@ public class RobotContainer {
         // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
         // cancelling on release.
         mechController.y().onTrue(armSub.goToTop());
-        mechController.x().onTrue(armSub.goToSetpoint());
-        mechController.b().onTrue(armSub.goToHalf());
-        mechController.a().onTrue(armSub.goToBase());
+        mechController.x().onTrue(armSub.goToHalf());
+        mechController.b().onTrue(armSub.goToHighScore());
+        mechController.a().onTrue(armSub.goToTop());
 
         mechController.rightTrigger().onTrue(claw.Intake()).onFalse(claw.HoldBucket());
         mechController.leftTrigger().onTrue(claw.Outtake()).onFalse(claw.HoldBucket());
@@ -98,16 +98,15 @@ public Command taxiPath() {
 public Command middlePath() {
     // An example command will be run in autonomous
     return new ParallelCommandGroup(
-            armSub.goToBase(),
+            armSub.goToHighScore(),
             claw.Outtake(),
             armSub.goToTop(),
             new PathPlannerAuto("toBucketMiddle"), // placeholder
-            armSub.goToBase(),
+            armSub.goToHighScore(),
             claw.Intake(),
             armSub.goToTop(),
             new PathPlannerAuto("fromBucketMiddle"),
-            armSub.goToBase(),
-            claw.Outtake()
+            armSub.goToHalf().andThen(claw.Outtake())
             );
 }
 public Command bottomPath() {
@@ -116,7 +115,7 @@ public Command bottomPath() {
             new PathPlannerAuto("toBucketBottom"), // placeholder
             new WaitCommand(1), // placeholder
             new PathPlannerAuto("fromBucketBottom"),
-            armSub.goToBase().andThen(claw.Intake())
+            armSub.goToTop().andThen(claw.Intake())
 
     );
 }
