@@ -12,17 +12,17 @@ public class armConstants {
     public static final int armMotorFollowerID = 2;
     //motor kp, ki, kd UNDETERMINED
     public static final double armKP = 0.1, armKI = 0, armKD = 0;
-    //default desired arm value UNDETERMINED (UNITS?)
+    //default desired arm value RADIANS
     public static final double armDefaultDesiredValue = 0.25;
-    //default base arm value UNDETERMINED (UNITS?)
+    //default base arm value RADIANS
     public static final double armDefaultBaseValue = 0;
-    //arm angle at the top UNDETERMINED (UNITS?)
+    //arm angle at the top RADIANS
     public static final double armTopPositionValue = 0.5;
     //gear ratio UNDETERMINED
     public static final double armGearRatio = 1;
-    //desired arm value UNDETERMINED (UNITS?)
+    //desired arm value UNDETERMINED RADIANS
     public static final double armDesiredValue = 0.25;
-    //base arm value UNDETERMINED (UNITS?)
+    //base arm value UNDETERMINED RADIANS
     public static final double armBaseValue = 0;
 
 
