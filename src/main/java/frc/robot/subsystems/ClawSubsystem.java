@@ -8,9 +8,12 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkLowLevel;
 import com.revrobotics.CANSparkMax;
 import edu.wpi.first.math.system.plant.DCMotor;
+import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.simulation.DCMotorSim;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.allConstants.clawConstants;
+import frc.robot.allConstants.clawConstants.*;
 
 import static frc.robot.allConstants.clawConstants.*;
 
@@ -24,8 +27,8 @@ public class ClawSubsystem extends SubsystemBase {
      */
     public ClawSubsystem() {
 
-        motor = new CANSparkMax(CLAW_MOTOR_ID, CANSparkLowLevel.MotorType.kBrushless);
-        inverseFollowMotor = new CANSparkMax(CLAW_FOLLOWER_ID, CANSparkLowLevel.MotorType.kBrushless);
+        motor = new CANSparkMax(clawConstants.CLAW_MOTOR_ID, CANSparkLowLevel.MotorType.kBrushless);
+        inverseFollowMotor = new CANSparkMax(clawConstants.CLAW_FOLLOWER_ID, CANSparkLowLevel.MotorType.kBrushless);
         inverseFollowMotor.follow(motor, true);
     }
 
@@ -79,7 +82,18 @@ public class ClawSubsystem extends SubsystemBase {
     }
 
 
+
     @Override
+    public void initSendable(SendableBuilder builder){
+        builder.setSmartDashboardType("Claw Sim Voltage");
+        builder.addDoubleProperty("Voltage",() -> motor.getBusVoltage(),null);
+
+
+
+    }
+
+
+
     public void periodic() {
         // This method will be called once per scheduler run
     }
@@ -89,6 +103,9 @@ public class ClawSubsystem extends SubsystemBase {
     public void simulationPeriodic() {
         DCMotorSim motorSim = new DCMotorSim(DCMotor.getNEO(1), 1, 1);
         motorSim.setInputVoltage(motor.getBusVoltage());
+
+
+
 
         //idkk
         // This method will be called once per scheduler run during simulation

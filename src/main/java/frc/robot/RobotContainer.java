@@ -7,6 +7,7 @@ package frc.robot;
 
 import com.pathplanner.lib.commands.PathPlannerAuto;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
@@ -45,6 +46,7 @@ public class RobotContainer {
             new CommandXboxController(DRIVE_CONTROLLER_PORT);
     private final CommandXboxController mechController = new CommandXboxController(MECH_CONTROLLER_PORT);
 
+
     /**
      * The container for the robot. Contains subsystems, OI devices, and commands.
      */
@@ -77,6 +79,8 @@ public class RobotContainer {
 
         mechController.rightTrigger().onTrue(claw.Intake()).onFalse(claw.HoldBucket());
         mechController.leftTrigger().onTrue(claw.Outtake()).onFalse(claw.HoldBucket());
+
+        SmartDashboard.putData(claw);
     }
 /**
  * Use this to pass the autonomous command to the main {@link Robot} class.
@@ -111,7 +115,9 @@ public Command bottomPath() {
     return new ParallelCommandGroup(
             new PathPlannerAuto("toBucketBottom"), // placeholder
             new WaitCommand(1), // placeholder
-            new PathPlannerAuto("fromBucketBottom")
+            new PathPlannerAuto("fromBucketBottom"),
+            armSub.goToBase().andThen(claw.Intake())
+
     );
 }
 
