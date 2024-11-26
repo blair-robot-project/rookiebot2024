@@ -37,7 +37,7 @@ public class ArmSubsystem extends SubsystemBase {
         current = base;
     }
 
-    public ArmSubsystem(double des) {
+/*    public ArmSubsystem(double des) {
         this.armMotor = new CANSparkMax(armConstants.armMotorIDa, MotorType.kBrushless);
         this.armMotorFollower= new CANSparkMax(armConstants.armMotorFollowerID, MotorType.kBrushless);
         armMotorFollower.follow(armMotor, false);
@@ -45,7 +45,7 @@ public class ArmSubsystem extends SubsystemBase {
         baseVal = armConstants.armDefaultBaseValue;
         current = armConstants.armDefaultBaseValue;
     }
-
+*/
     public ArmSubsystem() {
         this.armMotor = new CANSparkMax(armConstants.armMotorIDa, MotorType.kBrushless);
         this.armMotorFollower= new CANSparkMax(armConstants.armMotorFollowerID, MotorType.kBrushless);
