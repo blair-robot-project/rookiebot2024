@@ -16,11 +16,18 @@ import frc.robot.allConstants.armConstants;
 import java.util.function.DoubleSupplier;
 
 public class ArmSubsystem extends SubsystemBase {
-
+    //arm motor
     CANSparkMax armMotor;
+    //second arm motor
     CANSparkMax armMotorFollower;
+    //establishing kp, ki, and kd
     double kP = armConstants.armKP, kI = armConstants.armKI, kD = armConstants.armKD;
+    //pid controller
     PIDController pid = new PIDController(kP, kI, kD);
+    /*
+    * current is the arm's current position in __
+    *
+    * */
     double current;
     double desired;
     double desiredVal;
@@ -91,7 +98,7 @@ public class ArmSubsystem extends SubsystemBase {
                 });
     }
 
-    public Command goToSetpoint() {
+    public Command goToHighScore() {
         // Inline construction of command goes here.
         // Subsystem::RunOnce implicitly requires `this` subsystem.
         return runOnce(
@@ -109,7 +116,7 @@ public class ArmSubsystem extends SubsystemBase {
                 });
     }
 
-    public Command goToBase() {
+    public Command goToIntake() {
         // Inline construction of command goes here.
         // Subsystem::RunOnce implicitly requires `this` subsystem.
         return runOnce(
