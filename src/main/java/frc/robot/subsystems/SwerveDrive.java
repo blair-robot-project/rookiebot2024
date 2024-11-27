@@ -38,8 +38,8 @@ public class SwerveDrive extends SubsystemBase {
     private final SwerveModule backRight = new SwerveModule(driveConstants.driveMotor4,driveConstants.turnMotor4, driveConstants.turnEncoderChannel4);
 
     private ChassisSpeeds desiredSpeeds = new ChassisSpeeds();
+    private ChassisSpeeds currentSpeeds = new ChassisSpeeds();
 
-    ChassisSpeeds currentSpeeds;
     private final AHRS gyro = new AHRS(SPI.Port.kMXP);
 
     private final SwerveDriveKinematics kinematics =
@@ -140,7 +140,7 @@ public class SwerveDrive extends SubsystemBase {
     }
 
     public ChassisSpeeds getSpeeds() {
-        return this.desiredSpeeds;
+        return currentSpeeds;
     }
 
     public void driveSpeeds(ChassisSpeeds givenSpeeds){
@@ -162,6 +162,12 @@ public class SwerveDrive extends SubsystemBase {
 
     public void periodic(){
         updateOdometry();
+        currentSpeeds=kinematics.toChassisSpeeds(
+                frontLeft.getState(),
+                frontRight.getState(),
+                backLeft.getState(),
+                backRight.getState()
+        );
     }
 
 
