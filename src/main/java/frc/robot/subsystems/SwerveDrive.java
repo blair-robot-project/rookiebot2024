@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.allConstants.driveConstants;
 
+import static frc.robot.allConstants.driveConstants.*;
 
 
 public class SwerveDrive extends SubsystemBase {
@@ -54,8 +55,8 @@ public class SwerveDrive extends SubsystemBase {
                 this::getSpeeds, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
                 this::driveSpeeds, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds
                 new HolonomicPathFollowerConfig( // HolonomicPathFollowerConfig, this should likely live in your Constants class
-                        new PIDConstants(5.0, 0.0, 0.0), // Translation PID constants
-                        new PIDConstants(5.0, 0.0, 0.0), // Rotation PID constants
+                        new PIDConstants(autoTranKp, autoTranKi, autoTranKd), // Translation PID constants
+                        new PIDConstants(autoRotKp, autoRotKi, autoRotKd), // Rotation PID constants
                         driveConstants.MAX_SPEED, // Max module speed, in m/s
                         driveConstants.moduleDistanceDiagonal, // Drive base radius in meters. Distance from robot center to furthest module.
                         new ReplanningConfig() // Default path replanning config. See the API for the options here

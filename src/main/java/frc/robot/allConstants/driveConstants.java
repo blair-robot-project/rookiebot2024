@@ -61,4 +61,13 @@ public final class driveConstants {
 
     public static final double driveGearing = 10; // placeholder
     public static final double turnGearing = 10; // placeholder
+
+    public static final double autoTranKp = 0.5; ///placeholder
+    public static final double autoTranKi = 0.0;///placeholder
+    public static final double autoTranKd = 0.0;///placeholder
+
+    public static final double autoRotKp = 0.5; ///placeholder
+    public static final double autoRotKi = 0.0;///placeholder
+    public static final double autoRotKd = 0.0;///placeholder
+
 }
