@@ -13,10 +13,12 @@ import static edu.wpi.first.math.kinematics.SwerveModuleState.optimize;
 import static frc.robot.allConstants.driveConstants.*;
 
 public class SwerveSim extends SwerveModule {
-    private final SimpleMotorFeedforward simfeedForward_d = new SimpleMotorFeedforward(swerveFeedForwardDriveKs, swerveFeedForwardDriveKv, swerveFeedForwardDriveKa);
-    private final SimpleMotorFeedforward simfeedForward_t = new SimpleMotorFeedforward(swerveFeedForwardTurnKs, swerveFeedForwardTurnKv, swerveFeedForwardTurnKa);
+    private SimpleMotorFeedforward simfeedForward_d = new SimpleMotorFeedforward(swerveFeedForwardDriveKs, swerveFeedForwardDriveKv, swerveFeedForwardDriveKa);
+    private SimpleMotorFeedforward simfeedForward_t = new SimpleMotorFeedforward(swerveFeedForwardTurnKs, swerveFeedForwardTurnKv, swerveFeedForwardTurnKa);
     private DutyCycleEncoderSim simturnEncoder = new DutyCycleEncoderSim(turnEncoder);
-    private EncoderSim simdriveEncoder = new EncoderSim((Encoder) driveEncoder); // figure this out later, how to sim a relative encoder
+    private EncoderSim simdriveEncoder = new EncoderSim((Encoder) driveEncoder);
+    private double simcurrentPos = 0;
+
 
     // private AnalogGyro gyro = new AnalogGyro(1); // 1 is a filler value, not yet sure what to put into the Analog Gyro
     // private AnalogGyroSim simGyro = new AnalogGyroSim(gyro);
@@ -49,7 +51,7 @@ public class SwerveSim extends SwerveModule {
     }
 
     public void simulationPeriodic() {
-
+        simcurrentPos = simdriveEncoder.getDistance();
     }
 
 }

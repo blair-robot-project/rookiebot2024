@@ -59,7 +59,7 @@ public final class driveConstants {
     public static final boolean fRel = true; // probably will stay this way
 
 
-    public static final double driveGearing = 10; // placeholder
+    public static final double driveGearing = 6.75; // This is 6.75 according to John J
     public static final double turnGearing = 10; // placeholder
 
     public static final double autoTranKp = 0.5; ///placeholder
