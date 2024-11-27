@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -89,30 +90,27 @@ public class RobotContainer {
  */
 
 public Command taxiPath() {
-    // An example command will be run in autonomous
-    return new ParallelCommandGroup(
-            new PathPlannerAuto("red") // placeholder, will be arm
+    return new SequentialCommandGroup(
+            new PathPlannerAuto("red")
     );
 }
 
 public Command middlePath() {
-    // An example command will be run in autonomous
-    return new ParallelCommandGroup(
-            armSub.goToHighScore(),
-            claw.Outtake(),
-            armSub.goToTop(),
-            new PathPlannerAuto("toBucketMiddle"), // placeholder
-            armSub.goToHighScore(),
-            claw.Intake(),
-            armSub.goToTop(),
+    return new SequentialCommandGroup(
+            armSub.goToIntake().until(armSub.isDone()).andThen(
+            claw.Outtake().until(armSub.isDone())).andThen(
+            armSub.goToTop().until(armSub.isDone())),
+            new PathPlannerAuto("toBucketMiddle"),
+            armSub.goToHighScore().until(armSub.isDone()).andThen(
+            claw.Intake().until(armSub.isDone())).andThen(
+            armSub.goToTop().until(armSub.isDone())),
             new PathPlannerAuto("fromBucketMiddle"),
-            armSub.goToHalf().andThen(claw.Outtake())
+            armSub.goToHalf().until(armSub.isDone()).andThen(claw.Outtake())
             );
 }
 public Command bottomPath() {
-    // An example command will be run in autonomous
-    return new ParallelCommandGroup(
-            new PathPlannerAuto("toBucketBottom"), // placeholder
+    return new SequentialCommandGroup(
+            new PathPlannerAuto("toBucketBottom"),
             new WaitCommand(1), // placeholder
             new PathPlannerAuto("fromBucketBottom"),
             armSub.goToTop().andThen(claw.Intake())

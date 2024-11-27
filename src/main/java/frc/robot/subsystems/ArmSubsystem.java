@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.allConstants.armConstants;
 
+import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 
 public class ArmSubsystem extends SubsystemBase {
@@ -28,7 +29,7 @@ public class ArmSubsystem extends SubsystemBase {
     * current is the arm's current position in __
     *
     * */
-    double current;
+    double currentState;
     double desired;
     double desiredVal;
     double baseVal;
@@ -41,7 +42,7 @@ public class ArmSubsystem extends SubsystemBase {
         armMotorFollower.follow(armMotor, false);
         desiredVal = des;
         baseVal = base;
-        current = base;
+        currentState = base;
     }
 
 /*    public ArmSubsystem(double des) {
@@ -50,7 +51,7 @@ public class ArmSubsystem extends SubsystemBase {
         armMotorFollower.follow(armMotor, false);
         desiredVal = des;
         baseVal = armConstants.armDefaultBaseValue;
-        current = armConstants.armDefaultBaseValue;
+        currentState = armConstants.armDefaultBaseValue;
     }
 */
     public ArmSubsystem() {
@@ -59,7 +60,7 @@ public class ArmSubsystem extends SubsystemBase {
         armMotorFollower.follow(armMotor, false);
         desiredVal = armConstants.armDefaultDesiredValue;
         baseVal = armConstants.armDefaultBaseValue;
-        current = armConstants.armDefaultBaseValue;
+        currentState = armConstants.armDefaultBaseValue;
     }
 
     public double getArmF(double des){
@@ -139,6 +140,12 @@ public class ArmSubsystem extends SubsystemBase {
         return this.armMotor.getEncoder().getPosition();
     }
 
+    public BooleanSupplier isDone(){
+        BooleanSupplier finished = () ->
+        this.returnMotorPos()/armConstants.armGearRatio==this.desired;
+        return finished;
+    }
+
     @Override
     public void initSendable(SendableBuilder builder) {
         builder.publishConstString("1.0", "Logging stuff");
@@ -149,8 +156,8 @@ public class ArmSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
-        this.current = this.returnMotorPos() / armConstants.armGearRatio; // gear ratio maybe somewhere?
-        double voltage = pid.calculate(this.current, this.desired)+getArmF(desired);
+        this.currentState = this.returnMotorPos() / armConstants.armGearRatio; // gear ratio maybe somewhere?
+        double voltage = pid.calculate(this.currentState, this.desired)+getArmF(desired);
         System.out.println(voltage);
         this.armMotor.setVoltage(voltage);
     }
