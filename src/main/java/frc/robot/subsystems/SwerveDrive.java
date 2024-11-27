@@ -144,9 +144,6 @@ public class SwerveDrive extends SubsystemBase {
     }
 
     public void driveSpeeds(ChassisSpeeds givenSpeeds){
-        SwerveDriveWheelStates swerveModuleStates1 = kinematics.toWheelSpeeds(givenSpeeds);
-        SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates1.states, driveConstants.MAX_SPEED);
-
         desiredSpeeds = givenSpeeds;
         SwerveDriveWheelStates swerveModuleStates = kinematics.toWheelSpeeds(desiredSpeeds);
         SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates.states, driveConstants.MAX_SPEED);
