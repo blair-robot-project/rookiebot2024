@@ -60,7 +60,7 @@ public class SwerveModule {
 
     public SwerveModuleState getState() {
         return new SwerveModuleState(
-                driveEncoder.getPosition() * WHEEL_CIRCUMFERENCE * driveGearing, new Rotation2d((turnEncoder.getAbsolutePosition()-turnEncoder.getPositionOffset()) / (2 * Math.PI)));
+                driveEncoder.getVelocity(), new Rotation2d((turnEncoder.getAbsolutePosition()-turnEncoder.getPositionOffset()) / (2 * Math.PI)));
     }
 
     public void SetDesired(SwerveModuleState desiredState) {
