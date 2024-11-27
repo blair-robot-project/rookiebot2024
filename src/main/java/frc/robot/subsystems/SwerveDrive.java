@@ -26,8 +26,8 @@ public class SwerveDrive extends SubsystemBase {
     //the initial position of the four wheels and
 
     private final Translation2d frontLeftLocation = new Translation2d(driveConstants.moduleDistanceX, driveConstants.moduleDistanceY);
-    private final Translation2d frontRightLocation = new Translation2d(-1*driveConstants.moduleDistanceX,driveConstants.moduleDistanceY);
-    private final Translation2d backLeftLocation = new Translation2d(driveConstants.moduleDistanceX, -1*driveConstants.moduleDistanceY);
+    private final Translation2d frontRightLocation = new Translation2d(driveConstants.moduleDistanceX,-1*driveConstants.moduleDistanceY);
+    private final Translation2d backLeftLocation = new Translation2d(-1*driveConstants.moduleDistanceX, driveConstants.moduleDistanceY);
     private final Translation2d backRightLocation = new Translation2d(-1*driveConstants.moduleDistanceX,-1*driveConstants.moduleDistanceY);
 
 
@@ -36,7 +36,7 @@ public class SwerveDrive extends SubsystemBase {
     private final SwerveModule backLeft = new SwerveModule(driveConstants.driveMotor3,driveConstants.turnMotor3, driveConstants.turnEncoderChannel3);
     private final SwerveModule backRight = new SwerveModule(driveConstants.driveMotor4,driveConstants.turnMotor4, driveConstants.turnEncoderChannel4);
 
-    private ChassisSpeeds speeds1 = new ChassisSpeeds();
+    private ChassisSpeeds desiredSpeeds = new ChassisSpeeds();
 
     ChassisSpeeds currentSpeeds;
     private final AHRS gyro = new AHRS(SPI.Port.kMXP);
@@ -50,9 +50,9 @@ public class SwerveDrive extends SubsystemBase {
         AutoBuilder.configureHolonomic(
                 this::getPose, // Robot pose supplier
 
-                (Pose2d p) -> this.resetPoseGiven(p), // Method to reset odometry (will be called if your auto has a starting pose)
+                this::resetPoseGiven, // Method to reset odometry (will be called if your auto has a starting pose)
                 this::getSpeeds, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
-                (ChassisSpeeds s) -> {this.driveSpeeds(s);}, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds
+                this::driveSpeeds, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds
                 new HolonomicPathFollowerConfig( // HolonomicPathFollowerConfig, this should likely live in your Constants class
                         new PIDConstants(5.0, 0.0, 0.0), // Translation PID constants
                         new PIDConstants(5.0, 0.0, 0.0), // Rotation PID constants
@@ -66,10 +66,7 @@ public class SwerveDrive extends SubsystemBase {
                     // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
 
                     var alliance = DriverStation.getAlliance();
-                    if (alliance.isPresent()) {
-                        return alliance.get() == DriverStation.Alliance.Red;
-                    }
-                    return false;
+                    return alliance.filter(value -> value == DriverStation.Alliance.Red).isPresent();
                 },
                 this // Reference to this subsystem to set requirements
         );
@@ -112,16 +109,16 @@ public class SwerveDrive extends SubsystemBase {
 
     public void resetPoseGiven(Pose2d p) {
         odometry.resetPosition(gyroAngle(),positions(),p);
-        gyro.reset();
+       /// gyro.reset();
     }
 
     //joystick info stuff
     public void drive(
             double xSpeed,double ySpeed,double rot, boolean fieldRelative, double periodSeconds
     ){
-        speeds1 = getSetSpeeds(xSpeed,ySpeed,rot, fieldRelative, periodSeconds);
+        desiredSpeeds = getSetSpeeds(xSpeed,ySpeed,rot, fieldRelative, periodSeconds);
 
-        SwerveDriveWheelStates swerveModuleStates = kinematics.toWheelSpeeds(speeds1);
+        SwerveDriveWheelStates swerveModuleStates = kinematics.toWheelSpeeds(desiredSpeeds);
         SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates.states, driveConstants.MAX_SPEED);
         frontLeft.SetDesired(swerveModuleStates.states[0]);
         frontRight.SetDesired(swerveModuleStates.states[1]);
@@ -140,7 +137,7 @@ public class SwerveDrive extends SubsystemBase {
     public ChassisSpeeds getSetSpeeds(double xSpeed, double ySpeed, double rot, boolean fieldRelative, double periodSeconds){
         var chassisSpeeds = new ChassisSpeeds(xSpeed,ySpeed,rot);
         if (fieldRelative) {
-            chassisSpeeds.fromFieldRelativeSpeeds(chassisSpeeds, gyro.getRotation2d());
+            ChassisSpeeds.fromFieldRelativeSpeeds(chassisSpeeds, gyro.getRotation2d());
         }
         // forward, sideways, angular, period
         ChassisSpeeds.discretize(xSpeed,ySpeed,rot,periodSeconds);
@@ -148,12 +145,22 @@ public class SwerveDrive extends SubsystemBase {
     }
 
     public ChassisSpeeds getSpeeds() {
-        return this.speeds1;
+        return this.desiredSpeeds;
     }
 
     public void driveSpeeds(ChassisSpeeds givenSpeeds){
+        SwerveDriveWheelStates swerveModuleStates0 = kinematics.toWheelSpeeds(givenSpeeds);
+        SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates0.states, driveConstants.MAX_SPEED);
+
         SwerveDriveWheelStates swerveModuleStates1 = kinematics.toWheelSpeeds(givenSpeeds);
         SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates1.states, driveConstants.MAX_SPEED);
+
+        SwerveDriveWheelStates swerveModuleStates2 = kinematics.toWheelSpeeds(givenSpeeds);
+        SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates2.states, driveConstants.MAX_SPEED);
+
+
+        SwerveDriveWheelStates swerveModuleStates3 = kinematics.toWheelSpeeds(givenSpeeds);
+        SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates3.states, driveConstants.MAX_SPEED);
     }
 
     public boolean isRed() { // returns true if alliance is red
@@ -163,6 +170,18 @@ public class SwerveDrive extends SubsystemBase {
     public void periodic(){
         updateOdometry();
     }
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
