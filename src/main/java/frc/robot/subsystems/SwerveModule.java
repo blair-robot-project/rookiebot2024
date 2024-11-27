@@ -49,7 +49,7 @@ public class SwerveModule {
         this.turnEncoder = new DutyCycleEncoder(turnEncoder);
         this.turnEncoder.setDistancePerRotation(WHEEL_CIRCUMFERENCE);
         this.driveEncoder.setPositionConversionFactor(WHEEL_CIRCUMFERENCE/driveGearing);
-        this.driveEncoder.setVelocityConversionFactor(WHEEL_CIRCUMFERENCE/driveGearing/60);
+        this.driveEncoder.setVelocityConversionFactor((WHEEL_CIRCUMFERENCE/driveGearing)/60);
 
     }
 
