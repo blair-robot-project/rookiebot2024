@@ -13,7 +13,6 @@ import edu.wpi.first.wpilibj.simulation.DCMotorSim;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.allConstants.clawConstants;
-import frc.robot.allConstants.clawConstants.*;
 
 import static frc.robot.allConstants.clawConstants.*;
 
@@ -61,12 +60,13 @@ public class ClawSubsystem extends SubsystemBase {
      *
      * @return a command
      */
-    public Command DoNothing() {
+   public Command doNothing() {
 
         return runOnce(() -> {
             motor.stopMotor();
         });
     }
+
 
     /**
      * HoldBucket command factory method.
