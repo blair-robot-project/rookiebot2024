@@ -113,7 +113,6 @@ public class SwerveDrive extends SubsystemBase {
             double xSpeed,double ySpeed,double rot, boolean fieldRelative, double periodSeconds
     ){
         desiredSpeeds = getSetSpeeds(xSpeed,ySpeed,rot, fieldRelative, periodSeconds);
-
         SwerveDriveWheelStates swerveModuleStates = kinematics.toWheelSpeeds(desiredSpeeds);
         SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates.states, driveConstants.MAX_SPEED);
         frontLeft.SetDesired(swerveModuleStates.states[0]);
@@ -145,17 +144,16 @@ public class SwerveDrive extends SubsystemBase {
     }
 
     public void driveSpeeds(ChassisSpeeds givenSpeeds){
-        SwerveDriveWheelStates swerveModuleStates0 = kinematics.toWheelSpeeds(givenSpeeds);
-        SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates0.states, driveConstants.MAX_SPEED);
-
         SwerveDriveWheelStates swerveModuleStates1 = kinematics.toWheelSpeeds(givenSpeeds);
         SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates1.states, driveConstants.MAX_SPEED);
 
-        SwerveDriveWheelStates swerveModuleStates2 = kinematics.toWheelSpeeds(givenSpeeds);
-        SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates2.states, driveConstants.MAX_SPEED);
-
-        SwerveDriveWheelStates swerveModuleStates3 = kinematics.toWheelSpeeds(givenSpeeds);
-        SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates3.states, driveConstants.MAX_SPEED);
+        desiredSpeeds = givenSpeeds;
+        SwerveDriveWheelStates swerveModuleStates = kinematics.toWheelSpeeds(desiredSpeeds);
+        SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates.states, driveConstants.MAX_SPEED);
+        frontLeft.SetDesired(swerveModuleStates.states[0]);
+        frontRight.SetDesired(swerveModuleStates.states[1]);
+        backLeft.SetDesired(swerveModuleStates.states[2]);
+        backRight.SetDesired(swerveModuleStates.states[3]);
     }
 
     public boolean isRed() { // returns true if alliance is red
