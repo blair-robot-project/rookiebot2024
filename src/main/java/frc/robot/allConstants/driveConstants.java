@@ -52,6 +52,22 @@ public final class driveConstants {
     public static final int turnMotor4 = 12; //
     public static final int turnEncoderChannel4 = 4; // placeholder
 
+    public static final boolean driveMotor1Inverted = false;
+    public static final boolean turnMotor1Inverted = false;
+    public static final boolean turnEncoder1Inverted = false;
+
+    public static final boolean driveMotor2Inverted = false;
+    public static final boolean turnMotor2Inverted = false;
+    public static final boolean turnEncoder2Inverted = false;
+
+    public static final boolean driveMotor3Inverted = false;
+    public static final boolean turnMotor3Inverted = false;
+    public static final boolean turnEncoder3Inverted = false;
+
+    public static final boolean driveMotor4Inverted = false;
+    public static final boolean turnMotor4Inverted = false;
+    public static final boolean turnEncoder4Inverted = false;
+
     //the interavals in which the motor loops
     public static final double pdsec = 0.02; // always the same I think
 

@@ -26,8 +26,8 @@ public class SwerveModule {
      **/
     CANSparkMax driveMotor;
     CANSparkMax turnMotor;
-    double driveVoltage;
-    double turnVoltage;
+    //double driveVoltage;
+    //double turnVoltage;
     RelativeEncoder driveEncoder;
     PIDController drivePid;
     PIDController turnPid;
@@ -40,7 +40,7 @@ public class SwerveModule {
     private final SimpleMotorFeedforward feedForward_d = new SimpleMotorFeedforward(swerveFeedForwardDriveKs, swerveFeedForwardDriveKv, swerveFeedForwardDriveKa);
     private final SimpleMotorFeedforward feedForward_t = new SimpleMotorFeedforward(swerveFeedForwardTurnKs, swerveFeedForwardTurnKv, swerveFeedForwardTurnKa);
 
-    public SwerveModule(int driveMotor, int turnMotor, int turnEncoder) {
+    public SwerveModule(int driveMotor, int turnMotor, int turnEncoder, boolean driveMotorInverted, boolean turnMotorInverted) {
         this.driveMotor = new CANSparkMax(driveMotor, CANSparkLowLevel.MotorType.kBrushless);
         this.turnMotor = new CANSparkMax(turnMotor, CANSparkLowLevel.MotorType.kBrushless);
         drivePid = new PIDController(drivePIDkp, drivePIDki, drivePIDkd);
@@ -50,7 +50,8 @@ public class SwerveModule {
         //this.turnEncoder.setDistancePerRotation();
         this.driveEncoder.setPositionConversionFactor(WHEEL_CIRCUMFERENCE/driveGearing);
         this.driveEncoder.setVelocityConversionFactor((WHEEL_CIRCUMFERENCE/driveGearing)/60);
-
+        this.driveMotor.setInverted(driveMotorInverted);
+        this.turnMotor.setInverted(turnMotorInverted);
     }
 
     public double wheelPointing() {
@@ -80,8 +81,7 @@ public class SwerveModule {
         turnMotor.setVoltage(turnOutput + feedForward_t.ks);
     }
 
-    public void setVoltage(double voltage, CANSparkMax motor){
-        motor.setVoltage(voltage);
-
+    public void setVoltage(double voltage, double motor){
+        this.driveMotor.setVoltage(1);
     }
 }
