@@ -32,10 +32,10 @@ public class SwerveDrive extends SubsystemBase {
     private final Translation2d backRightLocation = new Translation2d(-1*driveConstants.moduleDistanceX,-1*driveConstants.moduleDistanceY);
 
 
-    public final SwerveModule frontLeft = new SwerveModule(driveConstants.driveMotor1, driveConstants.turnMotor1, driveConstants.turnEncoderChannel1,driveConstants.driveMotor1Inverted,driveConstants.turnMotor1Inverted);
-    private final SwerveModule frontRight = new SwerveModule(driveConstants.driveMotor2,driveConstants.turnMotor2, driveConstants.turnEncoderChannel2,driveConstants.driveMotor2Inverted,driveConstants.turnMotor2Inverted);
-    private final SwerveModule backLeft = new SwerveModule(driveConstants.driveMotor3,driveConstants.turnMotor3, driveConstants.turnEncoderChannel3,driveConstants.driveMotor3Inverted,driveConstants.turnMotor3Inverted);
-    private final SwerveModule backRight = new SwerveModule(driveConstants.driveMotor4,driveConstants.turnMotor4, driveConstants.turnEncoderChannel4,driveConstants.driveMotor4Inverted,driveConstants.turnMotor4Inverted);
+    public final SwerveModule frontLeft = new SwerveModule(driveConstants.driveMotor1, driveConstants.turnMotor1, driveConstants.turnEncoderChannel1,driveConstants.driveMotor1Inverted,driveConstants.turnMotor1Inverted,driveConstants.turnEncoder1Inverted);
+    private final SwerveModule frontRight = new SwerveModule(driveConstants.driveMotor2,driveConstants.turnMotor2, driveConstants.turnEncoderChannel2,driveConstants.driveMotor2Inverted,driveConstants.turnMotor2Inverted,driveConstants.turnEncoder2Inverted);
+    private final SwerveModule backLeft = new SwerveModule(driveConstants.driveMotor3,driveConstants.turnMotor3, driveConstants.turnEncoderChannel3,driveConstants.driveMotor3Inverted,driveConstants.turnMotor3Inverted,driveConstants.turnEncoder3Inverted);
+    private final SwerveModule backRight = new SwerveModule(driveConstants.driveMotor4,driveConstants.turnMotor4, driveConstants.turnEncoderChannel4,driveConstants.driveMotor4Inverted,driveConstants.turnMotor4Inverted,driveConstants.turnEncoder4Inverted);
 
     private ChassisSpeeds desiredSpeeds = new ChassisSpeeds();
     private ChassisSpeeds currentSpeeds = new ChassisSpeeds();

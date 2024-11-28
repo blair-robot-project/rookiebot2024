@@ -21,8 +21,8 @@ public class SwerveSim extends SwerveModule {
 
     // private AnalogGyro gyro = new AnalogGyro(1); // 1 is a filler value, not yet sure what to put into the Analog Gyro
     // private AnalogGyroSim simGyro = new AnalogGyroSim(gyro);
-    public SwerveSim(int driveMotor, int turnMotor, int turnEncoder, boolean driveMotorInverted, boolean turnMotorInverted) {
-        super(driveMotor, turnMotor, turnEncoder, driveMotorInverted, turnMotorInverted);
+    public SwerveSim(int driveMotor, int turnMotor, int turnEncoder, boolean driveMotorInverted, boolean turnMotorInverted, boolean turnEncoderInverted) {
+        super(driveMotor, turnMotor, turnEncoder, driveMotorInverted, turnMotorInverted, turnEncoderInverted);
         drivePid = new PIDController(drivePIDkp, drivePIDki, drivePIDkd);
         turnPid = new PIDController(turnPIDkp, turnPIDki, turnPIDkd);
         driveEncoder = this.driveMotor.getEncoder(); // need this to be a sim encoder

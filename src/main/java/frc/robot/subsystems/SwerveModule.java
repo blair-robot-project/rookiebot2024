@@ -34,6 +34,7 @@ public class SwerveModule {
     PIDController drivePid;
     PIDController turnPid;
     DutyCycleEncoder turnEncoder;
+    boolean turnEncoderInverted;
 
 
     // ks = volts
@@ -42,7 +43,7 @@ public class SwerveModule {
     private final SimpleMotorFeedforward feedForward_d = new SimpleMotorFeedforward(swerveFeedForwardDriveKs, swerveFeedForwardDriveKv, swerveFeedForwardDriveKa);
     private final SimpleMotorFeedforward feedForward_t = new SimpleMotorFeedforward(swerveFeedForwardTurnKs, swerveFeedForwardTurnKv, swerveFeedForwardTurnKa);
 
-    public SwerveModule(int driveMotor, int turnMotor, int turnEncoder, boolean driveMotorInverted, boolean turnMotorInverted) {
+    public SwerveModule(int driveMotor, int turnMotor, int turnEncoder, boolean driveMotorInverted, boolean turnMotorInverted, boolean turnEncoderInverted) {
         this.driveMotor = new CANSparkMax(driveMotor, CANSparkLowLevel.MotorType.kBrushless);
         this.turnMotor = new CANSparkMax(turnMotor, CANSparkLowLevel.MotorType.kBrushless);
         drivePid = new PIDController(drivePIDkp, drivePIDki, drivePIDkd);
@@ -55,6 +56,7 @@ public class SwerveModule {
         this.driveEncoder.setVelocityConversionFactor((WHEEL_CIRCUMFERENCE/driveGearing)/60);
         this.driveMotor.setInverted(driveMotorInverted);
         this.turnMotor.setInverted(turnMotorInverted);
+        this.turnEncoderInverted=turnEncoderInverted;
         this.turnMotor.setIdleMode(CANSparkBase.IdleMode.kCoast);
         this.driveMotor.setIdleMode(CANSparkBase.IdleMode.kBrake);
         this.turnMotor.burnFlash();
