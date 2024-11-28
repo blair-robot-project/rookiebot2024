@@ -53,6 +53,10 @@ public class SwerveModule {
 
     }
 
+    public double wheelPointing() {
+        return (driveEncoder.getPosition() - Math.floor(driveEncoder.getPosition())*2*Math.PI);
+    }
+
     public SwerveModulePosition getPosition() {
         return new SwerveModulePosition(
                 driveEncoder.getPosition(), new Rotation2d((turnEncoder.getAbsolutePosition() - turnEncoder.getPositionOffset()) / (2 * Math.PI)));
@@ -74,5 +78,10 @@ public class SwerveModule {
 
         driveMotor.setVoltage(driveOutput + drive_feedforward);
         turnMotor.setVoltage(turnOutput + feedForward_t.ks);
+    }
+
+    public void setVoltage(double voltage, int motor){
+        this.driveMotor.setVoltage(1);
+
     }
 }
