@@ -97,7 +97,7 @@ public class SwerveDrive extends SubsystemBase {
     }
 
     public Rotation2d gyroAngle(){
-        return Rotation2d.fromDegrees(gyro.getFusedHeading());
+        return Rotation2d.fromDegrees(-gyro.getFusedHeading());
     }
     public Pose2d getPose(){
         return odometry.getPoseMeters();
