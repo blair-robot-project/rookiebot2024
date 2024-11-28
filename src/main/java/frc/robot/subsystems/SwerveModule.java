@@ -84,7 +84,7 @@ public class SwerveModule {
     }
 
     public void SetDesired(SwerveModuleState desiredState) {
-        var encoderRotation = Rotation2d.fromRotations(MathUtil.inputModulus(turnEncoder.getAbsolutePosition() - turnOffset, -0.5, 0.5));
+        var encoderRotation = Rotation2d.fromRotations(MathUtil.inputModulus(turnEncoder.getAbsolutePosition() , -0.5 - turnOffset, 0.5 - turnOffset));
         //var encoderRotation = new Rotation2d(turnEncoder.getDistance());
         optimize(desiredState, encoderRotation);
 
