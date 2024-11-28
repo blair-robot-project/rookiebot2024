@@ -36,6 +36,7 @@ public class SwerveModule {
     DutyCycleEncoder turnEncoder;
     boolean turnEncoderInverted;
     double turnOffset;
+    Rotation2d encoderRotation;
 
 
     // ks = volts
@@ -84,8 +85,13 @@ public class SwerveModule {
     }
 
     public void SetDesired(SwerveModuleState desiredState) {
-        var encoderRotation = Rotation2d.fromRotations(MathUtil.inputModulus(turnEncoder.getAbsolutePosition() , -0.5 - turnOffset, 0.5 - turnOffset));
-        //var encoderRotation = new Rotation2d(turnEncoder.getDistance());
+        if (this.turnEncoderInverted) {
+            encoderRotation = Rotation2d.fromRotations(MathUtil.inputModulus(1-(turnEncoder.getAbsolutePosition()-turnOffset), -0.5 - turnOffset, 0.5 - turnOffset));
+        }
+        else {
+            encoderRotation = Rotation2d.fromRotations(MathUtil.inputModulus(turnEncoder.getAbsolutePosition()-turnOffset, -0.5 - turnOffset, 0.5 - turnOffset));
+        }
+
         optimize(desiredState, encoderRotation);
 
         final double driveOutput = drivePid.calculate(driveEncoder.getVelocity(), desiredState.speedMetersPerSecond);
