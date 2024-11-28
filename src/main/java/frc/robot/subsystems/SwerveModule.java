@@ -4,6 +4,7 @@ import com.revrobotics.CANSparkBase;
 import com.revrobotics.CANSparkLowLevel;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -73,7 +74,9 @@ public class SwerveModule {
     }
 
     public void SetDesired(SwerveModuleState desiredState) {
-        var encoderRotation = new Rotation2d(turnEncoder.getDistance());
+        var encoderRotation = Rotation2d.fromRotations(MathUtil.inputModulus(turnEncoder.getAbsolutePosition(), -0.5, 0.5));
+
+        //var encoderRotation = new Rotation2d(turnEncoder.getDistance());
         optimize(desiredState, encoderRotation);
 
         final double driveOutput = drivePid.calculate(driveEncoder.getVelocity(), desiredState.speedMetersPerSecond);
