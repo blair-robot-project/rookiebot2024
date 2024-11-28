@@ -68,6 +68,12 @@ public final class driveConstants {
     public static final boolean turnMotor4Inverted = false;
     public static final boolean turnEncoder4Inverted = false;
 
+    public static final double FLturnOffset = 0.3; // placeholder
+    public static final double FRturnOffset = 0.3; // placeholder
+    public static final double BLturnOffset = 0.3; // placeholder
+    public static final double BRturnOffset = 0.3; // placeholder
+
+
     //the interavals in which the motor loops
     public static final double pdsec = 0.02; // always the same I think
 

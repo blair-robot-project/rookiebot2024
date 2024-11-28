@@ -35,6 +35,7 @@ public class SwerveModule {
     PIDController turnPid;
     DutyCycleEncoder turnEncoder;
     boolean turnEncoderInverted;
+    double turnOffset;
 
 
     // ks = volts
@@ -43,7 +44,11 @@ public class SwerveModule {
     private final SimpleMotorFeedforward feedForward_d = new SimpleMotorFeedforward(swerveFeedForwardDriveKs, swerveFeedForwardDriveKv, swerveFeedForwardDriveKa);
     private final SimpleMotorFeedforward feedForward_t = new SimpleMotorFeedforward(swerveFeedForwardTurnKs, swerveFeedForwardTurnKv, swerveFeedForwardTurnKa);
 
-    public SwerveModule(int driveMotor, int turnMotor, int turnEncoder, boolean driveMotorInverted, boolean turnMotorInverted, boolean turnEncoderInverted) {
+    public SwerveModule(
+            int driveMotor, int turnMotor, int turnEncoder,
+            boolean driveMotorInverted, boolean turnMotorInverted, boolean turnEncoderInverted,
+            double turnOffset
+    ) {
         this.driveMotor = new CANSparkMax(driveMotor, CANSparkLowLevel.MotorType.kBrushless);
         this.turnMotor = new CANSparkMax(turnMotor, CANSparkLowLevel.MotorType.kBrushless);
         drivePid = new PIDController(drivePIDkp, drivePIDki, drivePIDkd);
@@ -57,6 +62,7 @@ public class SwerveModule {
         this.driveMotor.setInverted(driveMotorInverted);
         this.turnMotor.setInverted(turnMotorInverted);
         this.turnEncoderInverted=turnEncoderInverted;
+        this.turnOffset=turnOffset;
         this.turnMotor.setIdleMode(CANSparkBase.IdleMode.kCoast);
         this.driveMotor.setIdleMode(CANSparkBase.IdleMode.kBrake);
         this.turnMotor.burnFlash();
@@ -86,7 +92,7 @@ public class SwerveModule {
         final double driveOutput = drivePid.calculate(driveEncoder.getVelocity(), desiredState.speedMetersPerSecond);
         final double drive_feedforward = feedForward_d.calculate(desiredState.speedMetersPerSecond);
 
-        final double turnOutput = turnPid.calculate((encoderRotation.getRadians()-turnEncoder.getPositionOffset()/(2*Math.PI)), desiredState.angle.getRadians());
+        final double turnOutput = turnPid.calculate(encoderRotation.getRadians()-turnOffset, desiredState.angle.getRadians());
 
         driveMotor.setVoltage(driveOutput + drive_feedforward);
         turnMotor.setVoltage(turnOutput + feedForward_t.ks);
