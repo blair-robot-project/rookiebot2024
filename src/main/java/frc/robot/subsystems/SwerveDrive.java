@@ -79,7 +79,7 @@ public class SwerveDrive extends SubsystemBase {
     private final SwerveDriveOdometry odometry =
             new SwerveDriveOdometry(
                     kinematics,
-                    gyro.getRotation2d(),
+                    gyroAngle(),
                     new SwerveModulePosition[] {
                             frontLeft.getPosition(),
                             frontRight.getPosition(),
@@ -122,7 +122,7 @@ public class SwerveDrive extends SubsystemBase {
     }
 
     public void updateOdometry(){
-        odometry.update(gyro.getRotation2d(), new SwerveModulePosition[]{
+        odometry.update(gyroAngle(), new SwerveModulePosition[]{
                 frontLeft.getPosition(),
                 frontRight.getPosition(),
                 backLeft.getPosition(),
@@ -132,7 +132,7 @@ public class SwerveDrive extends SubsystemBase {
     public ChassisSpeeds getSetSpeeds(double xSpeed, double ySpeed, double rot, boolean fieldRelative, double periodSeconds){
         var chassisSpeeds = new ChassisSpeeds(xSpeed,ySpeed,rot);
         if (fieldRelative) {
-            ChassisSpeeds.fromFieldRelativeSpeeds(chassisSpeeds, gyro.getRotation2d());
+            ChassisSpeeds.fromFieldRelativeSpeeds(chassisSpeeds, gyroAngle());
         }
         // forward, sideways, angular, period
         ChassisSpeeds.discretize(xSpeed,ySpeed,rot,periodSeconds);
