@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import com.revrobotics.CANSparkBase;
 import com.revrobotics.CANSparkLowLevel;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
@@ -45,6 +46,7 @@ public class SwerveModule {
         this.turnMotor = new CANSparkMax(turnMotor, CANSparkLowLevel.MotorType.kBrushless);
         drivePid = new PIDController(drivePIDkp, drivePIDki, drivePIDkd);
         turnPid = new PIDController(turnPIDkp, turnPIDki, turnPIDkd);
+        turnPid.enableContinuousInput(0,2*Math.PI);
         driveEncoder = this.driveMotor.getEncoder();
         this.turnEncoder = new DutyCycleEncoder(turnEncoder);
         //this.turnEncoder.setDistancePerRotation();
@@ -52,6 +54,8 @@ public class SwerveModule {
         this.driveEncoder.setVelocityConversionFactor((WHEEL_CIRCUMFERENCE/driveGearing)/60);
         this.driveMotor.setInverted(driveMotorInverted);
         this.turnMotor.setInverted(turnMotorInverted);
+        this.turnMotor.setIdleMode(CANSparkBase.IdleMode.kCoast);
+        this.driveMotor.setIdleMode(CANSparkBase.IdleMode.kBrake);
     }
 
     public double wheelPointing() {
