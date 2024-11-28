@@ -74,14 +74,14 @@ public class SwerveModule {
         final double driveOutput = drivePid.calculate(driveEncoder.getVelocity(), desiredState.speedMetersPerSecond);
         final double drive_feedforward = feedForward_d.calculate(desiredState.speedMetersPerSecond);
 
-        final double turnOutput = turnPid.calculate((turnEncoder.getAbsolutePosition() / (2 * Math.PI) - turnEncoder.getPositionOffset()) / (2 * Math.PI), desiredState.angle.getRadians());
+        final double turnOutput = turnPid.calculate((encoderRotation.getRadians()-turnEncoder.getPositionOffset()/(2*Math.PI)), desiredState.angle.getRadians());
 
         driveMotor.setVoltage(driveOutput + drive_feedforward);
         turnMotor.setVoltage(turnOutput + feedForward_t.ks);
     }
 
-    public void setVoltage(double voltage, int motor){
-        this.driveMotor.setVoltage(1);
+    public void setVoltage(double voltage, CANSparkMax motor){
+        motor.setVoltage(voltage);
 
     }
 }
