@@ -57,6 +57,8 @@ public class SwerveModule {
         this.turnMotor.setInverted(turnMotorInverted);
         this.turnMotor.setIdleMode(CANSparkBase.IdleMode.kCoast);
         this.driveMotor.setIdleMode(CANSparkBase.IdleMode.kBrake);
+        this.turnMotor.burnFlash();
+        this.driveMotor.burnFlash();
     }
 
     public double wheelPointing() {
