@@ -85,7 +85,7 @@ public class SwerveModule {
         turnMotor.setVoltage(turnOutput + feedForward_t.ks);
     }
 
-    public void setVoltage(double voltage, double motor){
-        this.driveMotor.setVoltage(1);
+    public void setVoltage(double voltage, CANSparkMax motor){
+        motor.setVoltage(voltage);
     }
 }
