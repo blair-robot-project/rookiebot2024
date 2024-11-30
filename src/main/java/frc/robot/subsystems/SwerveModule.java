@@ -86,10 +86,10 @@ public class SwerveModule {
 
     public void SetDesired(SwerveModuleState desiredState) {
         if (this.turnEncoderInverted) {
-            encoderRotation = Rotation2d.fromRotations(MathUtil.inputModulus(1-(turnEncoder.getAbsolutePosition()-turnOffset), -0.5 - turnOffset, 0.5 - turnOffset));
+            encoderRotation = Rotation2d.fromRotations(MathUtil.inputModulus(1-(turnEncoder.getAbsolutePosition()-turnOffset), 0.0, 1.0));
         }
         else {
-            encoderRotation = Rotation2d.fromRotations(MathUtil.inputModulus(turnEncoder.getAbsolutePosition()-turnOffset, -0.5 - turnOffset, 0.5 - turnOffset));
+            encoderRotation = Rotation2d.fromRotations(MathUtil.inputModulus(turnEncoder.getAbsolutePosition()-turnOffset, 0.0, 1.0));
         }
 
         optimize(desiredState, encoderRotation);
