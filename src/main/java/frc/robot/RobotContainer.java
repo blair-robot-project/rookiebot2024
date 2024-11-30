@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.allConstants.clawConstants;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.ClawSubsystem;
@@ -91,7 +92,7 @@ public class RobotContainer {
 
 public Command taxiPath() {
     return new SequentialCommandGroup(
-            armSub.goToHalf().andThen(claw.Outtake()),
+            armSub.goToHalf().until(armSub.isDone()).andThen(claw.Outtake().withTimeout(clawConstants.OUTTAKE_SECONDS)),
             armSub.goToTop().alongWith(claw.doNothing(),
             new PathPlannerAuto("red"))
     );
@@ -99,25 +100,25 @@ public Command taxiPath() {
 
 public Command middlePath() {
     return new SequentialCommandGroup(
-            armSub.goToHalf().andThen(claw.Outtake()), ///arm goes half-way down and claw outtakes the bucket first
-            armSub.goToTop().alongWith(claw.doNothing()).until(armSub.isDone()), ///the claw stops as the arm goes back up
-            new PathPlannerAuto("toBucketMiddle"),///robot follows the path to middle bucket
-            armSub.goToIntake().alongWith(claw.Intake().andThen( ///arm goes down halfway with the intake running
+            armSub.goToHalf().until(armSub.isDone()).andThen(claw.Outtake().withTimeout(clawConstants.OUTTAKE_SECONDS)), ///arm goes half-way down and claw outtakes the bucket first
+            armSub.goToTop().alongWith(claw.doNothing(), ///the claw stops as the arm goes back up
+            new PathPlannerAuto("toBucketMiddle")),///robot follows the path to middle bucket
+            armSub.goToIntake().alongWith(claw.Intake().until(armSub.isDone()).andThen( ///arm goes down halfway with the intake running
                             armSub.goToTop().alongWith(claw.HoldBucket()).until(armSub.isDone())),///goes back up
             new PathPlannerAuto("fromBucketMiddle"),///follows a path back to the staking grid
-            armSub.goToHalf().until(armSub.isDone()).andThen(claw.Outtake().andThen(claw.doNothing())))///arm goes down halfway and outtake
-            ); ///i don't really get what the armsub.isdone() does
+            armSub.goToHalf().until(armSub.isDone()).andThen(claw.Outtake().withTimeout(clawConstants.OUTTAKE_SECONDS).andThen(claw.doNothing())))///arm goes down halfway and outtake
+            );
 }
 
 public Command bottomPath() {
     return new SequentialCommandGroup(
-            armSub.goToHalf().andThen(claw.Outtake()),
-            armSub.goToTop().alongWith(claw.doNothing()).until(armSub.isDone()),
-            new PathPlannerAuto("toBucketBottom"),
-            armSub.goToIntake().alongWith(claw.Intake()).andThen(
+            armSub.goToHalf().until(armSub.isDone()).andThen(claw.Outtake().withTimeout(clawConstants.OUTTAKE_SECONDS)),
+            armSub.goToTop().alongWith(claw.doNothing(),
+            new PathPlannerAuto("toBucketBottom")),
+            armSub.goToIntake().alongWith(claw.Intake()).until(armSub.isDone()).andThen(
                     armSub.goToTop().alongWith(claw.HoldBucket())),
             new PathPlannerAuto("fromBucketBottom"),
-            armSub.goToHalf().andThen(claw.Outtake()).andThen(claw.doNothing())
+            armSub.goToHalf().until(armSub.isDone()).andThen(claw.Outtake().withTimeout(clawConstants.OUTTAKE_SECONDS)).andThen(claw.doNothing())
     );
 }
 
