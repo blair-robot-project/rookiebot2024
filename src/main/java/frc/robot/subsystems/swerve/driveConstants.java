@@ -4,15 +4,15 @@ package frc.robot.subsystems.swerve;
 
 
 public final class driveConstants {
-    public static final double MAX_SPEED = 3.0; // placeholder, 3 m/s
-    public static final double MAX_ANGULAR_SPEED = Math.PI; // placeholder, 1/2 rotation per second (in radians, so pi radians is 1/2 of a rotation)
+    public static final double MAX_SPEED = 8.0; // can be changed
+    public static final double MAX_ANGULAR_SPEED = 3*Math.PI; // can be changed, 3/2 rotations per second (in radians, so pi radians is 1/2 of a rotation)
 
-    public static final double WHEEL_RADIUS = 0.0508; // placeholder
+    public static final double WHEEL_RADIUS = 0.0508;
     public static final double WHEEL_CIRCUMFERENCE = 2 * WHEEL_RADIUS * Math.PI; // placeholder
     // idk if we'll need these ^^^
     //location of the wheels relative to the center of the robot
-    public static final double moduleDistanceX = 0.3495; //
-    public static final double moduleDistanceY = 0.324; //
+    public static final double moduleDistanceX = 0.3495;
+    public static final double moduleDistanceY = 0.324;
     public static final double moduleDistanceDiagonal=Math.sqrt(Math.pow(moduleDistanceX,2)+Math.pow(moduleDistanceY,2));
 
     //PID calculator values for swerve
@@ -69,10 +69,10 @@ public final class driveConstants {
     public static final boolean turnMotor4Inverted = false;
     public static final boolean turnEncoder4Inverted = false;
 
-    public static final double FLturnOffset = 0.3; // placeholder
-    public static final double FRturnOffset = 0.3; // placeholder
-    public static final double BLturnOffset = 0.3; // placeholder
-    public static final double BRturnOffset = 0.3; // placeholder
+    public static final double FLturnOffset = 0.0; // placeholder
+    public static final double FRturnOffset = 0.0; // placeholder
+    public static final double BLturnOffset = 0.0; // placeholder
+    public static final double BRturnOffset = 0.0; // placeholder
 
 
     //the interavals in which the motor loops
