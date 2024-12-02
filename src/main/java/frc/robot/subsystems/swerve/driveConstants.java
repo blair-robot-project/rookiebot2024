@@ -36,21 +36,22 @@ public final class driveConstants {
 
     //8 motor ids, 4 encoder ids
     //front left
-    public static final int driveMotor1 = 5; //
-    public static final int turnMotor1 = 6; //
-    public static final int turnEncoderChannel1 = 1; // placeholder
+    public static final int driveMotor1 = 5;
+    public static final int turnMotor1 = 6;
+    public static final int turnEncoderChannel1 = 8;
+
 //front right
-    public static final int driveMotor2 = 7; //
-    public static final int turnMotor2 = 8; //
-    public static final int turnEncoderChannel2 = 2; // placeholder
+    public static final int driveMotor2 = 7;
+    public static final int turnMotor2 = 8;
+    public static final int turnEncoderChannel2 = 6;
 //back left
-    public static final int driveMotor3 = 9; //
-    public static final int turnMotor3 = 10; //
-    public static final int turnEncoderChannel3 = 3; // placeholder
+    public static final int driveMotor3 = 9;
+    public static final int turnMotor3 = 10;
+    public static final int turnEncoderChannel3 = 5;
 //back right
-    public static final int driveMotor4 = 11; //
-    public static final int turnMotor4 = 12; //
-    public static final int turnEncoderChannel4 = 4; // placeholder
+    public static final int driveMotor4 = 11;
+    public static final int turnMotor4 = 12;
+    public static final int turnEncoderChannel4 = 7;
 
     public static final boolean driveMotor1Inverted = false;
     public static final boolean turnMotor1Inverted = false;
