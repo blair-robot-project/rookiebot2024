@@ -86,9 +86,6 @@ public class ClawSubsystem extends SubsystemBase {
     public void initSendable(SendableBuilder builder){
         builder.setSmartDashboardType("Claw Sim Voltage");
         builder.addDoubleProperty("Voltage",() -> motor.getBusVoltage(),null);
-
-
-
     }
 
 

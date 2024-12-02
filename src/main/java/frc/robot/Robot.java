@@ -5,6 +5,8 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.DataLogManager;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -13,6 +15,8 @@ import frc.robot.autos.middlePathClass;
 import frc.robot.autos.taxiPathClass;
 import frc.robot.subsystems.swerve.driveConstants;
 import frc.robot.subsystems.swerve.SwerveDrive;
+
+import java.sql.Driver;
 
 /**
  * The VM is configured to automatically run this class, and to call the methods corresponding to
@@ -44,6 +48,8 @@ public class Robot extends TimedRobot {
         // autonomous chooser on the dashboard.
         swerve = new SwerveDrive();
         robotContainer = new RobotContainer();
+
+        DriverStation.startDataLog(DataLogManager.getLog());
 
     }
 

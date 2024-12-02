@@ -66,10 +66,11 @@ public class SwerveModule {
         this.turnOffset=turnOffset;
         this.turnMotor.setIdleMode(CANSparkBase.IdleMode.kCoast);
         this.driveMotor.setIdleMode(CANSparkBase.IdleMode.kBrake);
-        this.turnMotor.burnFlash();
-        this.driveMotor.burnFlash();
         this.driveMotor.setSmartCurrentLimit(DRIVE_CURRENT_LIMIT);
         this.turnMotor.setSmartCurrentLimit(TURN_CURRENT_LIMIT);
+        this.turnMotor.burnFlash();
+        this.driveMotor.burnFlash();
+
     }
 
     public double wheelPointing() {
