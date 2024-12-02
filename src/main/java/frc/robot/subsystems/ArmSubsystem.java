@@ -25,6 +25,8 @@ public class ArmSubsystem extends SubsystemBase {
     double kP = armConstants.armKP, kI = armConstants.armKI, kD = armConstants.armKD;
     //pid controller
     PIDController pid = new PIDController(kP, kI, kD);
+
+    DutyCycleEncoder encoder = new DutyCycleEncoder(armConstants.encoderPort);
     /*
     * current is the arm's current position in __
     *
@@ -34,7 +36,7 @@ public class ArmSubsystem extends SubsystemBase {
     double desiredVal;
     double baseVal;
 
-    SimpleMotorFeedforward feedForward_a = new SimpleMotorFeedforward(armConstants.armFeedForwardKs, armConstants.armFeedForwardKv, armConstants.armFeedForwardKa);
+    ArmFeedforward feedForward_a = new ArmFeedforward (armConstants.armFeedForwardKs, armConstants.armFeedForwardKg, armConstants.armFeedForwardKv);
 
     public ArmSubsystem(double des, double base) {
         this.armMotor = new CANSparkMax(armConstants.armMotorIDa, MotorType.kBrushless);
@@ -95,7 +97,7 @@ public class ArmSubsystem extends SubsystemBase {
         // Subsystem::RunOnce implicitly requires `this` subsystem.
         return runOnce(
                 () -> {
-                    this.desired = this.desiredVal / 2;
+                    this.desired = (this.desiredVal+this.baseVal) / 2; // check
                 });
     }
 
@@ -109,7 +111,7 @@ public class ArmSubsystem extends SubsystemBase {
     }
 
     public double returnMotorPos() {
-        return this.armMotor.getEncoder().getPosition();
+        return encoder.getPosition();
     }
 
     public BooleanSupplier isDone(){
@@ -128,7 +130,7 @@ public class ArmSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
-        this.currentState = this.returnMotorPos() / armConstants.armGearRatio; // gear ratio maybe somewhere?
+        this.currentState = this.returnMotorPos() / armConstants.armGearing; //.armGearRatio; // gear ratio maybe somewhere?
         double voltage = pid.calculate(this.currentState, this.desired)+getArmF(desired);
         System.out.println(voltage);
         this.armMotor.setVoltage(voltage);

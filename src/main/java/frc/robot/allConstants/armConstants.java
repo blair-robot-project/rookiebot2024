@@ -29,6 +29,7 @@ public class armConstants {
     public static final double armFeedForwardKs=1;
     public static final double armFeedForwardKv=1;
     public static final double armFeedForwardKa=1;
+    public static final double armFeedForwardKg=1;
 
 
     //VALUES NEEDED FOR ARM SIM
@@ -37,10 +38,10 @@ public class armConstants {
     //arm dcmotor for arm sim FINALIZED I THINK?
     public static DCMotor armGearbox = DCMotor.getNEO(1);
     //gearing UNFINALIZED
-    public static double armGearing = 1;
+    public static double armGearing = 20; /// here
     //moment inertia of the arm NEED FROM CAD (jkg per meters squared)
     //UNFINALIZED
-    public static double armInertia = 200;
+    public static double armInertia = 0.5;
     //arm length (units?) UNFINALIZED
     public static double armLength = Units.inchesToMeters(30);
     //minAngle (radians) UNFINALIZED
@@ -49,7 +50,8 @@ public class armConstants {
     public static double maxAngleRads = Units.degreesToRadians(120);
     //whether or not to simualte gravity FINALIZED
     public static boolean armSimGrav = true;
-
+    //encoder's port
+    public static int encoderPort = 14;
     //Encoder Channels UNFINALIZED
     public static int encoderAChannel = 9;
     public static int encoderBChannel = 8;
