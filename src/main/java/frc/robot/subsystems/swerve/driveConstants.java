@@ -1,6 +1,6 @@
 
 
-package frc.robot.allConstants;
+package frc.robot.subsystems.swerve;
 
 
 public final class driveConstants {

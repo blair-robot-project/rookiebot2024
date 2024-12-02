@@ -9,22 +9,20 @@ import com.pathplanner.lib.commands.PathPlannerAuto;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.allConstants.clawConstants;
+import frc.robot.subsystems.claw.clawConstants;
 import frc.robot.commands.ExampleCommand;
-import frc.robot.subsystems.ArmSubsystem;
-import frc.robot.subsystems.ClawSubsystem;
+import frc.robot.subsystems.arm.ArmSubsystem;
+import frc.robot.subsystems.claw.ClawSubsystem;
 import frc.robot.subsystems.ExampleSubsystem;
-import frc.robot.subsystems.SwerveDrive;
+import frc.robot.subsystems.swerve.SwerveDrive;
 
-import static frc.robot.allConstants.armConstants.armBaseValue;
-import static frc.robot.allConstants.armConstants.armDesiredValue;
-import static frc.robot.allConstants.operatorConstants.DRIVE_CONTROLLER_PORT;
-import static frc.robot.allConstants.operatorConstants.MECH_CONTROLLER_PORT;
+import static frc.robot.subsystems.arm.armConstants.armBaseValue;
+import static frc.robot.subsystems.arm.armConstants.armDesiredValue;
+import static frc.robot.otherConstants.operatorConstants.DRIVE_CONTROLLER_PORT;
+import static frc.robot.otherConstants.operatorConstants.MECH_CONTROLLER_PORT;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a

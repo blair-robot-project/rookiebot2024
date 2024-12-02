@@ -1,4 +1,4 @@
-package frc.robot.subsystems;
+package frc.robot.subsystems.swerve;
 
 import com.revrobotics.CANSparkBase;
 import com.revrobotics.CANSparkLowLevel;
@@ -13,7 +13,7 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 
 import static edu.wpi.first.math.kinematics.SwerveModuleState.optimize;
-import static frc.robot.allConstants.driveConstants.*;
+import static frc.robot.subsystems.swerve.driveConstants.*;
 
 // the encoders commands don't work bc we're using a diff type of encoder
 // idk how to get distance traveled on a relative encoder

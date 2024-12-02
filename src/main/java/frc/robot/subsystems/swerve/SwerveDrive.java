@@ -1,4 +1,4 @@
-package frc.robot.subsystems;
+package frc.robot.subsystems.swerve;
 
 import com.kauailabs.navx.frc.AHRS;
 import com.pathplanner.lib.auto.AutoBuilder;
@@ -16,9 +16,8 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.allConstants.driveConstants;
 
-import static frc.robot.allConstants.driveConstants.*;
+import static frc.robot.subsystems.swerve.driveConstants.*;
 
 
 public class SwerveDrive extends SubsystemBase {

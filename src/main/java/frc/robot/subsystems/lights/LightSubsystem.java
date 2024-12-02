@@ -1,9 +1,8 @@
-package frc.robot.subsystems;
+package frc.robot.subsystems.lights;
 
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.allConstants.ledConstants;
 
 public class LightSubsystem extends SubsystemBase {
     private final AddressableLED robotLed;

@@ -1,4 +1,4 @@
-package frc.robot.subsystems;
+package frc.robot.subsystems.arm;
 
 import com.revrobotics.CANSparkLowLevel;
 import com.revrobotics.CANSparkMax;
@@ -17,8 +17,6 @@ import edu.wpi.first.wpilibj.smartdashboard.MechanismRoot2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj.util.Color8Bit;
-import frc.robot.allConstants.armConstants;
-import frc.robot.commands.Autos;
 
 public class ArmSim implements AutoCloseable {
     CANSparkMax simMotor = new CANSparkMax(armConstants.armSimID, CANSparkLowLevel.MotorType.kBrushless);

@@ -1,4 +1,4 @@
-package frc.robot.allConstants;
+package frc.robot.subsystems.claw;
 
 public class clawConstants {
     // used in claw subsystem

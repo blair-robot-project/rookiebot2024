@@ -1,4 +1,4 @@
-package frc.robot.subsystems;
+package frc.robot.subsystems.claw;
 
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N2;

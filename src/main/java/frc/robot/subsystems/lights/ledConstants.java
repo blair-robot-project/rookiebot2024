@@ -1,4 +1,4 @@
-package frc.robot.allConstants;
+package frc.robot.subsystems.lights;
 
 public final class ledConstants {
     // ADD THESE VALUES

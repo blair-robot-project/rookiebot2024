@@ -1,4 +1,4 @@
-package frc.robot.allConstants;
+package frc.robot.subsystems.arm;
 
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.util.Units;

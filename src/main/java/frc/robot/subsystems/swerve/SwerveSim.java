@@ -1,4 +1,4 @@
-package frc.robot.subsystems;
+package frc.robot.subsystems.swerve;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.simulation.DutyCycleEncoderSim;
 import edu.wpi.first.wpilibj.simulation.EncoderSim;
 
 import static edu.wpi.first.math.kinematics.SwerveModuleState.optimize;
-import static frc.robot.allConstants.driveConstants.*;
+import static frc.robot.subsystems.swerve.driveConstants.*;
 
 public class SwerveSim extends SwerveModule {
     private SimpleMotorFeedforward simfeedForward_d = new SimpleMotorFeedforward(swerveFeedForwardDriveKs, swerveFeedForwardDriveKv, swerveFeedForwardDriveKa);
