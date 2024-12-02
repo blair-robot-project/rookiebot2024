@@ -132,7 +132,6 @@ public class ArmSubsystem extends SubsystemBase {
     public void periodic() {
         this.currentState = this.returnMotorPos() / armConstants.armGearing; //.armGearRatio; // gear ratio maybe somewhere?
         double voltage = pid.calculate(this.currentState, this.desired)+getArmF(desired);
-        System.out.println(voltage);
         this.armMotor.setVoltage(voltage);
     }
 
