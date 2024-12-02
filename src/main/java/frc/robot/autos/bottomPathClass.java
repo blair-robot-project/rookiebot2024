@@ -17,11 +17,11 @@ public class bottomPathClass {
                         new WaitCommand(clawConstants.OUTTAKE_SECONDS),
                         RobotContainer.claw.Outtake()
                 ),
-                RobotContainer.armSub.goToTop().alongWith(RobotContainer.claw.doNothing(),
+                RobotContainer.armSub.goToStow().alongWith(RobotContainer.claw.doNothing(),
                         new PathPlannerAuto("toBucketBottom")),
                 RobotContainer.armSub.goToIntake().until(RobotContainer.armSub.isDone()).alongWith(RobotContainer.claw.Intake()),
                         new WaitCommand(clawConstants.INTAKE_SECONDS),
-                RobotContainer.armSub.goToTop().alongWith(RobotContainer.claw.HoldBucket(),
+                RobotContainer.armSub.goToStow().alongWith(RobotContainer.claw.HoldBucket(),
                 new PathPlannerAuto("fromBucketBottom")),
                 RobotContainer.armSub.goToHalf().until(RobotContainer.armSub.isDone()),
                 new ParallelRaceGroup(

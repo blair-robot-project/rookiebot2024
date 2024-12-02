@@ -74,7 +74,7 @@ public class RobotContainer {
         mechController.rightTrigger().onTrue(claw.Intake()).onFalse(claw.HoldBucket());
         mechController.leftTrigger().onTrue(claw.Outtake()).onFalse(claw.doNothing());
 
-        SmartDashboard.putData(claw);
+        SmartDashboard.putData("claw data", claw);
     }
 /**
  * Use this to pass the autonomous command to the main {@link Robot} class.
