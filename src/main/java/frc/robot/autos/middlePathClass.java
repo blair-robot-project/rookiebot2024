@@ -18,10 +18,8 @@ public class middlePathClass {
                 ), ///arm goes half-way down and claw outtakes the bucket first
                 RobotContainer.armSub.goToTop().alongWith(RobotContainer.claw.doNothing(), ///the claw stops as the arm goes back up
                         new PathPlannerAuto("toBucketMiddle")),///robot follows the path to middle bucket
-                RobotContainer.armSub.goToIntake().alongWith(RobotContainer.claw.Intake().until(RobotContainer.armSub.isDone())),///arm goes down halfway with the intake running
-                new ParallelRaceGroup( // intakes more after it gets there
-                        new WaitCommand(clawConstants.INTAKE_SECONDS),
-                        RobotContainer.claw.Intake()),
+                RobotContainer.armSub.goToIntake().until(RobotContainer.armSub.isDone()).alongWith(RobotContainer.claw.Intake()),
+                        RobotContainer.claw.Intake(),
                 RobotContainer.armSub.goToTop().alongWith(RobotContainer.claw.HoldBucket().until(RobotContainer.armSub.isDone()),///goes back up
                         new PathPlannerAuto("fromBucketMiddle")),///follows a path back to the stacking grid
                         RobotContainer.armSub.goToHalf().until(RobotContainer.armSub.isDone()),

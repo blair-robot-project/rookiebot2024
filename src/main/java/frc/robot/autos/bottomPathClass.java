@@ -19,10 +19,8 @@ public class bottomPathClass {
                 ),
                 RobotContainer.armSub.goToTop().alongWith(RobotContainer.claw.doNothing(),
                         new PathPlannerAuto("toBucketBottom")),
-                RobotContainer.armSub.goToIntake().alongWith(RobotContainer.claw.Intake()).until(RobotContainer.armSub.isDone()),
-                new ParallelRaceGroup( // intakes more after it gets to the bottom
+                RobotContainer.armSub.goToIntake().until(RobotContainer.armSub.isDone()).alongWith(RobotContainer.claw.Intake()),
                         new WaitCommand(clawConstants.INTAKE_SECONDS),
-                        RobotContainer.claw.Intake()),
                 RobotContainer.armSub.goToTop().alongWith(RobotContainer.claw.HoldBucket(),
                 new PathPlannerAuto("fromBucketBottom")),
                 RobotContainer.armSub.goToHalf().until(RobotContainer.armSub.isDone()),
