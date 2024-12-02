@@ -12,24 +12,21 @@ public class armConstants {
     public static final int armMotorFollowerID = 2;
     //motor kp, ki, kd UNDETERMINED
     public static final double armKP = 0.1, armKI = 0, armKD = 0;
-    //default desired arm value RADIANS
-    public static final double armDefaultDesiredValue = 0.25;
-    //default base arm value RADIANS
-    public static final double armDefaultBaseValue = 0;
-    //arm angle at the top RADIANS
-    public static final double armTopPositionValue = 0.5;
+    //default desired arm value RADIANS UNDETERMINED
+    public static final double armHighScorePosition = 0.25;
+    //default base arm value RADIANS UNDETERMINED
+    public static final double armBasePosition = 0;
+    //arm angle at the top RADIANS UNDETERMINED
+    public static final double armStowPosition = 0.5;
     //gear ratio UNDETERMINED
     public static final double armGearRatio = 1;
     //desired arm value UNDETERMINED RADIANS
     public static final double armDesiredValue = 0.25;
-    //base arm value UNDETERMINED RADIANS
-    public static final double armBaseValue = 0;
 
-
+    //
     public static final double armFeedForwardKs=1;
     public static final double armFeedForwardKv=1;
     public static final double armFeedForwardKa=1;
-
 
     //VALUES NEEDED FOR ARM SIM
     //ALL VALUES BELOW ARE FAKE AND TEMPORARY
@@ -60,6 +57,7 @@ public class armConstants {
     public static double kArmEncoderDistPerPulse = 2.0 * Math.PI / 4096;
     public static final String kArmPositionKey = "ArmPosition";
     public static final String kArmPKey = "ArmP";
+
     /*
     gearbox - The type of and number of motors in the arm gearbox.
     gearing - The gearing of the arm (numbers greater than 1 represent reductions).

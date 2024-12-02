@@ -5,22 +5,16 @@
 
 package frc.robot;
 
-import com.pathplanner.lib.commands.PathPlannerAuto;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.subsystems.claw.clawConstants;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.arm.ArmSubsystem;
 import frc.robot.subsystems.claw.ClawSubsystem;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.swerve.SwerveDrive;
 
-import static frc.robot.subsystems.arm.armConstants.armBaseValue;
-import static frc.robot.subsystems.arm.armConstants.armDesiredValue;
 import static frc.robot.otherConstants.operatorConstants.DRIVE_CONTROLLER_PORT;
 import static frc.robot.otherConstants.operatorConstants.MECH_CONTROLLER_PORT;
 
@@ -39,7 +33,7 @@ public class RobotContainer {
     // The robot's subsystems and commands are defined here...
     public final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
     public static final ClawSubsystem claw = new ClawSubsystem();
-    public static final ArmSubsystem armSub = new ArmSubsystem(armDesiredValue, armBaseValue);
+    public static final ArmSubsystem armSub = new ArmSubsystem();
 
     // Replace with CommandPS4Controller or CommandJoystick if needed
     private final CommandXboxController driverController =
@@ -72,10 +66,10 @@ public class RobotContainer {
 
         // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
         // cancelling on release.
-        mechController.y().onTrue(armSub.goToTop());
+        mechController.y().onTrue(armSub.goToStow());
         mechController.x().onTrue(armSub.goToHalf());
         mechController.b().onTrue(armSub.goToHighScore());
-        mechController.a().onTrue(armSub.goToTop());
+        mechController.a().onTrue(armSub.goToStow());
 
         mechController.rightTrigger().onTrue(claw.Intake()).onFalse(claw.HoldBucket());
         mechController.leftTrigger().onTrue(claw.Outtake()).onFalse(claw.doNothing());

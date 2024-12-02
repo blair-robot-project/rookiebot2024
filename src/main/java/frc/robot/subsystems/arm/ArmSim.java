@@ -47,7 +47,7 @@ public class ArmSim implements AutoCloseable {
             armConstants.minAngleRads,
             armConstants.maxAngleRads,
             armConstants.armSimGrav,
-            armConstants.armBaseValue
+            armConstants.armBasePosition
     );
     // The P gain for the PID controller that drives this arm.
 

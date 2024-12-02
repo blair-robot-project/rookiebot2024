@@ -16,6 +16,7 @@ import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 
 public class ArmSubsystem extends SubsystemBase {
+
     //arm motor
     CANSparkMax armMotor;
     //second arm motor
@@ -25,23 +26,17 @@ public class ArmSubsystem extends SubsystemBase {
     //pid controller
     PIDController pid = new PIDController(kP, kI, kD);
     /*
-    * current is the arm's current position in __
-    *
+    * current is the arm's current position in radians
     * */
-    double currentState;
-    double desired;
-    double desiredVal;
-    double baseVal;
+    double currentState = armConstants.armBasePosition;
+    double desired = armConstants.armHighScorePosition;
 
     SimpleMotorFeedforward feedForward_a = new SimpleMotorFeedforward(armConstants.armFeedForwardKs, armConstants.armFeedForwardKv, armConstants.armFeedForwardKa);
 
-    public ArmSubsystem(double des, double base) {
-        this.armMotor = new CANSparkMax(armConstants.armMotorIDa, MotorType.kBrushless);
-        this.armMotorFollower= new CANSparkMax(armConstants.armMotorFollowerID, MotorType.kBrushless);
+    public ArmSubsystem() {
+        armMotor = new CANSparkMax(armConstants.armMotorIDa, MotorType.kBrushless);
+        armMotorFollower= new CANSparkMax(armConstants.armMotorFollowerID, MotorType.kBrushless);
         armMotorFollower.follow(armMotor, false);
-        desiredVal = des;
-        baseVal = base;
-        currentState = base;
     }
 
     public double getArmF(double des){
@@ -58,7 +53,7 @@ public class ArmSubsystem extends SubsystemBase {
         // Subsystem::RunOnce implicitly requires `this` subsystem.
         return runOnce(
                 () -> {
-                    this.armMotor.setVoltage(voltage);
+                    armMotor.setVoltage(voltage);
                 });
     }
 
@@ -67,16 +62,16 @@ public class ArmSubsystem extends SubsystemBase {
         // Subsystem::RunOnce implicitly requires `this` subsystem.
         return runOnce(
                 () -> {
-                    this.armMotor.setVoltage(0);
+                    armMotor.setVoltage(0);
                 });
     }
 
-    public Command goToTop() {
+    public Command goToStow() {
         // Inline construction of command goes here.
         // Subsystem::RunOnce implicitly requires `this` subsystem.
         return runOnce(
                 () -> {
-                    this.desired = armConstants.armTopPositionValue;
+                    desired = armConstants.armStowPosition;
                 });
     }
 
@@ -85,7 +80,7 @@ public class ArmSubsystem extends SubsystemBase {
         // Subsystem::RunOnce implicitly requires `this` subsystem.
         return runOnce(
                 () -> {
-                    this.desired = this.desiredVal;
+                    desired = armConstants.armHighScorePosition;
                 });
     }
 
@@ -94,7 +89,7 @@ public class ArmSubsystem extends SubsystemBase {
         // Subsystem::RunOnce implicitly requires `this` subsystem.
         return runOnce(
                 () -> {
-                    this.desired = this.desiredVal / 2;
+                    desired = armConstants.armHighScorePosition / 2;
                 });
     }
 
@@ -103,7 +98,7 @@ public class ArmSubsystem extends SubsystemBase {
         // Subsystem::RunOnce implicitly requires `this` subsystem.
         return runOnce(
                 () -> {
-                    this.desired = this.baseVal;
+                    desired = armConstants.armBasePosition;
                 });
     }
 
@@ -113,7 +108,7 @@ public class ArmSubsystem extends SubsystemBase {
 
     public BooleanSupplier isDone(){
         BooleanSupplier finished = () ->
-        this.returnMotorPos()/armConstants.armGearRatio==this.desired;
+        returnMotorPos()/armConstants.armGearRatio==this.desired;
         return finished;
     }
 
@@ -121,16 +116,15 @@ public class ArmSubsystem extends SubsystemBase {
     public void initSendable(SendableBuilder builder) {
         builder.publishConstString("1.0", "Logging stuff");
         //research how to do double supplier in java
-        DoubleSupplier motorPos = () -> this.returnMotorPos();
+        DoubleSupplier motorPos = () -> returnMotorPos();
         builder.addDoubleProperty("1.1 position", motorPos, null);
     }
 
     @Override
     public void periodic() {
-        this.currentState = this.returnMotorPos() / armConstants.armGearRatio; // gear ratio maybe somewhere?
-        double voltage = pid.calculate(this.currentState, this.desired)+getArmF(desired);
-        System.out.println(voltage);
-        this.armMotor.setVoltage(voltage);
+        currentState = returnMotorPos() / armConstants.armGearRatio; // gear ratio maybe somewhere?
+        double voltage = pid.calculate(currentState, desired) + getArmF(desired);
+        setVoltage(voltage);
     }
 
     @Override

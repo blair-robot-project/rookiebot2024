@@ -16,7 +16,7 @@ public class taxiPathClass {
                         new WaitCommand(clawConstants.OUTTAKE_SECONDS),
                         RobotContainer.claw.Outtake()
                 ),
-                RobotContainer.armSub.goToTop().alongWith(RobotContainer.claw.doNothing(),
+                RobotContainer.armSub.goToStow().alongWith(RobotContainer.claw.doNothing(),
                         new PathPlannerAuto("red"))
         );
     }
