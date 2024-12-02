@@ -22,14 +22,14 @@ import frc.robot.subsystems.swerve.SwerveDrive;
  */
 public class Robot extends TimedRobot {
 
-
+    private Command m_autonomousCommand;
     private Command autonomousCommandTaxi;
     private Command autonomousCommandMiddle;
     private Command autonomousCommandBottom;
 
     private RobotContainer robotContainer;
     private SwerveDrive swerve;
-
+    RoutineChooser routineChooser = new RoutineChooser();
     bottomPathClass bottomPathClass1 = new bottomPathClass();
     middlePathClass middlePathClass1 = new middlePathClass();
     taxiPathClass taxiPathClass1 = new taxiPathClass();
@@ -81,21 +81,20 @@ public class Robot extends TimedRobot {
      */
     @Override
 
-    public void autonomousInit() {
+    public void autonomousInit()
+    {
+        m_autonomousCommand = routineChooser.getAutonomousCommand();
+
+        // schedule the autonomous command (example)
+        if (m_autonomousCommand != null) {
+            m_autonomousCommand.schedule();
+        }
         autonomousCommandTaxi = taxiPathClass1.taxiPath();
         autonomousCommandMiddle=middlePathClass1.middlePath();
         autonomousCommandBottom = bottomPathClass1.bottomPath();
 
         // schedule the autonomous command (example)
-        if (autonomousCommandTaxi != null) {
-            autonomousCommandTaxi.schedule();
-        }
-        if (autonomousCommandMiddle != null) {
-            autonomousCommandMiddle.schedule();
-        }
-        if (autonomousCommandBottom != null) {
-            autonomousCommandBottom.schedule();
-        }
+
     }
 
     /**
@@ -103,23 +102,19 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void autonomousPeriodic() {
+        CommandScheduler.getInstance().run();
     }
 
     @Override
     public void teleopInit() {
+        if (m_autonomousCommand != null) {
+            m_autonomousCommand.cancel();
+        }
         // This makes sure that the autonomous stops running when
         // teleop starts running. If you want the autonomous to
         // continue until interrupted by another command, remove
         // this line or comment it out.
-        if (autonomousCommandTaxi != null) {
-            autonomousCommandTaxi.cancel();
-        }
-        if (autonomousCommandMiddle != null) {
-            autonomousCommandMiddle.cancel();
-        }
-        if (autonomousCommandBottom != null) {
-            autonomousCommandBottom.cancel();
-        }
+
     }
 
     /**
