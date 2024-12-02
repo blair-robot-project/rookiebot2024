@@ -37,9 +37,9 @@ public class RobotContainer {
     Joystick joystick2 = new Joystick(0);
 
     // The robot's subsystems and commands are defined here...
-    private final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
-    private final ClawSubsystem claw = new ClawSubsystem();
-    private final ArmSubsystem armSub = new ArmSubsystem(armDesiredValue, armBaseValue);
+    public final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
+    public static final ClawSubsystem claw = new ClawSubsystem();
+    public static final ArmSubsystem armSub = new ArmSubsystem(armDesiredValue, armBaseValue);
 
     // Replace with CommandPS4Controller or CommandJoystick if needed
     private final CommandXboxController driverController =
@@ -88,36 +88,10 @@ public class RobotContainer {
  * @return the command to run in autonomous
  */
 
-public Command taxiPath() {
-    return new SequentialCommandGroup(
-            armSub.goToHalf().until(armSub.isDone()).andThen(claw.Outtake().withTimeout(clawConstants.OUTTAKE_SECONDS)),
-            armSub.goToTop().alongWith(claw.doNothing(),
-            new PathPlannerAuto("red"))
-    );
-}
 
-public Command middlePath() {
-    return new SequentialCommandGroup(
-            armSub.goToHalf().until(armSub.isDone()).andThen(claw.Outtake().withTimeout(clawConstants.OUTTAKE_SECONDS)), ///arm goes half-way down and claw outtakes the bucket first
-            armSub.goToTop().alongWith(claw.doNothing(), ///the claw stops as the arm goes back up
-            new PathPlannerAuto("toBucketMiddle")),///robot follows the path to middle bucket
-            armSub.goToIntake().alongWith(claw.Intake().until(armSub.isDone()).andThen( ///arm goes down halfway with the intake running
-                            armSub.goToTop().alongWith(claw.HoldBucket()).until(armSub.isDone())),///goes back up
-            new PathPlannerAuto("fromBucketMiddle"),///follows a path back to the staking grid
-            armSub.goToHalf().until(armSub.isDone()).andThen(claw.Outtake().withTimeout(clawConstants.OUTTAKE_SECONDS).andThen(claw.doNothing())))///arm goes down halfway and outtake
-            );
-}
 
-public Command bottomPath() {
-    return new SequentialCommandGroup(
-            armSub.goToHalf().until(armSub.isDone()).andThen(claw.Outtake().withTimeout(clawConstants.OUTTAKE_SECONDS)),
-            armSub.goToTop().alongWith(claw.doNothing(),
-            new PathPlannerAuto("toBucketBottom")),
-            armSub.goToIntake().alongWith(claw.Intake()).until(armSub.isDone()).andThen(
-                    armSub.goToTop().alongWith(claw.HoldBucket())),
-            new PathPlannerAuto("fromBucketBottom"),
-            armSub.goToHalf().until(armSub.isDone()).andThen(claw.Outtake().withTimeout(clawConstants.OUTTAKE_SECONDS)).andThen(claw.doNothing())
-    );
-}
+
+
+
 
 }

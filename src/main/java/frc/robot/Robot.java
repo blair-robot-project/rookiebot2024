@@ -8,6 +8,9 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.autos.bottomPathClass;
+import frc.robot.autos.middlePathClass;
+import frc.robot.autos.taxiPathClass;
 import frc.robot.subsystems.swerve.driveConstants;
 import frc.robot.subsystems.swerve.SwerveDrive;
 
@@ -22,12 +25,14 @@ public class Robot extends TimedRobot {
 
     private Command autonomousCommandTaxi;
     private Command autonomousCommandMiddle;
-    private Command autonomousCommandTop;
+    private Command autonomousCommandBottom;
 
     private RobotContainer robotContainer;
     private SwerveDrive swerve;
 
-
+    bottomPathClass bottomPathClass1 = new bottomPathClass();
+    middlePathClass middlePathClass1 = new middlePathClass();
+    taxiPathClass taxiPathClass1 = new taxiPathClass();
 
     /**
      * This method is run when the robot is first started up and should be used for any
@@ -77,9 +82,9 @@ public class Robot extends TimedRobot {
     @Override
 
     public void autonomousInit() {
-        autonomousCommandTaxi = robotContainer.taxiPath();
-        autonomousCommandMiddle=robotContainer.middlePath();
-        autonomousCommandTop= robotContainer.bottomPath();
+        autonomousCommandTaxi = taxiPathClass1.taxiPath();
+        autonomousCommandMiddle=middlePathClass1.middlePath();
+        autonomousCommandBottom = bottomPathClass1.bottomPath();
 
         // schedule the autonomous command (example)
         if (autonomousCommandTaxi != null) {
@@ -88,8 +93,8 @@ public class Robot extends TimedRobot {
         if (autonomousCommandMiddle != null) {
             autonomousCommandMiddle.schedule();
         }
-        if (autonomousCommandTop != null) {
-            autonomousCommandTop.schedule();
+        if (autonomousCommandBottom != null) {
+            autonomousCommandBottom.schedule();
         }
     }
 
@@ -112,8 +117,8 @@ public class Robot extends TimedRobot {
         if (autonomousCommandMiddle != null) {
             autonomousCommandMiddle.cancel();
         }
-        if (autonomousCommandTop != null) {
-            autonomousCommandTop.cancel();
+        if (autonomousCommandBottom != null) {
+            autonomousCommandBottom.cancel();
         }
     }
 
