@@ -114,6 +114,7 @@ public class ArmSubsystem extends SubsystemBase {
 
     @Override
     public void initSendable(SendableBuilder builder) {
+        builder.setSmartDashboardType("Arm Sim Voltage");
         builder.publishConstString("1.0", "Logging stuff");
         //research how to do double supplier in java
         DoubleSupplier motorPos = () -> returnMotorPos();
