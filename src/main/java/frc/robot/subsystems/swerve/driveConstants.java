@@ -93,4 +93,7 @@ public final class driveConstants {
     public static final double autoRotKi = 0.0;///placeholder
     public static final double autoRotKd = 0.0;///placeholder
 
+    public static final int DRIVE_CURRENT_LIMIT = 50;
+    public static final int TURN_CURRENT_LIMIT = 30;
+
 }
