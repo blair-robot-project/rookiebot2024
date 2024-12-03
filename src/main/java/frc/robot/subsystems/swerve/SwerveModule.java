@@ -109,15 +109,14 @@ public class SwerveModule {
         turnMotor.setVoltage(turnOutput + feedForward_t.ks);
     }
 
-    public void setVoltage(double voltage, CANSparkMax motor){
-        motor.setVoltage(voltage);
+    public void setVoltage(double voltage){
+        driveMotor.setVoltage(voltage);
     }
 
 
 public double getVoltage(){
     return driveMotor.get() * RobotController.getBatteryVoltage();
 }
-
 
 
 }

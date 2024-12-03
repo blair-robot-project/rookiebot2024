@@ -80,7 +80,6 @@ public class RobotContainer {
 
         SmartDashboard.putData("swerve", swervee);
 
-        SmartDashboard.putData("swerve Sim Voltage", swerveModule);
         //arm sim stuff :(
         armSub.loadPreferences();
     }
