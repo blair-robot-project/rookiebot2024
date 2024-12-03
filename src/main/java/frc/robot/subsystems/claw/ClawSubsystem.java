@@ -26,8 +26,7 @@ public class ClawSubsystem extends SubsystemBase {
     public ClawSubsystem() {
 
         motor = new CANSparkMax(clawConstants.CLAW_MOTOR_ID, CANSparkLowLevel.MotorType.kBrushless);
-        inverseFollowMotor = new CANSparkMax(clawConstants.CLAW_FOLLOWER_ID, CANSparkLowLevel.MotorType.kBrushless);
-        inverseFollowMotor.follow(motor, true);
+
     }
 
 
