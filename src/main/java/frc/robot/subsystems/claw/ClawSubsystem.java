@@ -18,7 +18,6 @@ import static frc.robot.subsystems.claw.clawConstants.*;
 
 public class ClawSubsystem extends SubsystemBase {
     CANSparkMax motor;
-    CANSparkMax inverseFollowMotor;
 
     /**
      * Creates a new Claw Subsystem.
@@ -98,11 +97,5 @@ public class ClawSubsystem extends SubsystemBase {
     public void simulationPeriodic() {
         DCMotorSim motorSim = new DCMotorSim(DCMotor.getNEO(1), 1, 1);
         motorSim.setInputVoltage(motor.getBusVoltage());
-
-
-
-
-
-        // This method will be called once per scheduler run during simulation
     }
 }
