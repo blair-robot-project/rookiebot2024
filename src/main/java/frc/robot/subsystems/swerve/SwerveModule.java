@@ -39,6 +39,7 @@ public class SwerveModule {
     boolean turnEncoderInverted;
     double turnOffset;
     Rotation2d encoderRotation;
+    SwerveModuleState desiredState;
 
 
     // ks = volts
@@ -97,7 +98,14 @@ public class SwerveModule {
                 driveEncoder.getVelocity(), new Rotation2d((turnEncoder.getAbsolutePosition()-turnEncoder.getPositionOffset()) / (2 * Math.PI)));
     }
 
+    public double getDesiredSpeed(){
+        return desiredState.speedMetersPerSecond;
+    }
+    public double getDesiredAngle(){
+        return desiredState.angle.getRadians();
+    }
     public void SetDesired(SwerveModuleState desiredState) {
+        this.desiredState=desiredState;
         if (this.turnEncoderInverted) {
             encoderRotation = Rotation2d.fromRotations(MathUtil.inputModulus(1-(turnEncoder.getAbsolutePosition()-turnOffset), 0.0, 1.0));
         }
