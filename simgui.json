@@ -1,7 +1,12 @@
 {
   "HALProvider": {
     "Other Devices": {
-      "SPARK MAX [3]": {
+      "DutyCycleEncoder[5]": {
+        "header": {
+          "open": true
+        }
+      },
+      "SPARK MAX [12]": {
         "header": {
           "open": true
         }
@@ -12,6 +17,16 @@
         }
       },
       "SPARK MAX [5]": {
+        "header": {
+          "open": true
+        }
+      },
+      "SPARK MAX [5]": {
+        "header": {
+          "open": true
+        }
+      },
+      "SPARK MAX [9]": {
         "header": {
           "open": true
         }
@@ -37,10 +52,7 @@
     }
   },
   "NetworkTables": {
-    "Persistent Values": {
-      "open": false
-    },
-    "Retained Values": {
+    "Transitory Values": {
       "open": false
     },
     "transitory": {
@@ -72,15 +84,15 @@
       "open": true
     },
     "Server": {
-      "Publishers": {
-        "open": true
-      },
       "Subscribers": {
         "open": true
       },
       "open": true
     },
     "visible": true
+  },
+  "NetworkTables View": {
+    "visible": false
   },
   "Plot": {
     "Plot <0>": {

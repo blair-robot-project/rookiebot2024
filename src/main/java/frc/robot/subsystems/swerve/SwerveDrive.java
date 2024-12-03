@@ -181,6 +181,11 @@ public class SwerveDrive extends SubsystemBase {
         builder.addDoubleProperty("frontRightVoltage", frontRight::getVoltage,null);
         builder.addDoubleProperty("backLeftVoltage", backLeft::getVoltage,null);
         builder.addDoubleProperty("backRightVoltage", backRight::getVoltage,null);
+        builder.addDoubleProperty("frontleft Position", frontLeft::getTurnPosition,null);
+        builder.addDoubleProperty("frontRight Position", frontRight::getTurnPosition,null);
+        builder.addDoubleProperty("BackLeft Position", backLeft::getTurnPosition,null);
+        builder.addDoubleProperty("BackRight Position",backRight::getTurnPosition,null);
+
 
     }
 }
