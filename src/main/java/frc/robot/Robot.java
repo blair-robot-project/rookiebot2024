@@ -32,7 +32,6 @@ public class Robot extends TimedRobot {
     private Command autonomousCommandBottom;
 
     private RobotContainer robotContainer;
-    private SwerveDrive swerve;
     RoutineChooser routineChooser = new RoutineChooser();
     bottomPathClass bottomPathClass1 = new bottomPathClass();
     middlePathClass middlePathClass1 = new middlePathClass();
@@ -139,7 +138,7 @@ public class Robot extends TimedRobot {
         //joystick2 is for rotation
         rotation = robotContainer.joystick2.getX() * driveConstants.MAX_ANGULAR_SPEED;
         //joystick1 is for driving
-        swerve.drive(
+        RobotContainer.swervee.drive(
                 xdirection,
                 ydirection,
                 rotation,
