@@ -72,9 +72,12 @@ public class RobotContainer {
         mechController.rightTrigger().onTrue(claw.Intake()).onFalse(claw.HoldBucket());
         mechController.leftTrigger().onTrue(claw.Outtake()).onFalse(claw.doNothing());
 
+
         SmartDashboard.putData("claw data", claw);
         // Put Mechanism 2d to SmartDashboard
         SmartDashboard.putData("Arm Sim", armSub);
+        //arm sim stuff :(
+        armSub.loadPreferences();
     }
 /**
  * Use this to pass the autonomous command to the main {@link Robot} class.

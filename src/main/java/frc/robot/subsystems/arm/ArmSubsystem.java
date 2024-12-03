@@ -46,6 +46,7 @@ public class ArmSubsystem extends SubsystemBase {
     * */
     double currentState = armConstants.armBasePosition;
     double desired = armConstants.armHighScorePosition;
+    double voltage = 0.0;
 
     //arm sim stuff
 
@@ -92,7 +93,7 @@ public class ArmSubsystem extends SubsystemBase {
 
     public ArmSubsystem() {
         armMotor = new CANSparkMax(armConstants.armMotorIDa, MotorType.kBrushless);
-        armMotorFollower= new CANSparkMax(armConstants.armMotorFollowerID, MotorType.kBrushless);
+        armMotorFollower = new CANSparkMax(armConstants.armMotorFollowerID, MotorType.kBrushless);
         armMotorFollower.follow(armMotor, false);
 
         armEncoder.setDistancePerRotation(armConstants.kArmEncoderDistPerPulse);
@@ -104,10 +105,16 @@ public class ArmSubsystem extends SubsystemBase {
         Preferences.initDouble(armConstants.kArmPKey, armConstants.armKP);
     }
 
+    //getters
     public double getArmF(double des){
         return feedForward_a.calculate(des);
     }
-
+    public double getMotorPos() {
+        return armEncoder.getDistance();
+    }
+    public double getVoltage() { return voltage; }
+    public double getSetpoint() { return desired; }
+    public double getCurrentState() { return getMotorPos() / armConstants.armGearRatio; }
     /**
      * Example command factory method.
      *
@@ -167,10 +174,6 @@ public class ArmSubsystem extends SubsystemBase {
                 });
     }
 
-    public double returnMotorPos() {
-        return armEncoder.getDistance();
-    }
-
     /** Load setpoint and kP from preferences. */
     public void loadPreferences() {
         // Read Preferences for Arm setpoint and kP on entering Teleop
@@ -185,7 +188,7 @@ public class ArmSubsystem extends SubsystemBase {
     public void reachSetpoint() {
         var pidOutput =
                 armPIDController.calculate(
-                        returnMotorPos(), Units.degreesToRadians(armSetpointDegrees));
+                        getMotorPos(), Units.degreesToRadians(armSetpointDegrees));
         simMotor.setVoltage(pidOutput);
     }
 
@@ -204,20 +207,23 @@ public class ArmSubsystem extends SubsystemBase {
 
     public BooleanSupplier isDone(){
         BooleanSupplier finished = () ->
-        returnMotorPos()/armConstants.armGearRatio==this.desired;
+        getMotorPos()/armConstants.armGearRatio==this.desired;
         return finished;
     }
 
     @Override
     public void initSendable(SendableBuilder builder) {
         builder.setSmartDashboardType("Arm Sim Voltage");
-        builder.publishConstString("1.0", "Logging stuff");builder.addDoubleProperty("1.1 position", this::returnMotorPos, null);
+        builder.publishConstString("1.0", "Logging stuff");
+        builder.addDoubleProperty("1.1 position", this::getCurrentState, null);
+        builder.addDoubleProperty("1.2 voltage", this::getVoltage, null);
+        builder.addDoubleProperty( "1.3 setpoint", this::getSetpoint, null);
     }
 
     @Override
     public void periodic() {
-        currentState = returnMotorPos() / armConstants.armGearRatio; // gear ratio maybe somewhere?
-        double voltage = pid.calculate(currentState, desired) + getArmF(desired);
+        currentState = getCurrentState(); // gear ratio maybe somewhere?
+        voltage = pid.calculate(currentState, desired) + getArmF(desired);
         setVoltage(voltage);
         armLigament.setAngle(Units.radiansToDegrees(armSim.getAngleRads()));
 
