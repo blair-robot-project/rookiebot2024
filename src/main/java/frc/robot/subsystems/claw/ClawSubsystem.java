@@ -103,7 +103,7 @@ public class ClawSubsystem extends SubsystemBase {
 
 
 
-        //idkk
+
         // This method will be called once per scheduler run during simulation
     }
 }
