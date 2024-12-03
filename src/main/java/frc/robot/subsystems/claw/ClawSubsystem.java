@@ -39,7 +39,7 @@ public class ClawSubsystem extends SubsystemBase {
     public Command Intake() {
         return runOnce(
                 () -> {
-                    motor.setVoltage(CLAW_INTAKE_VOLTAGE);
+                    this.motor.setVoltage(CLAW_INTAKE_VOLTAGE);
                 });
     }
 
@@ -50,7 +50,7 @@ public class ClawSubsystem extends SubsystemBase {
      */
     public Command Outtake() {
         return runOnce(() -> {
-            motor.setVoltage(CLAW_OUTTAKE_VOLTAGE);
+            this.motor.setVoltage(CLAW_OUTTAKE_VOLTAGE);
         });
     }
 
@@ -62,7 +62,7 @@ public class ClawSubsystem extends SubsystemBase {
    public Command doNothing() {
 
         return runOnce(() -> {
-            motor.stopMotor();
+            this.motor.stopMotor();
         });
     }
 
@@ -75,7 +75,7 @@ public class ClawSubsystem extends SubsystemBase {
     public Command HoldBucket() {
 
         return runOnce(() -> {
-            motor.setVoltage(CLAW_HOLD_VOLTAGE);
+            this.motor.setVoltage(CLAW_HOLD_VOLTAGE);
 
         });
     }
