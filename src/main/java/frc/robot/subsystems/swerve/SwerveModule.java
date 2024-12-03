@@ -10,7 +10,9 @@ import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
+import edu.wpi.first.wpilibj.RobotController;
 
 import static edu.wpi.first.math.kinematics.SwerveModuleState.optimize;
 import static frc.robot.subsystems.swerve.driveConstants.*;
@@ -110,4 +112,13 @@ public class SwerveModule {
     public void setVoltage(double voltage, CANSparkMax motor){
         motor.setVoltage(voltage);
     }
+
+
+public double getVoltage(){
+    return driveMotor.get() * RobotController.getBatteryVoltage();
 }
+
+
+
+}
+

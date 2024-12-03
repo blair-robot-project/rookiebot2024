@@ -14,6 +14,7 @@ import frc.robot.subsystems.arm.ArmSubsystem;
 import frc.robot.subsystems.claw.ClawSubsystem;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.swerve.SwerveDrive;
+import frc.robot.subsystems.swerve.SwerveModule;
 
 import static frc.robot.otherConstants.operatorConstants.DRIVE_CONTROLLER_PORT;
 import static frc.robot.otherConstants.operatorConstants.MECH_CONTROLLER_PORT;
@@ -78,6 +79,8 @@ public class RobotContainer {
         SmartDashboard.putData("Arm Sim", armSub);
 
         SmartDashboard.putData("swerve", swervee);
+
+        SmartDashboard.putData("swerve Sim Voltage", swerveModule);
         //arm sim stuff :(
         armSub.loadPreferences();
     }

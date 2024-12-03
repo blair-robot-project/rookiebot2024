@@ -10,6 +10,11 @@
         "header": {
           "open": true
         }
+      },
+      "SPARK MAX [5]": {
+        "header": {
+          "open": true
+        }
       }
     },
     "Timing": {
@@ -60,9 +65,6 @@
     }
   },
   "NetworkTables Info": {
-    "Connections": {
-      "open": true
-    },
     "DartClient_59863765@1": {
       "open": true
     },

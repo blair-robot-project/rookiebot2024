@@ -175,6 +175,11 @@ public class SwerveDrive extends SubsystemBase {
         builder.addDoubleProperty("speed",() -> currentSpeeds.vyMetersPerSecond,null);
         builder.setSmartDashboardType("chassis speed rot");
         builder.addDoubleProperty("speed",() -> currentSpeeds.omegaRadiansPerSecond,null);
-    }
+        builder.setSmartDashboardType("swerve Sim Voltage");
 
+        builder.addDoubleProperty("frontLeftVoltage", frontLeft::getVoltage,null);
+        builder.addDoubleProperty("frontRightVoltage", frontRight::getVoltage,null);
+        builder.addDoubleProperty("backLeftVoltage", backLeft::getVoltage,null);
+        builder.addDoubleProperty("backRightVoltage", backRight::getVoltage,null);
+    }
 }
