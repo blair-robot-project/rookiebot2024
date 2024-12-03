@@ -74,6 +74,7 @@ public class SwerveModule {
         this.turnMotor.burnFlash();
         this.driveMotor.burnFlash();
 
+        this.desiredState = new SwerveModuleState();
 
     }
 
@@ -91,7 +92,7 @@ public class SwerveModule {
     }
 
 
-    p
+
 
     public SwerveModuleState getState() {
         return new SwerveModuleState(
