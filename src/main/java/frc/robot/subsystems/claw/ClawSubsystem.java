@@ -9,6 +9,7 @@ import com.revrobotics.CANSparkLowLevel;
 import com.revrobotics.CANSparkMax;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.util.sendable.SendableBuilder;
+import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.simulation.DCMotorSim;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -84,7 +85,7 @@ public class ClawSubsystem extends SubsystemBase {
     @Override
     public void initSendable(SendableBuilder builder){
         builder.setSmartDashboardType("Claw Sim Voltage");
-        builder.addDoubleProperty("Voltage",() -> motor.getBusVoltage(),null);
+        builder.addDoubleProperty("Voltage",() -> motor.get() * RobotController.getBatteryVoltage(),null);
     }
 
 

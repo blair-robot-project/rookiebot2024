@@ -13,7 +13,9 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics.SwerveDriveWheelStates;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
+import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -49,7 +51,6 @@ public class SwerveDrive extends SubsystemBase {
     public SwerveDrive() {
         AutoBuilder.configureHolonomic(
                 this::getPose, // Robot pose supplier
-
                 this::resetPoseGiven, // Method to reset odometry (will be called if your auto has a starting pose)
                 this::getSpeeds, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
                 this::driveSpeeds, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds
@@ -166,19 +167,14 @@ public class SwerveDrive extends SubsystemBase {
         );
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    @Override
+    public void initSendable(SendableBuilder builder){
+        builder.setSmartDashboardType("chassis speed x");
+        builder.addDoubleProperty("speed",() -> currentSpeeds.vxMetersPerSecond,null);
+        builder.setSmartDashboardType("chassis speed y");
+        builder.addDoubleProperty("speed",() -> currentSpeeds.vyMetersPerSecond,null);
+        builder.setSmartDashboardType("chassis speed rot");
+        builder.addDoubleProperty("speed",() -> currentSpeeds.omegaRadiansPerSecond,null);
+    }
 
 }

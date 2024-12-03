@@ -25,7 +25,7 @@ import static frc.robot.otherConstants.operatorConstants.MECH_CONTROLLER_PORT;
  * subsystems, commands, and trigger mappings) should be declared here.
  */
 public class RobotContainer {
-    public SwerveDrive swervee;
+    //public SwerveDrive swervee;
 
     Joystick joystick1 = new Joystick(0);
     Joystick joystick2 = new Joystick(0);
@@ -34,6 +34,7 @@ public class RobotContainer {
     public final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
     public static final ClawSubsystem claw = new ClawSubsystem();
     public static final ArmSubsystem armSub = new ArmSubsystem();
+    public static final SwerveDrive swervee = new SwerveDrive();
 
     // Replace with CommandPS4Controller or CommandJoystick if needed
     private final CommandXboxController driverController =
@@ -72,10 +73,11 @@ public class RobotContainer {
         mechController.rightTrigger().onTrue(claw.Intake()).onFalse(claw.HoldBucket());
         mechController.leftTrigger().onTrue(claw.Outtake()).onFalse(claw.doNothing());
 
-
         SmartDashboard.putData("claw data", claw);
         // Put Mechanism 2d to SmartDashboard
         SmartDashboard.putData("Arm Sim", armSub);
+
+        SmartDashboard.putData("swerve", swervee);
         //arm sim stuff :(
         armSub.loadPreferences();
     }
