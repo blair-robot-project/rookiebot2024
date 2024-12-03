@@ -15,7 +15,15 @@
   },
   "NTProvider": {
     "types": {
-      "/FMSInfo": "FMSInfo"
+      "/FMSInfo": "FMSInfo",
+      "/SmartDashboard/arm sim": "Mechanism2d"
+    },
+    "windows": {
+      "/SmartDashboard/arm sim": {
+        "window": {
+          "visible": true
+        }
+      }
     }
   },
   "NetworkTables": {

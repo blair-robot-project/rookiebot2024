@@ -219,6 +219,9 @@ public class ArmSubsystem extends SubsystemBase {
         currentState = returnMotorPos() / armConstants.armGearRatio; // gear ratio maybe somewhere?
         double voltage = pid.calculate(currentState, desired) + getArmF(desired);
         setVoltage(voltage);
+        armLigament.setAngle(Units.radiansToDegrees(armSim.getAngleRads()));
+
+        SmartDashboard.putData("arm sim", mech2d);
     }
 
     @Override
