@@ -92,7 +92,9 @@ public class SwerveModule {
     }
 
 
-
+    public double getVelocity(){
+        return getState().speedMetersPerSecond;
+    }
 
     public SwerveModuleState getState() {
         return new SwerveModuleState(
