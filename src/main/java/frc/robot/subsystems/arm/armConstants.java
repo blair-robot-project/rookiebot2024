@@ -35,9 +35,8 @@ public class armConstants {
     public static DCMotor armGearbox = DCMotor.getNEO(1);
     //gearing UNFINALIZED
     public static double armGearing = 1;
-    //moment inertia of the arm NEED FROM CAD (jkg per meters squared)
-    //UNFINALIZED
-    public static double armInertia = 200;
+    //moment inertia of the arm NEED FROM CAD (jkg per meters squared) UNFINALIZED
+    public static double armInertia = 0.5;
     //arm length (units?) UNFINALIZED
     public static double armLength = Units.inchesToMeters(30);
     //minAngle (radians) UNFINALIZED
@@ -48,8 +47,7 @@ public class armConstants {
     public static boolean armSimGrav = true;
 
     //Encoder Channels UNFINALIZED
-    public static int encoderAChannel = 9;
-    public static int encoderBChannel = 8;
+    public static int encoderPort = 8;
 
     // distance per pulse = (angle per revolution) / (pulses per revolution)
     //  = (2 * PI rads) / (4096 pulses)
