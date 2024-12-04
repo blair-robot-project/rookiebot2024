@@ -9,22 +9,24 @@ public class armConstants {
     //motor follower id UNDETERMINED
     public static final int armMotorFollowerID = 2;
     //motor kp, ki, kd UNDETERMINED
-    public static final double armKP = 0.1, armKI = 0, armKD = 0;
+    public static final double armKP = 50.0, armKI = 0, armKD = 0;
     //default desired arm value RADIANS UNDETERMINED
-    public static final double armHighScorePosition = 0.25;
+    public static final double armHighScorePosition = Units.degreesToRadians(75);
     //default base arm value RADIANS UNDETERMINED
-    public static final double armBasePosition = 0;
+    public static final double armBasePosition = Units.degreesToRadians(0);
     //arm angle at the top RADIANS UNDETERMINED
-    public static final double armStowPosition = 0.5;
+    public static final double armStowPosition = Units.degreesToRadians(85);
     //gear ratio UNDETERMINED
     public static final double armGearRatio = 20;
-    //desired arm value UNDETERMINED RADIANS
-    public static final double armDesiredValue = 0.25;
 
-    //
+    //feed forward values
     public static final double armFeedForwardKs=1;
     public static final double armFeedForwardKv=1;
-    public static final double armFeedForwardKa=1;
+    public static final double armFeedForwardKg=1;
+
+    //encoder sim values
+    public static final int kEncoderAChannel = 0;
+    public static final int kEncoderBChannel = 1;
 
     //VALUES NEEDED FOR ARM SIM
 
@@ -35,9 +37,9 @@ public class armConstants {
     //arm length (units?) UNFINALIZED
     public static double armLength = Units.inchesToMeters(30);
     //minAngle (radians) UNFINALIZED
-    public static double minAngleRads = Units.degreesToRadians(-60);
+    public static double minAngleRads = Units.degreesToRadians(-75);
     //maxAngle (rads) UNFINALIZED
-    public static double maxAngleRads = Units.degreesToRadians(120);
+    public static double maxAngleRads = Units.degreesToRadians(255);
     //whether or not to simualte gravity FINALIZED
     public static boolean armSimGrav = true;
 
@@ -47,6 +49,7 @@ public class armConstants {
     // distance per pulse = (angle per revolution) / (pulses per revolution)
     //  = (2 * PI rads) / (4096 pulses)
     // UNFINALIZED
+    public static double kArmEncoderDistPerPulse = 2 * Math.PI / 4096;
     public static double kArmEncoderDistPerRotation = 1.0;
     public static final String kArmPositionKey = "ArmPosition";
     public static final String kArmPKey = "ArmP";

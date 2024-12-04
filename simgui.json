@@ -1,27 +1,12 @@
 {
   "HALProvider": {
     "Other Devices": {
-      "DutyCycleEncoder[5]": {
-        "header": {
-          "open": true
-        }
-      },
-      "SPARK MAX [12]": {
+      "DutyCycleEncoder[20]": {
         "header": {
           "open": true
         }
       },
       "SPARK MAX [4]": {
-        "header": {
-          "open": true
-        }
-      },
-      "SPARK MAX [5]": {
-        "header": {
-          "open": true
-        }
-      },
-      "SPARK MAX [9]": {
         "header": {
           "open": true
         }
@@ -36,10 +21,11 @@
   "NTProvider": {
     "types": {
       "/FMSInfo": "FMSInfo",
+      "/SmartDashboard/Arm Sim": "Mechanism2d",
       "/SmartDashboard/arm sim": "Mechanism2d"
     },
     "windows": {
-      "/SmartDashboard/arm sim": {
+      "/SmartDashboard/Arm Sim": {
         "window": {
           "visible": true
         }
@@ -47,9 +33,6 @@
     }
   },
   "NetworkTables": {
-    "Transitory Values": {
-      "open": false
-    },
     "transitory": {
       "FMSInfo": {
         "open": true
@@ -65,6 +48,15 @@
       },
       "SmartDashboard": {
         "Arm Sim": {
+          "ArmPivot": {
+            "Arm": {
+              "open": true
+            },
+            "open": true
+          },
+          "open": true
+        },
+        "arm data": {
           "open": true
         },
         "open": true
@@ -72,6 +64,9 @@
     }
   },
   "NetworkTables Info": {
+    "Clients": {
+      "open": true
+    },
     "DartClient_59863765@1": {
       "open": true
     },
@@ -85,9 +80,6 @@
       "open": true
     },
     "visible": true
-  },
-  "NetworkTables View": {
-    "visible": false
   },
   "Plot": {
     "Plot <0>": {

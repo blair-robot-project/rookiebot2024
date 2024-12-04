@@ -178,15 +178,6 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void simulationPeriodic() {
-        RobotContainer.armSub.simulationPeriodic();
-        if( robotContainer.joystick1.getTrigger() ) {
-            //run PID control like normal
-            print("joystick activating  ");
-            RobotContainer.armSub.reachSetpoint();
-        } else {
-            //disable motor
-            RobotContainer.armSub.stop();
-        }
     }
 
     public void print(Object o) {
