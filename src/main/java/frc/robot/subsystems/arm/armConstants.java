@@ -6,8 +6,6 @@ import edu.wpi.first.math.util.Units;
 public class armConstants {
     //motor id UNDETERMINED
     public static final int armMotorIDa = 62;
-    //motor id for sim
-    public static final int armSimID=19;
     //motor follower id UNDETERMINED
     public static final int armMotorFollowerID = 2;
     //motor kp, ki, kd UNDETERMINED
@@ -19,7 +17,7 @@ public class armConstants {
     //arm angle at the top RADIANS UNDETERMINED
     public static final double armStowPosition = 0.5;
     //gear ratio UNDETERMINED
-    public static final double armGearRatio = 1;
+    public static final double armGearRatio = 20;
     //desired arm value UNDETERMINED RADIANS
     public static final double armDesiredValue = 0.25;
 
@@ -29,12 +27,9 @@ public class armConstants {
     public static final double armFeedForwardKa=1;
 
     //VALUES NEEDED FOR ARM SIM
-    //ALL VALUES BELOW ARE FAKE AND TEMPORARY
 
     //arm dcmotor for arm sim FINALIZED I THINK?
     public static DCMotor armGearbox = DCMotor.getNEO(1);
-    //gearing UNFINALIZED
-    public static double armGearing = 20;
     //moment inertia of the arm NEED FROM CAD (jkg per meters squared) UNFINALIZED
     public static double armInertia = 0.5;
     //arm length (units?) UNFINALIZED
@@ -52,7 +47,7 @@ public class armConstants {
     // distance per pulse = (angle per revolution) / (pulses per revolution)
     //  = (2 * PI rads) / (4096 pulses)
     // UNFINALIZED
-    public static double kArmEncoderDistPerPulse = 2.0 * Math.PI / 4096;
+    public static double kArmEncoderDistPerRotation = 1.0;
     public static final String kArmPositionKey = "ArmPosition";
     public static final String kArmPKey = "ArmP";
 

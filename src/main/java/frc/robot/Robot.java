@@ -115,12 +115,11 @@ public class Robot extends TimedRobot {
         if (m_autonomousCommand != null) {
             m_autonomousCommand.cancel();
         }
-        RobotContainer.armSub.loadPreferences();
         // This makes sure that the autonomous stops running when
         // teleop starts running. If you want the autonomous to
         // continue until interrupted by another command, remove
         // this line or comment it out.
-
+        RobotContainer.armSub.loadPreferences();
     }
 
     /**
@@ -144,14 +143,6 @@ public class Robot extends TimedRobot {
                 rotation,
                 driveConstants.fRel,
                 driveConstants.pdsec);
-
-        if (robotContainer.joystick1.getTrigger()) {
-            // Here, we run PID control like normal.
-            RobotContainer.armSub.reachSetpoint();
-        } else {
-            // Otherwise, we disable the motor.
-            RobotContainer.armSub.stop();
-        }
     }
 
 
@@ -188,5 +179,17 @@ public class Robot extends TimedRobot {
     @Override
     public void simulationPeriodic() {
         RobotContainer.armSub.simulationPeriodic();
+        if( robotContainer.joystick1.getTrigger() ) {
+            //run PID control like normal
+            print("joystick activating  ");
+            RobotContainer.armSub.reachSetpoint();
+        } else {
+            //disable motor
+            RobotContainer.armSub.stop();
+        }
+    }
+
+    public void print(Object o) {
+        System.out.println(o.toString());
     }
 }

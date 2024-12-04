@@ -32,7 +32,6 @@ public class RobotContainer {
     Joystick joystick2 = new Joystick(0);
 
     // The robot's subsystems and commands are defined here...
-    public final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
     public static final ClawSubsystem claw = new ClawSubsystem();
     public static final ArmSubsystem armSub = new ArmSubsystem();
     public static final SwerveDrive swervee = new SwerveDrive();
@@ -69,19 +68,16 @@ public class RobotContainer {
         mechController.y().onTrue(armSub.goToStow());
         mechController.x().onTrue(armSub.goToHalf());
         mechController.b().onTrue(armSub.goToHighScore());
-        mechController.a().onTrue(armSub.goToStow());
+        mechController.a().onTrue(armSub.goToIntake());
 
         mechController.rightTrigger().onTrue(claw.Intake()).onFalse(claw.HoldBucket());
         mechController.leftTrigger().onTrue(claw.Outtake()).onFalse(claw.doNothing());
 
         SmartDashboard.putData("claw data", claw);
         // Put Mechanism 2d to SmartDashboard
-        SmartDashboard.putData("Arm Sim", armSub);
+        SmartDashboard.putData("arm data", armSub);
 
         SmartDashboard.putData("swerve", swervee);
-
-        //arm sim stuff :(
-        armSub.loadPreferences();
     }
 /**
  * Use this to pass the autonomous command to the main {@link Robot} class.

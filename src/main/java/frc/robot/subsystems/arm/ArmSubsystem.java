@@ -27,6 +27,7 @@ import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj.util.Color8Bit;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Robot;
 
 import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
@@ -35,58 +36,38 @@ public class ArmSubsystem extends SubsystemBase {
 
     //arm motor
     CANSparkMax armMotor;
+
     //second arm motor
     CANSparkMax armMotorFollower;
+
     //establishing kp, ki, and kd
     double kP = armConstants.armKP, kI = armConstants.armKI, kD = armConstants.armKD;
+
     //pid controller
     PIDController pid = new PIDController(kP, kI, kD);
-    /*
-    * current is the arm's current position in radians
-    * */
+
+    //current is the arm's current position in radians
     double currentState = armConstants.armBasePosition;
-    double desired = armConstants.armHighScorePosition;
+
+    //desired is where the robot wants to go
+    double desired = armConstants.armStowPosition;
+
     double voltage = 0.0;
 
-    //arm sim stuff
-
-    CANSparkMax simMotor = new CANSparkMax(armConstants.armSimID, CANSparkLowLevel.MotorType.kBrushless);
-
     private DutyCycleEncoder armEncoder = new DutyCycleEncoder(armConstants.encoderPort);
-
-    private double armSetpointDegrees = armConstants.armDesiredValue;
 
     private final PIDController armPIDController = new PIDController(kP, kI, kD);
 
     // Create a Mechanism2d display of an Arm with a fixed ArmTower and moving Arm.
-    private final Mechanism2d mech2d = new Mechanism2d(60, 60);
+    private Mechanism2d mech2d;
 
-    private final MechanismRoot2d armPivot = mech2d.getRoot("ArmPivot", 30, 30);
+    private MechanismRoot2d armPivot;
 
-    private final MechanismLigament2d armTower =
-            armPivot.append(new MechanismLigament2d("ArmTower", 30, -90));
+    private MechanismLigament2d armTower;
 
-    private final SingleJointedArmSim armSim = new SingleJointedArmSim(
-            armConstants.armGearbox,
-            armConstants.armGearing,
-            armConstants.armInertia,
-            armConstants.armLength,
-            armConstants.minAngleRads,
-            armConstants.maxAngleRads,
-            armConstants.armSimGrav,
-            armConstants.armBasePosition
-    );
+    private SingleJointedArmSim armSim;
 
-    private final MechanismLigament2d armLigament =
-            armPivot.append(
-                    new MechanismLigament2d(
-                            "Arm",
-                            30,
-                            Units.radiansToDegrees(armSim.getAngleRads()),
-                            6,
-                            new Color8Bit(Color.kYellow)
-                    )
-            );
+    private MechanismLigament2d armLigament;
 
     //feed forward
     SimpleMotorFeedforward feedForward_a = new SimpleMotorFeedforward(armConstants.armFeedForwardKs, armConstants.armFeedForwardKv, armConstants.armFeedForwardKa);
@@ -95,26 +76,54 @@ public class ArmSubsystem extends SubsystemBase {
         armMotor = new CANSparkMax(armConstants.armMotorIDa, MotorType.kBrushless);
         armMotorFollower = new CANSparkMax(armConstants.armMotorFollowerID, MotorType.kBrushless);
         armMotorFollower.follow(armMotor, false);
+        armEncoder.reset();
+        armEncoder.setDistancePerRotation(armConstants.kArmEncoderDistPerRotation);
 
-        armEncoder.setDistancePerRotation(armConstants.kArmEncoderDistPerPulse);
+        if (Robot.isSimulation()) {
 
-        armTower.setColor(new Color8Bit(Color.kBlue));
+            //constructing arm sim stuff
+            armSim = new SingleJointedArmSim(
+                    armConstants.armGearbox,
+                    armConstants.armGearRatio,
+                    armConstants.armInertia,
+                    armConstants.armLength,
+                    armConstants.minAngleRads,
+                    armConstants.maxAngleRads,
+                    armConstants.armSimGrav,
+                    armConstants.armBasePosition
+            );
 
-        // Set the Arm position setpoint and P constant to Preferences if the keys don't already exist
-        Preferences.initDouble(armConstants.kArmPositionKey, armConstants.armDesiredValue);
-        Preferences.initDouble(armConstants.kArmPKey, armConstants.armKP);
+            mech2d = new Mechanism2d(60, 60);
+
+            armPivot = mech2d.getRoot("ArmPivot", 30, 30);
+
+            armTower = armPivot.append(new MechanismLigament2d("ArmTower", 30, -90));
+
+            armLigament =
+                    armPivot.append(
+                            new MechanismLigament2d(
+                                    "Arm",
+                                    30,
+                                    Units.radiansToDegrees(armSim.getAngleRads()),
+                                    6,
+                                    new Color8Bit(Color.kYellow)
+                            )
+                    );
+
+            SmartDashboard.putData("Arm Sim", mech2d);
+            armTower.setColor(new Color8Bit(Color.kBlue));
+
+            // Set the Arm position setpoint and P constant to Preferences if the keys don't already exist
+            Preferences.initDouble(armConstants.kArmPositionKey, desired);
+            Preferences.initDouble(armConstants.kArmPKey, kP);
+        }
     }
 
     //getters
-    public double getArmF(double des){
-        return feedForward_a.calculate(des);
-    }
-    public double getMotorPos() {
-        return armEncoder.getDistance();
-    }
+    public double getArmF (double des) { return feedForward_a.calculate(des); }
     public double getVoltage() { return voltage; }
     public double getSetpoint() { return desired; }
-    public double getCurrentState() { return getMotorPos() / armConstants.armGearRatio; }
+    public double getCurrentState() { return armEncoder.getPositionOffset() / armConstants.armGearRatio; }
     /**
      * Example command factory method.
      *
@@ -177,7 +186,7 @@ public class ArmSubsystem extends SubsystemBase {
     /** Load setpoint and kP from preferences. */
     public void loadPreferences() {
         // Read Preferences for Arm setpoint and kP on entering Teleop
-        armSetpointDegrees = Preferences.getDouble(armConstants.kArmPositionKey, armSetpointDegrees);
+        desired = Preferences.getDouble(armConstants.kArmPositionKey, desired);
         if (kP != Preferences.getDouble(armConstants.kArmPKey, kP)) {
             kP = Preferences.getDouble(armConstants.kArmPKey, kP);
             armPIDController.setP(kP);
@@ -188,16 +197,16 @@ public class ArmSubsystem extends SubsystemBase {
     public void reachSetpoint() {
         var pidOutput =
                 armPIDController.calculate(
-                        getMotorPos(), Units.degreesToRadians(armSetpointDegrees));
-        simMotor.setVoltage(pidOutput);
+                        getCurrentState(), Units.degreesToRadians(desired));
+        armMotor.setVoltage(pidOutput);
     }
 
     public void stop() {
-        simMotor.set(0.0);
+        armMotor.set(0.0);
     }
 
     public void close() {
-        simMotor.close();
+        armMotor.close();
         armEncoder.close();
         mech2d.close();
         armPivot.close();
@@ -207,7 +216,7 @@ public class ArmSubsystem extends SubsystemBase {
 
     public BooleanSupplier isDone(){
         BooleanSupplier finished = () ->
-        getMotorPos()/armConstants.armGearRatio==this.desired;
+        getCurrentState() == desired;
         return finished;
     }
 
@@ -222,12 +231,9 @@ public class ArmSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
-        currentState = getCurrentState(); // gear ratio maybe somewhere?
+        currentState = getCurrentState();
         voltage = pid.calculate(currentState, desired) + getArmF(desired);
         setVoltage(voltage);
-        armLigament.setAngle(Units.radiansToDegrees(armSim.getAngleRads()));
-
-        SmartDashboard.putData("arm sim", mech2d);
     }
 
     @Override
@@ -236,13 +242,13 @@ public class ArmSubsystem extends SubsystemBase {
         // This method will be called once per scheduler run during simulation
         // In this method, we update our simulation of what our arm is doing
         // First, we set our "inputs" (voltages)
-        armSim.setInput(simMotor.get() * RobotController.getBatteryVoltage());
+        armSim.setInputVoltage(armMotor.getAppliedOutput() * RobotController.getBatteryVoltage());
 
         // Next, we update it. The standard loop time is 20ms.
         armSim.update(0.020);
 
         // Finally, we set our simulated encoder's readings and simulated battery voltage
-        currentState = armSim.getAngleRads();
+        armEncoder.setPositionOffset(armSim.getAngleRads());
         // SimBattery estimates loaded battery voltages
         RoboRioSim.setVInVoltage(
                 BatterySim.calculateDefaultBatteryLoadedVoltage(armSim.getCurrentDrawAmps()));
