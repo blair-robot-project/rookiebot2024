@@ -55,8 +55,6 @@ public class ArmSubsystem extends SubsystemBase {
 
     private final DutyCycleEncoder armEncoder = new DutyCycleEncoder(armConstants.encoderPort);
 
-    private final PIDController armPIDController = new PIDController(kP, kI, kD);
-
     // Create a Mechanism2d display of an Arm with a fixed ArmTower and moving Arm.
     private Mechanism2d mech2d;
 
@@ -200,7 +198,7 @@ public class ArmSubsystem extends SubsystemBase {
         desired = Preferences.getDouble(armConstants.kArmPositionKey, desired);
         if (kP != Preferences.getDouble(armConstants.kArmPKey, kP)) {
             kP = Preferences.getDouble(armConstants.kArmPKey, kP);
-            armPIDController.setP(kP);
+            pid.setP(kP);
         }
     }
 
@@ -213,7 +211,7 @@ public class ArmSubsystem extends SubsystemBase {
         armEncoder.close();
         mech2d.close();
         armPivot.close();
-        armPIDController.close();
+        pid.close();
         armLigament.close();
     }
 
@@ -248,7 +246,7 @@ public class ArmSubsystem extends SubsystemBase {
         // In this method, we update our simulation of what our arm is doing
         // First, we set our "inputs" (voltages)
         armMotor.setVoltage(
-                armPIDController.calculate(
+                pid.calculate(
                         encoderSim.getDistance(), desired) + getArmF(true, desired));
         voltage = armMotor.getAppliedOutput() * RobotController.getBatteryVoltage();
         armSim.setInputVoltage(voltage);
