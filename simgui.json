@@ -1,7 +1,12 @@
 {
   "HALProvider": {
     "Other Devices": {
-      "DutyCycleEncoder[20]": {
+      "DutyCycleEncoder[5]": {
+        "header": {
+          "open": true
+        }
+      },
+      "SPARK MAX [3]": {
         "header": {
           "open": true
         }
