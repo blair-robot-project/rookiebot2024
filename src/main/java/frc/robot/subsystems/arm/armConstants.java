@@ -22,7 +22,7 @@ public class armConstants {
     //feed forward values
     public static final double armFeedForwardKs=1;
     public static final double armFeedForwardKv=1;
-    public static final double armFeedForwardKg=1;
+    public static final double armFeedForwardKg=3;
 
     //encoder sim values
     public static final int kEncoderAChannel = 0;

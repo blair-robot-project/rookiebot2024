@@ -138,7 +138,13 @@ public class ArmSubsystem extends SubsystemBase {
             return encoderSim.getDistance() / armConstants.armGearRatio;
         }
     }
-    public double getArmF (double des) { return feedForward_a.calculate(getCurrentState(), des); }
+    public double getArmF (boolean sim, double des) {
+        if(sim) {
+            return feedForward_a.calculate(getCurrentState(), des);
+        } else {
+            return feedForward_a.calculate(getSimState(), des);
+        }
+    }
     /**
      * Example command factory method.
      *
@@ -240,7 +246,7 @@ public class ArmSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         currentState = getCurrentState();
-        voltage = pid.calculate(currentState, desired) + getArmF(desired);
+        voltage = pid.calculate(currentState, desired) + getArmF(false, desired);
         setVoltage(voltage);
     }
 
@@ -252,7 +258,7 @@ public class ArmSubsystem extends SubsystemBase {
         // First, we set our "inputs" (voltages)
         armMotor.setVoltage(
                 armPIDController.calculate(
-                        encoderSim.getDistance(), Units.degreesToRadians(desired)) + getArmF(desired));
+                        encoderSim.getDistance(), Units.degreesToRadians(desired)) + getArmF(true, desired));
         voltage = armMotor.getAppliedOutput() * RobotController.getBatteryVoltage();
         armSim.setInputVoltage(voltage);
 
