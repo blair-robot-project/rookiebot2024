@@ -81,11 +81,11 @@ public class ClawSubsystem extends SubsystemBase {
     }
 
 
-
+    public double getVoltage() { return motor.getAppliedOutput() * RobotController.getBatteryVoltage(); }
     @Override
     public void initSendable(SendableBuilder builder){
         builder.setSmartDashboardType("Claw Sim Voltage");
-        builder.addDoubleProperty("Voltage",() -> motor.get() * RobotController.getBatteryVoltage(),null);
+        builder.addDoubleProperty("Voltage", this::getVoltage,null);
     }
 
 

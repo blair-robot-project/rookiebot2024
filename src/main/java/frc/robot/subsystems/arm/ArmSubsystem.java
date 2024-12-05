@@ -4,12 +4,10 @@
 
 package frc.robot.subsystems.arm;
 
-import com.revrobotics.CANSparkLowLevel;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
@@ -31,7 +29,6 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Robot;
 
 import java.util.function.BooleanSupplier;
-import java.util.function.DoubleSupplier;
 
 public class ArmSubsystem extends SubsystemBase {
 
@@ -48,10 +45,10 @@ public class ArmSubsystem extends SubsystemBase {
     PIDController pid = new PIDController(kP, kI, kD);
 
     //current is the arm's current position in radians
-    double currentState = armConstants.armBasePosition;
+    double currentState = armConstants.armIntakePosition;
 
     //desired is where the robot wants to go
-    double desired = armConstants.armStowPosition;
+    double desired = armConstants.armIntakePosition;
 
     //arm feed forward voltage
     double feedForwardVoltage = 0;
@@ -60,7 +57,7 @@ public class ArmSubsystem extends SubsystemBase {
     double pidVoltage = 0;
 
     //desired name is the name of the position we want to go to
-    String desiredName = "Stow";
+    String desiredName = "Intake";
 
     double voltage = 0.0;
 
@@ -79,16 +76,20 @@ public class ArmSubsystem extends SubsystemBase {
 
     private MechanismLigament2d armLigament;
 
+    private double RobotControllerBattery = 0.0;
+
+    private double armMotorAppliedOutput = 0.0;
+
     //feed forward
     ArmFeedforward feedForward_a = new ArmFeedforward(armConstants.armFeedForwardKs, armConstants.armFeedForwardKg, armConstants.armFeedForwardKv);
 
     public ArmSubsystem() {
         armMotor = new CANSparkMax(armConstants.armMotorIDa, MotorType.kBrushless);
+        armMotor.setInverted(true);
         armEncoder.reset();
         armEncoder.setDistancePerRotation(armConstants.kArmEncoderDistPerRotation);
         armMotorFollower = new CANSparkMax(armConstants.armMotorFollowerID, MotorType.kBrushless);
         armMotorFollower.follow(armMotor, false);
-
         if (Robot.isSimulation()) {
 
             //constructing arm sim stuff
@@ -100,7 +101,7 @@ public class ArmSubsystem extends SubsystemBase {
                     armConstants.minAngleRads,
                     armConstants.maxAngleRads,
                     armConstants.armSimGrav,
-                    armConstants.armBasePosition
+                    armConstants.armIntakePosition
             );
 
             mech2d = new Mechanism2d(60, 60);
@@ -117,7 +118,7 @@ public class ArmSubsystem extends SubsystemBase {
                             new MechanismLigament2d(
                                     "Arm",
                                     30,
-                                    Units.radiansToDegrees(armSim.getAngleRads()),
+                                    0,
                                     6,
                                     new Color8Bit(Color.kYellow)
                             )
@@ -136,9 +137,12 @@ public class ArmSubsystem extends SubsystemBase {
     public double getVoltage() { return voltage; }
     public double getSetpoint() { return desired; }
     public String getSetpointName() { return desiredName; }
-    public double getCurrentState() { return armEncoder.getPositionOffset() / armConstants.armGearRatio; }
+    public double calcState() { return armEncoder.getPositionOffset() / armConstants.armGearRatio; }
+    public double getCurrentState() { return currentState; }
     public double getPidVoltage() { return pidVoltage; }
     public double getFeedForwardVoltage() { return feedForwardVoltage; }
+    public double getRobotControllerBattery() { return RobotControllerBattery; }
+    public double getArmMotorAppliedOutput() { return armMotorAppliedOutput; }
     public double getSimState() {
         if(encoderSim == null) {
             return 0.0;
@@ -202,7 +206,7 @@ public class ArmSubsystem extends SubsystemBase {
         // Subsystem::RunOnce implicitly requires `this` subsystem.
         return runOnce(
                 () -> {
-                    desired = armConstants.armBasePosition;
+                    desired = armConstants.armIntakePosition;
                     desiredName = "Intake";
                 });
     }
@@ -241,18 +245,19 @@ public class ArmSubsystem extends SubsystemBase {
         builder.setSmartDashboardType("Arm Sim Voltage");
         builder.publishConstString("1.0", "Logging stuff");
         builder.addDoubleProperty("1.1 position", this::getCurrentState, null);
-        builder.addDoubleProperty("1.2 voltage", this::getVoltage, null);
-        builder.addDoubleProperty( "1.3 setpoint", this::getSetpoint, null);
-        builder.addDoubleProperty("1.4 sim position", this::getSimState, null);
-        builder.addStringProperty("1.5 setpoint name", this::getSetpointName, null);
-        builder.addDoubleProperty("1.6 feed forward voltage", this::getFeedForwardVoltage, null);
-        builder.addDoubleProperty("1.7 pid voltage", this::getPidVoltage, null);
+        builder.addDoubleProperty( "1.2 setpoint", this::getSetpoint, null);
+        builder.addStringProperty("1.3 setpoint name", this::getSetpointName, null);
+        builder.addDoubleProperty("1.4 feed forward voltage", this::getFeedForwardVoltage, null);
+        builder.addDoubleProperty("1.5 pid voltage", this::getPidVoltage, null);
+        builder.addDoubleProperty("1.6 robot controller battery", this::getRobotControllerBattery, null);
+        builder.addDoubleProperty("1.7 motor applied voltage", this::getArmMotorAppliedOutput, null);
+        builder.addDoubleProperty("1.8 voltage", this::getVoltage, null);
     }
 
     @Override
     public void periodic() {
-        currentState = getCurrentState();
-        pidVoltage = pid.calculate(encoderSim.getDistance(), desired);
+        currentState = calcState();
+        pidVoltage = pid.calculate(armEncoder.getDistance(), desired);
         feedForwardVoltage = getArmF(desired);
         voltage = pidVoltage + feedForwardVoltage;
         setVoltage(voltage);
@@ -264,11 +269,15 @@ public class ArmSubsystem extends SubsystemBase {
         // This method will be called once per scheduler run during simulation
         // In this method, we update our simulation of what our arm is doing
         // First, we set our "inputs" (voltages)
-        pidVoltage = pid.calculate(encoderSim.getDistance(), desired);
+        currentState = getSimState();
+        pidVoltage = pid.calculate(currentState, desired);
         feedForwardVoltage = getArmF(desired);
-        armMotor.setVoltage(pidVoltage + feedForwardVoltage);
+        armMotor.setVoltage(armConstants.armSimGrav ? pidVoltage + feedForwardVoltage : pidVoltage);
 
-        voltage = armMotor.getAppliedOutput() * RobotController.getBatteryVoltage();
+        armMotorAppliedOutput = armMotor.getAppliedOutput();
+        RobotControllerBattery = RobotController.getBatteryVoltage();
+        voltage = armMotorAppliedOutput * RobotControllerBattery;
+
         armSim.setInputVoltage(voltage);
 
         // Next, we update it. The standard loop time is 20ms.

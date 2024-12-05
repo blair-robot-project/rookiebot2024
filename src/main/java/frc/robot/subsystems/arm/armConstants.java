@@ -9,19 +9,19 @@ public class armConstants {
     //motor follower id UNDETERMINED
     public static final int armMotorFollowerID = 2;
     //motor kp, ki, kd UNDETERMINED
-    public static final double armKP = 1.0, armKI = 0.2, armKD = 0.1;
+    public static final double armKP = 1, armKI = 1, armKD = 0.01;
     //default desired arm value RADIANS UNDETERMINED
     public static final double armHighScorePosition = Units.degreesToRadians(60);
     //default base arm value RADIANS UNDETERMINED
-    public static final double armBasePosition = Units.degreesToRadians(-75);
+    public static final double armIntakePosition = Units.degreesToRadians(-75);
     //arm angle at the top RADIANS UNDETERMINED
     public static final double armStowPosition = Units.degreesToRadians(85);
     //gear ratio UNDETERMINED
     public static final double armGearRatio = 1;
 
     //feed forward values
-    public static final double armFeedForwardKs=1;
-    public static final double armFeedForwardKg=2;
+    public static final double armFeedForwardKs=0;
+    public static final double armFeedForwardKg=5;
     public static final double armFeedForwardKv=3;
 
 
@@ -34,11 +34,11 @@ public class armConstants {
     //arm dcmotor for arm sim FINALIZED I THINK?
     public static DCMotor armGearbox = DCMotor.getNEO(1);
     //moment inertia of the arm NEED FROM CAD (jkg per meters squared) UNFINALIZED
-    public static double armInertia = 0.5;
+    public static double armInertia = 0.7;
     //arm length (units?) UNFINALIZED
     public static double armLength = Units.inchesToMeters(30);
     //minAngle (radians) UNFINALIZED
-    public static double minAngleRads = Units.degreesToRadians(-75);
+    public static double minAngleRads = Units.degreesToRadians(-90);
     //maxAngle (rads) UNFINALIZED
     public static double maxAngleRads = Units.degreesToRadians(90);
     //whether or not to simualte gravity FINALIZED
