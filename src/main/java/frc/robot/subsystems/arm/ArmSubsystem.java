@@ -52,6 +52,7 @@ public class ArmSubsystem extends SubsystemBase {
 
     //desired is where the robot wants to go
     double desired = armConstants.armStowPosition;
+    String desiredName = "Stow";
 
     double voltage = 0.0;
 
@@ -128,6 +129,7 @@ public class ArmSubsystem extends SubsystemBase {
     //getters
     public double getVoltage() { return voltage; }
     public double getSetpoint() { return desired; }
+    public String getSetpointName() { return desiredName; }
     public double getCurrentState() { return armEncoder.getPositionOffset() / armConstants.armGearRatio; }
     public double getSimState() {
         if(encoderSim == null) {
@@ -161,6 +163,7 @@ public class ArmSubsystem extends SubsystemBase {
         return runOnce(
                 () -> {
                     desired = armConstants.armStowPosition;
+                    desiredName = "Stow";
                 });
     }
 
@@ -170,6 +173,7 @@ public class ArmSubsystem extends SubsystemBase {
         return runOnce(
                 () -> {
                     desired = armConstants.armHighScorePosition;
+                    desiredName = "High Score";
                 });
     }
 
@@ -179,6 +183,7 @@ public class ArmSubsystem extends SubsystemBase {
         return runOnce(
                 () -> {
                     desired = armConstants.armHighScorePosition / 2;
+                    desiredName = "Half";
                 });
     }
 
@@ -188,6 +193,7 @@ public class ArmSubsystem extends SubsystemBase {
         return runOnce(
                 () -> {
                     desired = armConstants.armBasePosition;
+                    desiredName = "Intake";
                 });
     }
 
@@ -228,6 +234,7 @@ public class ArmSubsystem extends SubsystemBase {
         builder.addDoubleProperty("1.2 voltage", this::getVoltage, null);
         builder.addDoubleProperty( "1.3 setpoint", this::getSetpoint, null);
         builder.addDoubleProperty("1.4 sim position", this::getSimState, null);
+        builder.addStringProperty("1.5 setpoint name", this::getSetpointName, null);
     }
 
     @Override
@@ -243,19 +250,28 @@ public class ArmSubsystem extends SubsystemBase {
         // This method will be called once per scheduler run during simulation
         // In this method, we update our simulation of what our arm is doing
         // First, we set our "inputs" (voltages)
-        armSim.setInputVoltage(armMotor.getAppliedOutput()*100 * RobotController.getBatteryVoltage());
+        armMotor.setVoltage(
+                armPIDController.calculate(
+                        encoderSim.getDistance(), Units.degreesToRadians(desired)) + getArmF(desired));
+        voltage = armMotor.getAppliedOutput() * RobotController.getBatteryVoltage();
+        armSim.setInputVoltage(voltage);
 
         // Next, we update it. The standard loop time is 20ms.
         armSim.update(0.020);
 
         // Finally, we set our simulated encoder's readings and simulated battery voltage
         encoderSim.setDistance(armSim.getAngleRads());
+
         // SimBattery estimates loaded battery voltages
         RoboRioSim.setVInVoltage(
                 BatterySim.calculateDefaultBatteryLoadedVoltage(armSim.getCurrentDrawAmps()));
 
         // Update the Mechanism Arm angle based on the simulated arm angle
         armLigament.setAngle(Units.radiansToDegrees(armSim.getAngleRads()));
+    }
+
+    public void print(Object o) {
+        System.out.println(o.toString());
     }
 
 }

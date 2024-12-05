@@ -9,7 +9,7 @@ public class armConstants {
     //motor follower id UNDETERMINED
     public static final int armMotorFollowerID = 2;
     //motor kp, ki, kd UNDETERMINED
-    public static final double armKP = 50.0, armKI = 0, armKD = 0;
+    public static final double armKP = 0.3, armKI = 0, armKD = 0;
     //default desired arm value RADIANS UNDETERMINED
     public static final double armHighScorePosition = Units.degreesToRadians(75);
     //default base arm value RADIANS UNDETERMINED
@@ -17,7 +17,7 @@ public class armConstants {
     //arm angle at the top RADIANS UNDETERMINED
     public static final double armStowPosition = Units.degreesToRadians(85);
     //gear ratio UNDETERMINED
-    public static final double armGearRatio = 20;
+    public static final double armGearRatio = 1;
 
     //feed forward values
     public static final double armFeedForwardKs=1;
@@ -39,7 +39,7 @@ public class armConstants {
     //minAngle (radians) UNFINALIZED
     public static double minAngleRads = Units.degreesToRadians(-75);
     //maxAngle (rads) UNFINALIZED
-    public static double maxAngleRads = Units.degreesToRadians(255);
+    public static double maxAngleRads = Units.degreesToRadians(90);
     //whether or not to simualte gravity FINALIZED
     public static boolean armSimGrav = true;
 
