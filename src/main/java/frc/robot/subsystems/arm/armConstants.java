@@ -6,8 +6,6 @@ import edu.wpi.first.math.util.Units;
 public class armConstants {
     //motor id UNDETERMINED
     public static final int armMotorIDa = 62;
-    //motor follower id UNDETERMINED
-    public static final int armMotorFollowerID = 2;
     //motor kp, ki, kd UNDETERMINED
     public static final double armKP = 0.3, armKI = 0, armKD = 0;
     //default desired arm value RADIANS UNDETERMINED
@@ -22,7 +20,7 @@ public class armConstants {
     //feed forward values
     public static final double armFeedForwardKs=1;
     public static final double armFeedForwardKv=1;
-    public static final double armFeedForwardKg=3;
+    public static final double armFeedForwardKg=1;
 
     //encoder sim values
     public static final int kEncoderAChannel = 0;

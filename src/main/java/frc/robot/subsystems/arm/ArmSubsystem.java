@@ -38,9 +38,6 @@ public class ArmSubsystem extends SubsystemBase {
     //arm motor
     CANSparkMax armMotor;
 
-    //second arm motor
-    CANSparkMax armMotorFollower;
-
     //establishing kp, ki, and kd
     double kP = armConstants.armKP, kI = armConstants.armKI, kD = armConstants.armKD;
 
@@ -78,8 +75,6 @@ public class ArmSubsystem extends SubsystemBase {
 
     public ArmSubsystem() {
         armMotor = new CANSparkMax(armConstants.armMotorIDa, MotorType.kBrushless);
-        armMotorFollower = new CANSparkMax(armConstants.armMotorFollowerID, MotorType.kBrushless);
-        armMotorFollower.follow(armMotor, false);
         armEncoder.reset();
         armEncoder.setDistancePerRotation(armConstants.kArmEncoderDistPerRotation);
 
@@ -139,11 +134,7 @@ public class ArmSubsystem extends SubsystemBase {
         }
     }
     public double getArmF (boolean sim, double des) {
-        if(sim) {
-            return feedForward_a.calculate(getCurrentState(), des);
-        } else {
-            return feedForward_a.calculate(getSimState(), des);
-        }
+        return feedForward_a.calculate(des, 0);
     }
     /**
      * Example command factory method.
