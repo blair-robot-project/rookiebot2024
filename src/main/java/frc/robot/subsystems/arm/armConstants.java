@@ -7,7 +7,7 @@ public class armConstants {
     //motor id UNDETERMINED
     public static final int armMotorIDa = 62;
     //motor kp, ki, kd UNDETERMINED
-    public static final double armKP = 0.3, armKI = 0, armKD = 0;
+    public static final double armKP = 1, armKI = 0, armKD = 0;
     //default desired arm value RADIANS UNDETERMINED
     public static final double armHighScorePosition = Units.degreesToRadians(75);
     //default base arm value RADIANS UNDETERMINED
@@ -19,8 +19,8 @@ public class armConstants {
 
     //feed forward values
     public static final double armFeedForwardKs=1;
-    public static final double armFeedForwardKv=1;
-    public static final double armFeedForwardKg=1;
+    public static final double armFeedForwardKv=0;
+    public static final double armFeedForwardKg=0;
 
     //encoder sim values
     public static final int kEncoderAChannel = 0;
