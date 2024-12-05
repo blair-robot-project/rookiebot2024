@@ -249,7 +249,7 @@ public class ArmSubsystem extends SubsystemBase {
         // First, we set our "inputs" (voltages)
         armMotor.setVoltage(
                 armPIDController.calculate(
-                        encoderSim.getDistance(), Units.degreesToRadians(desired)) + getArmF(true, desired));
+                        encoderSim.getDistance(), desired) + getArmF(true, desired));
         voltage = armMotor.getAppliedOutput() * RobotController.getBatteryVoltage();
         armSim.setInputVoltage(voltage);
 

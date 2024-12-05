@@ -7,7 +7,7 @@ public class armConstants {
     //motor id UNDETERMINED
     public static final int armMotorIDa = 62;
     //motor kp, ki, kd UNDETERMINED
-    public static final double armKP = 5, armKI = 1.7, armKD = 0.3;
+    public static final double armKP = 1.0, armKI = 0.2, armKD = 0.1;
     //default desired arm value RADIANS UNDETERMINED
     public static final double armHighScorePosition = Units.degreesToRadians(60);
     //default base arm value RADIANS UNDETERMINED
