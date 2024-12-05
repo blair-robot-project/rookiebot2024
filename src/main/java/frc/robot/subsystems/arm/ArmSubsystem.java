@@ -38,6 +38,9 @@ public class ArmSubsystem extends SubsystemBase {
     //arm motor
     CANSparkMax armMotor;
 
+    //second arm motor
+    CANSparkMax armMotorFollower;
+
     //establishing kp, ki, and kd
     double kP = armConstants.armKP, kI = armConstants.armKI, kD = armConstants.armKD;
 
@@ -75,6 +78,8 @@ public class ArmSubsystem extends SubsystemBase {
         armMotor = new CANSparkMax(armConstants.armMotorIDa, MotorType.kBrushless);
         armEncoder.reset();
         armEncoder.setDistancePerRotation(armConstants.kArmEncoderDistPerRotation);
+        armMotorFollower = new CANSparkMax(armConstants.armMotorFollowerID, MotorType.kBrushless);
+        armMotorFollower.follow(armMotor, false);
 
         if (Robot.isSimulation()) {
 
@@ -131,7 +136,7 @@ public class ArmSubsystem extends SubsystemBase {
             return encoderSim.getDistance() / armConstants.armGearRatio;
         }
     }
-    public double getArmF (boolean sim, double des) {
+    public double getArmF (double des) {
         return feedForward_a.calculate(des, 0);
     }
     /**
@@ -235,7 +240,7 @@ public class ArmSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         currentState = getCurrentState();
-        voltage = pid.calculate(currentState, desired) + getArmF(false, desired);
+        voltage = pid.calculate(currentState, desired) + getArmF(desired);
         setVoltage(voltage);
     }
 
@@ -247,7 +252,10 @@ public class ArmSubsystem extends SubsystemBase {
         // First, we set our "inputs" (voltages)
         armMotor.setVoltage(
                 pid.calculate(
-                        encoderSim.getDistance(), desired) + getArmF(true, desired));
+                        encoderSim.getDistance(), desired)
+                + getArmF(desired)
+        );
+
         voltage = armMotor.getAppliedOutput() * RobotController.getBatteryVoltage();
         armSim.setInputVoltage(voltage);
 
