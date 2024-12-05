@@ -52,6 +52,14 @@ public class ArmSubsystem extends SubsystemBase {
 
     //desired is where the robot wants to go
     double desired = armConstants.armStowPosition;
+
+    //arm feed forward voltage
+    double feedForwardVoltage = 0;
+
+    //pid voltage
+    double pidVoltage = 0;
+
+    //desired name is the name of the position we want to go to
     String desiredName = "Stow";
 
     double voltage = 0.0;
@@ -129,6 +137,8 @@ public class ArmSubsystem extends SubsystemBase {
     public double getSetpoint() { return desired; }
     public String getSetpointName() { return desiredName; }
     public double getCurrentState() { return armEncoder.getPositionOffset() / armConstants.armGearRatio; }
+    public double getPidVoltage() { return pidVoltage; }
+    public double getFeedForwardVoltage() { return feedForwardVoltage; }
     public double getSimState() {
         if(encoderSim == null) {
             return 0.0;
@@ -235,12 +245,16 @@ public class ArmSubsystem extends SubsystemBase {
         builder.addDoubleProperty( "1.3 setpoint", this::getSetpoint, null);
         builder.addDoubleProperty("1.4 sim position", this::getSimState, null);
         builder.addStringProperty("1.5 setpoint name", this::getSetpointName, null);
+        builder.addDoubleProperty("1.6 feed forward voltage", this::getFeedForwardVoltage, null);
+        builder.addDoubleProperty("1.7 pid voltage", this::getPidVoltage, null);
     }
 
     @Override
     public void periodic() {
         currentState = getCurrentState();
-        voltage = pid.calculate(currentState, desired) + getArmF(desired);
+        pidVoltage = pid.calculate(encoderSim.getDistance(), desired);
+        feedForwardVoltage = getArmF(desired);
+        voltage = pidVoltage + feedForwardVoltage;
         setVoltage(voltage);
     }
 
@@ -250,11 +264,9 @@ public class ArmSubsystem extends SubsystemBase {
         // This method will be called once per scheduler run during simulation
         // In this method, we update our simulation of what our arm is doing
         // First, we set our "inputs" (voltages)
-        armMotor.setVoltage(
-                pid.calculate(
-                        encoderSim.getDistance(), desired)
-                + getArmF(desired)
-        );
+        pidVoltage = pid.calculate(encoderSim.getDistance(), desired);
+        feedForwardVoltage = getArmF(desired);
+        armMotor.setVoltage(pidVoltage + feedForwardVoltage);
 
         voltage = armMotor.getAppliedOutput() * RobotController.getBatteryVoltage();
         armSim.setInputVoltage(voltage);
