@@ -62,8 +62,6 @@ public class ArmSubsystem extends SubsystemBase {
 
     double voltage = 0.0;
 
-    private final DutyCycleEncoder previousEncoder = new DutyCycleEncoder(armConstants.encoderPort);
-
     private RelativeEncoder armEncoder;
 
     // Create a Mechanism2d display of an Arm with a fixed ArmTower and moving Arm.
@@ -94,6 +92,7 @@ public class ArmSubsystem extends SubsystemBase {
         //previousEncoder.setDistancePerRotation(armConstants.kArmEncoderDistPerRotation);
         armMotorFollower = new CANSparkMax(armConstants.armMotorFollowerID, MotorType.kBrushless);
         armMotorFollower.follow(armMotor, false);
+
         if (Robot.isSimulation()) {
 
             //constructing arm sim stuff
@@ -141,19 +140,16 @@ public class ArmSubsystem extends SubsystemBase {
     public double getVoltage() { return voltage; }
     public double getSetpoint() { return desired; }
     public String getSetpointName() { return desiredName; }
-    public double calcState() { return armEncoder.getPosition() / armConstants.armGearRatio; }
+    public double calcState() { return armEncoder.getPosition() * armConstants.armGearRatio; }
     public double getCurrentState() { return currentState; }
     public double getPidVoltage() { return pidVoltage; }
     public double getFeedForwardVoltage() { return feedForwardVoltage; }
     public double getRobotControllerBattery() { return RobotControllerBattery; }
     public double getArmMotorAppliedOutput() { return armMotorAppliedOutput; }
     public double getSimState() {
-        if(encoderSim == null) {
-            return 0.0;
-        } else {
-            return encoderSim.getDistance() / armConstants.armGearRatio;
-        }
+        return encoderSim.getDistance();
     }
+
     public double getArmF (double des) {
         return feedForward_a.calculate(des, 0);
     }
