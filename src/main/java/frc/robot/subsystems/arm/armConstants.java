@@ -54,6 +54,7 @@ public class armConstants {
     //  = (2 * PI rads) / (4096 pulses)
     // UNFINALIZED
     public static double kArmEncoderDistPerPulse = 2 * Math.PI / 4096;
+    public static int kArmEncoderDistPerRotation = 1;
     public static final String kArmPositionKey = "ArmPosition";
     public static final String kArmPKey = "ArmP";
 

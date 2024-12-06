@@ -65,7 +65,7 @@ public class ArmSubsystem extends SubsystemBase {
 
     double voltage = 0.0;
 
-    private final RelativeEncoder armEncoder;
+    private final DutyCycleEncoder armEncoder;
 
     // Create a Mechanism2d display of an Arm with a fixed ArmTower and moving Arm.
     private Mechanism2d mech2d;
@@ -91,9 +91,10 @@ public class ArmSubsystem extends SubsystemBase {
         armMotor = new CANSparkMax(armConstants.armMotorIDa, MotorType.kBrushless);
         armMotor.setInverted(armConstants.armInversion);
 
-        armEncoder = armMotor.getEncoder();
-        //previousEncoder.reset();
-        //previousEncoder.setDistancePerRotation(armConstants.kArmEncoderDistPerRotation);
+        armEncoder = new DutyCycleEncoder(armConstants.encoderPort);
+        armEncoder.reset();
+        armEncoder.setDistancePerRotation(armConstants.kArmEncoderDistPerRotation);
+
         armMotorFollower = new CANSparkMax(armConstants.armMotorFollowerID, MotorType.kBrushless);
         armMotorFollower.follow(armMotor, false);
 
@@ -144,9 +145,8 @@ public class ArmSubsystem extends SubsystemBase {
     public double getVoltage() { return voltage; }
     public double getSetpoint() { return desired; }
     public String getSetpointName() { return desiredName; }
-    public double calcState() { return armEncoder.getPosition() * armConstants.armGearRatio; }
+    public double calcState() { return armEncoder.getPositionOffset() * armConstants.armGearRatio; }
     public double getCurrentState() { return currentState; }
-    public double getSimState() { return simState; }
     public double getPidVoltage() { return pidVoltage; }
     public double getFeedForwardVoltage() { return feedForwardVoltage; }
     public double getRobotControllerBattery() { return RobotControllerBattery; }
@@ -283,13 +283,13 @@ public class ArmSubsystem extends SubsystemBase {
         RobotControllerBattery = RobotController.getBatteryVoltage();
         voltage = armMotorAppliedOutput * RobotControllerBattery;
 
-        armSim.setInputVoltage(voltage);
+        armSim.setInput(voltage);
 
         // Next, we update it. The standard loop time is 20ms.
         armSim.update(0.020);
 
         // Finally, we set our simulated encoder's readings and simulated battery voltage
-//        encoderSim.setDistance(armSim.getAngleRads());
+        encoderSim.setDistance(armSim.getAngleRads());
 
         // SimBattery estimates loaded battery voltages
         RoboRioSim.setVInVoltage(
