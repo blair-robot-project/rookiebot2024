@@ -274,6 +274,7 @@ public class ArmSubsystem extends SubsystemBase {
         // First, we set our "inputs" (voltages)
 //        simState = calcSimState();
 
+        print(armSim.getAngleRads());
         pidVoltage = pid.calculate(armSim.getAngleRads(), desired);
         feedForwardVoltage = getArmF(desired);
         armMotor.setVoltage(armConstants.armSimGrav ? pidVoltage + feedForwardVoltage : pidVoltage);
