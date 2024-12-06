@@ -4,8 +4,8 @@ package frc.robot.subsystems.swerve;
 
 
 public final class driveConstants {
-    public static final double MAX_SPEED = 8.0; // can be changed
-    public static final double MAX_ANGULAR_SPEED = 3*Math.PI; // can be changed, 3/2 rotations per second (in radians, so pi radians is 1/2 of a rotation)
+    public static final double MAX_SPEED = 4.0; // can be changed
+    public static final double MAX_ANGULAR_SPEED = Math.PI; // can be changed, 3/2 rotations per second (in radians, so pi radians is 1/2 of a rotation)
 
     public static final double WHEEL_RADIUS = 0.0508;
     public static final double WHEEL_CIRCUMFERENCE = 2 * WHEEL_RADIUS * Math.PI; // placeholder

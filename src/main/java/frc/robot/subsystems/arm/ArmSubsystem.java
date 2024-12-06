@@ -65,7 +65,7 @@ public class ArmSubsystem extends SubsystemBase {
 
     double voltage = 0.0;
 
-    private RelativeEncoder armEncoder;
+    private final RelativeEncoder armEncoder;
 
     // Create a Mechanism2d display of an Arm with a fixed ArmTower and moving Arm.
     private Mechanism2d mech2d;
@@ -246,7 +246,7 @@ public class ArmSubsystem extends SubsystemBase {
     public void initSendable(SendableBuilder builder) {
         builder.setSmartDashboardType("Arm Sim Voltage");
         builder.publishConstString("1.0", "Logging stuff");
-        builder.addDoubleProperty("1.1 position", this::getCurrentState, null);
+        builder.addDoubleProperty("1.1 position", this::calcState, null);
         builder.addDoubleProperty( "1.2 setpoint", this::getSetpoint, null);
         builder.addStringProperty("1.3 setpoint name", this::getSetpointName, null);
         builder.addDoubleProperty("1.4 feed forward voltage", this::getFeedForwardVoltage, null);
@@ -254,7 +254,7 @@ public class ArmSubsystem extends SubsystemBase {
         builder.addDoubleProperty("1.6 robot controller battery", this::getRobotControllerBattery, null);
         builder.addDoubleProperty("1.7 motor applied voltage", this::getArmMotorAppliedOutput, null);
         builder.addDoubleProperty("1.8 voltage", this::getVoltage, null);
-        builder.addDoubleProperty("1.9 sim position", this::getSimState, null);
+        builder.addDoubleProperty("1.9 sim position", this::calcSimState, null);
     }
 
     @Override
