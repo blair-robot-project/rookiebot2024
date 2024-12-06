@@ -117,7 +117,7 @@ public class ArmSubsystem extends SubsystemBase {
 
             armTower = armPivot.append(new MechanismLigament2d("ArmTower", 30, -90));
 
-            encoderSim = new EncoderSim(new Encoder(armConstants.kEncoderAChannel, armConstants.kEncoderBChannel));
+            encoderSim = new EncoderSim( new Encoder(armConstants.kEncoderAChannel, armConstants.kEncoderBChannel) );
             encoderSim.setDistancePerPulse(armConstants.kArmEncoderDistPerPulse);
 
             armLigament =
@@ -151,7 +151,7 @@ public class ArmSubsystem extends SubsystemBase {
     public double getFeedForwardVoltage() { return feedForwardVoltage; }
     public double getRobotControllerBattery() { return RobotControllerBattery; }
     public double getArmMotorAppliedOutput() { return armMotorAppliedOutput; }
-    public double calcSimState() { return encoderSim.getDistance(); }
+    public double calcSimState() { return armSim.getAngleRads(); }
 
     public double getArmF (double des) {
         return feedForward_a.calculate(des, 0);
@@ -272,9 +272,9 @@ public class ArmSubsystem extends SubsystemBase {
         // This method will be called once per scheduler run during simulation
         // In this method, we update our simulation of what our arm is doing
         // First, we set our "inputs" (voltages)
-        simState = calcSimState();
+//        simState = calcSimState();
 
-        pidVoltage = pid.calculate(simState, desired);
+        pidVoltage = pid.calculate(armSim.getAngleRads(), desired);
         feedForwardVoltage = getArmF(desired);
         armMotor.setVoltage(armConstants.armSimGrav ? pidVoltage + feedForwardVoltage : pidVoltage);
 
@@ -288,7 +288,7 @@ public class ArmSubsystem extends SubsystemBase {
         armSim.update(0.020);
 
         // Finally, we set our simulated encoder's readings and simulated battery voltage
-        encoderSim.setDistance(armSim.getAngleRads());
+//        encoderSim.setDistance(armSim.getAngleRads());
 
         // SimBattery estimates loaded battery voltages
         RoboRioSim.setVInVoltage(
