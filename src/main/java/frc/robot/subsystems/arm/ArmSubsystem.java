@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems.arm;
 
+import com.revrobotics.CANSparkBase;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
@@ -97,6 +98,10 @@ public class ArmSubsystem extends SubsystemBase {
 
         armMotorFollower = new CANSparkMax(armConstants.armMotorFollowerID, MotorType.kBrushless);
         armMotorFollower.follow(armMotor, false);
+        this.armMotor.setIdleMode(CANSparkBase.IdleMode.kBrake);
+        this.armMotorFollower.setIdleMode(CANSparkBase.IdleMode.kBrake);
+        this.armMotor.burnFlash();
+        this.armMotorFollower.burnFlash();
 
         if (Robot.isSimulation()) {
 
