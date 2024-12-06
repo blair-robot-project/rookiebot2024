@@ -39,11 +39,13 @@ public class armConstants {
     //arm length (units?) UNFINALIZED
     public static double armLength = Units.inchesToMeters(30);
     //minAngle (radians) UNFINALIZED
-    public static double minAngleRads = Units.degreesToRadians(-60);
+    public static double minAngleRads = Units.degreesToRadians(-30);
     //maxAngle (rads) UNFINALIZED
     public static double maxAngleRads = Units.degreesToRadians(120);
     //whether or not to simualte gravity FINALIZED
     public static boolean armSimGrav = true;
+
+    public static boolean armInversion = true;
 
     //Encoder Channels UNFINALIZED
     public static int encoderPort = 20;

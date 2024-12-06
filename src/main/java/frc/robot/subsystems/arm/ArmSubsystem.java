@@ -89,7 +89,8 @@ public class ArmSubsystem extends SubsystemBase {
 
     public ArmSubsystem() {
         armMotor = new CANSparkMax(armConstants.armMotorIDa, MotorType.kBrushless);
-        armMotor.setInverted(true);
+        armMotor.setInverted(armConstants.armInversion);
+
         armEncoder = armMotor.getEncoder();
         //previousEncoder.reset();
         //previousEncoder.setDistancePerRotation(armConstants.kArmEncoderDistPerRotation);
@@ -124,7 +125,7 @@ public class ArmSubsystem extends SubsystemBase {
                             new MechanismLigament2d(
                                     "Arm",
                                     30,
-                                    0,
+                                    Units.radiansToDegrees(armSim.getAngleRads()),
                                     6,
                                     new Color8Bit(Color.kYellow)
                             )
@@ -272,6 +273,7 @@ public class ArmSubsystem extends SubsystemBase {
         // In this method, we update our simulation of what our arm is doing
         // First, we set our "inputs" (voltages)
         simState = calcSimState();
+
         pidVoltage = pid.calculate(simState, desired);
         feedForwardVoltage = getArmF(desired);
         armMotor.setVoltage(armConstants.armSimGrav ? pidVoltage + feedForwardVoltage : pidVoltage);
