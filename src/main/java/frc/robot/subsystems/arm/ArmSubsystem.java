@@ -6,6 +6,7 @@ package frc.robot.subsystems.arm;
 
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.RelativeEncoder;
 import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.util.Units;
@@ -61,7 +62,9 @@ public class ArmSubsystem extends SubsystemBase {
 
     double voltage = 0.0;
 
-    private final DutyCycleEncoder armEncoder = new DutyCycleEncoder(armConstants.encoderPort);
+    private final DutyCycleEncoder previousEncoder = new DutyCycleEncoder(armConstants.encoderPort);
+
+    private RelativeEncoder armEncoder;
 
     // Create a Mechanism2d display of an Arm with a fixed ArmTower and moving Arm.
     private Mechanism2d mech2d;
@@ -86,8 +89,9 @@ public class ArmSubsystem extends SubsystemBase {
     public ArmSubsystem() {
         armMotor = new CANSparkMax(armConstants.armMotorIDa, MotorType.kBrushless);
         armMotor.setInverted(true);
-        armEncoder.reset();
-        armEncoder.setDistancePerRotation(armConstants.kArmEncoderDistPerRotation);
+        armEncoder = armMotor.getEncoder();
+        //previousEncoder.reset();
+        //previousEncoder.setDistancePerRotation(armConstants.kArmEncoderDistPerRotation);
         armMotorFollower = new CANSparkMax(armConstants.armMotorFollowerID, MotorType.kBrushless);
         armMotorFollower.follow(armMotor, false);
         if (Robot.isSimulation()) {
@@ -137,7 +141,7 @@ public class ArmSubsystem extends SubsystemBase {
     public double getVoltage() { return voltage; }
     public double getSetpoint() { return desired; }
     public String getSetpointName() { return desiredName; }
-    public double calcState() { return armEncoder.getPositionOffset() / armConstants.armGearRatio; }
+    public double calcState() { return armEncoder.getPosition() / armConstants.armGearRatio; }
     public double getCurrentState() { return currentState; }
     public double getPidVoltage() { return pidVoltage; }
     public double getFeedForwardVoltage() { return feedForwardVoltage; }
@@ -227,7 +231,6 @@ public class ArmSubsystem extends SubsystemBase {
 
     public void close() {
         armMotor.close();
-        armEncoder.close();
         mech2d.close();
         armPivot.close();
         pid.close();
@@ -257,7 +260,7 @@ public class ArmSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         currentState = calcState();
-        pidVoltage = pid.calculate(armEncoder.getDistance(), desired);
+        pidVoltage = pid.calculate(currentState, desired);
         feedForwardVoltage = getArmF(desired);
         voltage = pidVoltage + feedForwardVoltage;
         setVoltage(voltage);
