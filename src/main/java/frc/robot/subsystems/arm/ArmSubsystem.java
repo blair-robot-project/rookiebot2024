@@ -102,7 +102,6 @@ public class ArmSubsystem extends SubsystemBase {
         this.armMotorFollower.setIdleMode(CANSparkBase.IdleMode.kBrake);
         this.armMotor.burnFlash();
         this.armMotorFollower.burnFlash();
-
         if (Robot.isSimulation()) {
 
             //constructing arm sim stuff
@@ -259,7 +258,7 @@ public class ArmSubsystem extends SubsystemBase {
         builder.addDoubleProperty("1.6 robot controller battery", this::getRobotControllerBattery, null);
         builder.addDoubleProperty("1.7 motor applied voltage", this::getArmMotorAppliedOutput, null);
         builder.addDoubleProperty("1.8 voltage", this::getVoltage, null);
-        builder.addDoubleProperty("1.9 sim position", this::calcSimState, null);
+        //builder.addDoubleProperty("1.9 sim position", this::calcSimState, null);
     }
 
     @Override
@@ -269,6 +268,7 @@ public class ArmSubsystem extends SubsystemBase {
         feedForwardVoltage = getArmF(desired);
         voltage = pidVoltage + feedForwardVoltage;
         setVoltage(voltage);
+        print(voltage);
     }
 
     @Override

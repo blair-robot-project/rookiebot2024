@@ -6,6 +6,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -28,8 +29,7 @@ import static frc.robot.otherConstants.operatorConstants.MECH_CONTROLLER_PORT;
 public class RobotContainer {
     //public SwerveDrive swervee;
 
-    Joystick joystick1 = new Joystick(0);
-    Joystick joystick2 = new Joystick(0);
+    XboxController joystick1 = new XboxController(0);
 
     // The robot's subsystems and commands are defined here...
     public static final ClawSubsystem claw = new ClawSubsystem();

@@ -9,7 +9,7 @@ public class armConstants {
     //motor follower id UNDETERMINED
     public static final int armMotorFollowerID = 2;
     //motor kp, ki, kd UNDETERMINED
-    public static final double armKP = 1, armKI = 1, armKD = 0.01;
+    public static final double armKP = 0.1, armKI = 0, armKD = 0.0;
     //arm angle at the top RADIANS UNDETERMINED
     public static final double armStowPosition = Units.degreesToRadians(120);
     //default desired arm value RADIANS UNDETERMINED
@@ -21,9 +21,9 @@ public class armConstants {
     public static final double armGearRatio = 2.0/3;
 
     //feed forward values
-    public static final double armFeedForwardKs=0;
-    public static final double armFeedForwardKg=5;
-    public static final double armFeedForwardKv=3;
+    public static final double armFeedForwardKs=0.1;
+    public static final double armFeedForwardKg=0.1;
+    public static final double armFeedForwardKv=0.1;
 
 
     //encoder sim values
@@ -35,7 +35,7 @@ public class armConstants {
     //arm dcmotor for arm sim FINALIZED I THINK?
     public static DCMotor armGearbox = DCMotor.getNEO(1);
     //moment inertia of the arm NEED FROM CAD (jkg per meters squared) UNFINALIZED
-    public static double armInertia = 0.7;
+    public static double armInertia = 0.5;
     //arm length (units?) UNFINALIZED
     public static double armLength = Units.inchesToMeters(30);
     //minAngle (radians) UNFINALIZED
