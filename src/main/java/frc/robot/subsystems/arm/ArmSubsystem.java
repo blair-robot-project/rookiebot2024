@@ -48,6 +48,9 @@ public class ArmSubsystem extends SubsystemBase {
     //current is the arm's current position in radians
     double currentState = armConstants.armIntakePosition;
 
+    //encoder position
+    double simState = armConstants.armIntakePosition;
+
     //desired is where the robot wants to go
     double desired = armConstants.armIntakePosition;
 
@@ -142,13 +145,12 @@ public class ArmSubsystem extends SubsystemBase {
     public String getSetpointName() { return desiredName; }
     public double calcState() { return armEncoder.getPosition() * armConstants.armGearRatio; }
     public double getCurrentState() { return currentState; }
+    public double getSimState() { return simState; }
     public double getPidVoltage() { return pidVoltage; }
     public double getFeedForwardVoltage() { return feedForwardVoltage; }
     public double getRobotControllerBattery() { return RobotControllerBattery; }
     public double getArmMotorAppliedOutput() { return armMotorAppliedOutput; }
-    public double getSimState() {
-        return encoderSim.getDistance();
-    }
+    public double calcSimState() { return encoderSim.getDistance(); }
 
     public double getArmF (double des) {
         return feedForward_a.calculate(des, 0);
@@ -251,6 +253,7 @@ public class ArmSubsystem extends SubsystemBase {
         builder.addDoubleProperty("1.6 robot controller battery", this::getRobotControllerBattery, null);
         builder.addDoubleProperty("1.7 motor applied voltage", this::getArmMotorAppliedOutput, null);
         builder.addDoubleProperty("1.8 voltage", this::getVoltage, null);
+        builder.addDoubleProperty("1.9 sim position", this::getSimState, null);
     }
 
     @Override
@@ -268,8 +271,8 @@ public class ArmSubsystem extends SubsystemBase {
         // This method will be called once per scheduler run during simulation
         // In this method, we update our simulation of what our arm is doing
         // First, we set our "inputs" (voltages)
-        currentState = getSimState();
-        pidVoltage = pid.calculate(currentState, desired);
+        simState = calcSimState();
+        pidVoltage = pid.calculate(simState, desired);
         feedForwardVoltage = getArmF(desired);
         armMotor.setVoltage(armConstants.armSimGrav ? pidVoltage + feedForwardVoltage : pidVoltage);
 
