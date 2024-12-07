@@ -5,6 +5,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -132,10 +133,15 @@ public class Robot extends TimedRobot {
         double rotation;
 
         xdirection = -robotContainer.joystick1.getLeftY() * driveConstants.MAX_SPEED;
+
         ydirection = -robotContainer.joystick1.getLeftX() * driveConstants.MAX_SPEED;
+
+        xdirection = MathUtil.applyDeadband(xdirection, 0.2, 1.0);
+        ydirection = MathUtil.applyDeadband(ydirection, 0.2, 1.0);
 
         //joystick2 is for rotation
         rotation = robotContainer.joystick1.getRightX() * driveConstants.MAX_ANGULAR_SPEED;
+
 
         if (Math.abs(xdirection) < 0.05 && Math.abs(ydirection) < 0.05 && Math.abs(rotation) < 0.05) {
             RobotContainer.swervee.stopMotors();

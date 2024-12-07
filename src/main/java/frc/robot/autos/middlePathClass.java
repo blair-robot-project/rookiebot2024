@@ -22,7 +22,7 @@ public class middlePathClass {
                         RobotContainer.claw.Intake(),
                 RobotContainer.armSub.goToStow().alongWith(RobotContainer.claw.HoldBucket().until(RobotContainer.armSub.isDone()),///goes back up
                         new PathPlannerAuto("fromBucketMiddle")),///follows a path back to the stacking grid
-                        RobotContainer.armSub.goToHalf().until(RobotContainer.armSub.isDone()),
+                        RobotContainer.armSub.goToIntake().until(RobotContainer.armSub.isDone()),
                 new ParallelRaceGroup(
                         new WaitCommand(clawConstants.OUTTAKE_SECONDS),
                         RobotContainer.claw.Outtake()

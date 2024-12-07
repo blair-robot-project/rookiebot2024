@@ -199,7 +199,7 @@ public class ArmSubsystem extends SubsystemBase {
                     desiredName = "High Score";
                 });
     }
-
+/*
     public Command goToHalf() {
         // Inline construction of command goes here.
         // Subsystem::RunOnce implicitly requires `this` subsystem.
@@ -210,6 +210,8 @@ public class ArmSubsystem extends SubsystemBase {
                 });
     }
 
+
+ */
     public Command goToIntake() {
         // Inline construction of command goes here.
         // Subsystem::RunOnce implicitly requires `this` subsystem.

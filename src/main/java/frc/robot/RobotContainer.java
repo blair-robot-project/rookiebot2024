@@ -25,7 +25,7 @@ import static frc.robot.otherConstants.operatorConstants.MECH_CONTROLLER_PORT;
 public class RobotContainer {
     //public SwerveDrive swervee;
 
-    XboxController joystick1 = new XboxController(0);
+    XboxController joystick1 = new XboxController(MECH_CONTROLLER_PORT);
 
     // The robot's subsystems and commands are defined here...
     public static final ClawSubsystem claw = new ClawSubsystem();
@@ -33,9 +33,7 @@ public class RobotContainer {
     public static final SwerveDrive swervee = new SwerveDrive();
 
     // Replace with CommandPS4Controller or CommandJoystick if needed
-    private final CommandXboxController armcontroller =
-            new CommandXboxController(ARMPORT);
-    private final CommandXboxController mechController = new CommandXboxController(MECH_CONTROLLER_PORT);
+    private final CommandXboxController mechController = new CommandXboxController(ARMPORT);
 
 
     /**
@@ -63,10 +61,10 @@ public class RobotContainer {
         
         // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
         // cancelling on release.
-        armcontroller.y().onTrue(armSub.goToStow());
-        armcontroller.x().onTrue(armSub.goToHalf());
-        armcontroller.b().onTrue(armSub.goToHighScore());
-        armcontroller.a().onTrue(armSub.goToIntake());
+        mechController.y().onTrue(armSub.goToStow());
+        //mechController.x().onTrue(armSub.goToHalf());
+        mechController.b().onTrue(armSub.goToHighScore());
+        mechController.a().onTrue(armSub.goToIntake());
 
         mechController.leftTrigger().onTrue(claw.Intake()).onFalse(claw.HoldBucket());
         mechController.rightTrigger().onTrue(claw.Outtake()).onFalse(claw.doNothing());

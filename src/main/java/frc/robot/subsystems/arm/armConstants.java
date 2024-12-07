@@ -9,7 +9,7 @@ public class armConstants {
     //motor follower id UNDETERMINED
     public static final int armMotorFollowerID = 2;
     //motor kp, ki, kd UNDETERMINED
-    public static final double armKP = 7.2, armKI = 0.6, armKD = 0.01;
+    public static final double armKP = 6.6, armKI = 0.6, armKD = 0.01;
     //arm angle at the top RADIANS
     public static final double armStowPosition = -0.05;
     //default desired arm value RADIANS
@@ -18,14 +18,14 @@ public class armConstants {
 
     public static final double armHalfPosition = 0.2;
     //default base arm value RADIANS
-    public static final double armIntakePosition = 0.35;
+    public static final double armIntakePosition = 0.45;
 
     //gear ratio
     public static final double armGearRatio = 2.0/3;
 
     //feed forward values
     public static final double armFeedForwardKs=0.5;
-    public static final double armFeedForwardKg=0.64;
+    public static final double armFeedForwardKg=0.55;
     public static final double armFeedForwardKv=0.0;
 
     public static final double offset = 0.091588 + 0.032357;

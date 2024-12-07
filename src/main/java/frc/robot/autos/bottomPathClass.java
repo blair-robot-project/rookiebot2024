@@ -23,7 +23,7 @@ public class bottomPathClass {
                         new WaitCommand(clawConstants.INTAKE_SECONDS),
                 RobotContainer.armSub.goToStow().alongWith(RobotContainer.claw.HoldBucket(),
                 new PathPlannerAuto("fromBucketBottom")),
-                RobotContainer.armSub.goToHalf().until(RobotContainer.armSub.isDone()),
+                RobotContainer.armSub.goToIntake().until(RobotContainer.armSub.isDone()),
                 new ParallelRaceGroup(
                         new WaitCommand(clawConstants.OUTTAKE_SECONDS),
                         RobotContainer.claw.Outtake()
