@@ -9,30 +9,31 @@ public class armConstants {
     //motor follower id UNDETERMINED
     public static final int armMotorFollowerID = 2;
     //motor kp, ki, kd UNDETERMINED
-    public static final double armKP = 5.0, armKI = 0.5, armKD = 0.01;
+    public static final double armKP = 7.2, armKI = 0.6, armKD = 0.01;
     //arm angle at the top RADIANS
-    public static final double armStowPosition = 0.05;
+    public static final double armStowPosition = -0.05;
     //default desired arm value RADIANS
     public static final double armHighScorePosition = 0.14;
     //default half position
 
-    public static final double armHalfPosition = 0.35;
+    public static final double armHalfPosition = 0.2;
     //default base arm value RADIANS
-    public static final double armIntakePosition = 0.24;
+    public static final double armIntakePosition = 0.35;
 
     //gear ratio
     public static final double armGearRatio = 2.0/3;
 
     //feed forward values
-    public static final double armFeedForwardKs=0.5727;
-    public static final double armFeedForwardKg=1.0;
-    public static final double armFeedForwardKv=0.107;
+    public static final double armFeedForwardKs=0.5;
+    public static final double armFeedForwardKg=0.64;
+    public static final double armFeedForwardKv=0.0;
 
     public static final double offset = 0.091588 + 0.032357;
 
     //encoder sim values
     public static final int kEncoderAChannel = 0;
     public static final int kEncoderBChannel = 1;
+
 
     //VALUES NEEDED FOR ARM SIM
 

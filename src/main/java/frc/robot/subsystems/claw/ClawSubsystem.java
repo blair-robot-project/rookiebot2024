@@ -31,7 +31,11 @@ public class ClawSubsystem extends SubsystemBase {
 
         motor = new CANSparkMax(clawConstants.CLAW_MOTOR_ID, CANSparkLowLevel.MotorType.kBrushless);
         encoder = motor.getEncoder();
+
+        this.motor.restoreFactoryDefaults();
+        this.motor.setSmartCurrentLimit(60);
         this.motor.setIdleMode(CANSparkBase.IdleMode.kCoast);
+
         this.motor.burnFlash();
     }
 

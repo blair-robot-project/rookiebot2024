@@ -5,19 +5,15 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.arm.ArmSubsystem;
 import frc.robot.subsystems.claw.ClawSubsystem;
-import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.swerve.SwerveDrive;
-import frc.robot.subsystems.swerve.SwerveModule;
 
-import static frc.robot.otherConstants.operatorConstants.DRIVE_CONTROLLER_PORT;
+import static frc.robot.otherConstants.operatorConstants.ARMPORT;
 import static frc.robot.otherConstants.operatorConstants.MECH_CONTROLLER_PORT;
 
 /**
@@ -37,8 +33,8 @@ public class RobotContainer {
     public static final SwerveDrive swervee = new SwerveDrive();
 
     // Replace with CommandPS4Controller or CommandJoystick if needed
-    private final CommandXboxController driverController =
-            new CommandXboxController(DRIVE_CONTROLLER_PORT);
+    private final CommandXboxController armcontroller =
+            new CommandXboxController(ARMPORT);
     private final CommandXboxController mechController = new CommandXboxController(MECH_CONTROLLER_PORT);
 
 
@@ -48,6 +44,8 @@ public class RobotContainer {
     public RobotContainer() {
         // Configure the trigger bindings
         configureBindings();
+        RoutineChooser routineChooser = new RoutineChooser();
+        routineChooser.InitializeAutos();
     }
 
 
@@ -65,13 +63,13 @@ public class RobotContainer {
         
         // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
         // cancelling on release.
-        mechController.y().onTrue(armSub.goToStow());
-        mechController.x().onTrue(armSub.goToHalf());
-        mechController.b().onTrue(armSub.goToHighScore());
-        mechController.a().onTrue(armSub.goToIntake());
+        armcontroller.y().onTrue(armSub.goToStow());
+        armcontroller.x().onTrue(armSub.goToHalf());
+        armcontroller.b().onTrue(armSub.goToHighScore());
+        armcontroller.a().onTrue(armSub.goToIntake());
 
-        mechController.rightTrigger().onTrue(claw.Intake()).onFalse(claw.HoldBucket());
-        mechController.leftTrigger().onTrue(claw.Outtake()).onFalse(claw.doNothing());
+        mechController.leftTrigger().onTrue(claw.Intake()).onFalse(claw.HoldBucket());
+        mechController.rightTrigger().onTrue(claw.Outtake()).onFalse(claw.doNothing());
 
         SmartDashboard.putData("claw data", claw);
         // Put Mechanism 2d to SmartDashboard

@@ -11,7 +11,7 @@ import frc.robot.subsystems.claw.clawConstants;
 public class middlePathClass {
     public Command middlePath() {
         return new SequentialCommandGroup(
-                RobotContainer.armSub.goToHalf().until(RobotContainer.armSub.isDone()),
+                RobotContainer.armSub.goToIntake().until(RobotContainer.armSub.isDone()),
                 new ParallelRaceGroup(
                         new WaitCommand(clawConstants.OUTTAKE_SECONDS),
                         RobotContainer.claw.Outtake()

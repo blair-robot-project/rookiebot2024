@@ -12,7 +12,7 @@ public class bottomPathClass {
     public Command bottomPath() {
 
         return new SequentialCommandGroup(
-                RobotContainer.armSub.goToHalf().until(RobotContainer.armSub.isDone()),
+                RobotContainer.armSub.goToIntake().until(RobotContainer.armSub.isDone()),
                 new ParallelRaceGroup(
                         new WaitCommand(clawConstants.OUTTAKE_SECONDS),
                         RobotContainer.claw.Outtake()
