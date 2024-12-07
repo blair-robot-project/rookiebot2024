@@ -42,7 +42,7 @@ public class SwerveDrive extends SubsystemBase {
     private ChassisSpeeds desiredSpeeds = new ChassisSpeeds();
     private ChassisSpeeds currentSpeeds = new ChassisSpeeds();
 
-    private final AHRS gyro = new AHRS(SPI.Port.kMXP);
+    public final AHRS gyro = new AHRS(SPI.Port.kMXP);
 
     private final SwerveDriveKinematics kinematics =
             new SwerveDriveKinematics(
@@ -179,6 +179,7 @@ public class SwerveDrive extends SubsystemBase {
                 backLeft.getState(),
                 backRight.getState()
         );
+
     }
 
     @Override
