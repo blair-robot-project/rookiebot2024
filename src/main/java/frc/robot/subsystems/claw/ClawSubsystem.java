@@ -13,13 +13,14 @@ import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.simulation.DCMotorSim;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Robot;
 
 import static frc.robot.subsystems.claw.clawConstants.*;
 
 
 public class ClawSubsystem extends SubsystemBase {
     CANSparkMax motor;
-
+    double voltage = 0;
     /**
      * Creates a new Claw Subsystem.
      */
@@ -39,7 +40,8 @@ public class ClawSubsystem extends SubsystemBase {
     public Command Intake() {
         return runOnce(
                 () -> {
-                    this.motor.setVoltage(CLAW_INTAKE_VOLTAGE);
+                    voltage = CLAW_INTAKE_VOLTAGE;
+                    motor.setVoltage(voltage);
                 });
     }
 
@@ -50,7 +52,8 @@ public class ClawSubsystem extends SubsystemBase {
      */
     public Command Outtake() {
         return runOnce(() -> {
-            this.motor.setVoltage(CLAW_OUTTAKE_VOLTAGE);
+            voltage = CLAW_OUTTAKE_VOLTAGE;
+            motor.setVoltage(voltage);
         });
     }
 
@@ -75,13 +78,21 @@ public class ClawSubsystem extends SubsystemBase {
     public Command HoldBucket() {
 
         return runOnce(() -> {
-            this.motor.setVoltage(CLAW_HOLD_VOLTAGE);
+            voltage = CLAW_HOLD_VOLTAGE;
+            motor.setVoltage(voltage);
 
         });
     }
 
 
-    public double getVoltage() { return motor.getAppliedOutput() * RobotController.getBatteryVoltage(); }
+    public double getVoltage() {
+        if (Robot.isSimulation()) {
+            return motor.getAppliedOutput() * RobotController.getBatteryVoltage();
+        } else {
+            return voltage;
+        }
+    }
+
     @Override
     public void initSendable(SendableBuilder builder){
         builder.setSmartDashboardType("Claw Sim Voltage");

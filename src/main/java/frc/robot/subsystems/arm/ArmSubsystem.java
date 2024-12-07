@@ -149,7 +149,7 @@ public class ArmSubsystem extends SubsystemBase {
     public double getVoltage() { return voltage; }
     public double getSetpoint() { return desired; }
     public String getSetpointName() { return desiredName; }
-    public double calcState() { return armEncoder.getDistance() * armConstants.armGearRatio; }
+    public double calcState() { return armEncoder.getDistance()    * armConstants.armGearRatio; }
     public double getPidVoltage() { return pidVoltage; }
     public double getFeedForwardVoltage() { return feedForwardVoltage; }
     public double getRobotControllerBattery() { return RobotControllerBattery; }
