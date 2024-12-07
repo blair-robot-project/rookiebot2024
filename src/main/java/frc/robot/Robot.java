@@ -136,13 +136,26 @@ public class Robot extends TimedRobot {
 
         //joystick2 is for rotation
         rotation = robotContainer.joystick1.getRightX() * driveConstants.MAX_ANGULAR_SPEED;
-        //joystick1 is for driving
-        RobotContainer.swervee.drive(
-                xdirection,
-                ydirection,
-                rotation,
-                driveConstants.fRel,
-                driveConstants.pdsec);
+
+        if (Math.abs(xdirection) < 0.05 && Math.abs(ydirection) < 0.05) {
+            RobotContainer.swervee.stopMotors();
+        }
+        else {
+            RobotContainer.swervee.drive(
+                    xdirection,
+                    ydirection,
+                    rotation,
+                    driveConstants.fRel,
+                    driveConstants.pdsec);
+        }
+
+        if (robotContainer.joystick1.getLeftBumper()) {
+            RobotContainer.armSub.decreaseDesired();
+        }
+
+        if (robotContainer.joystick1.getRightBumper()) {
+            RobotContainer.armSub.increaseDesired();
+        }
     }
 
 

@@ -9,22 +9,25 @@ public class armConstants {
     //motor follower id UNDETERMINED
     public static final int armMotorFollowerID = 2;
     //motor kp, ki, kd UNDETERMINED
-    public static final double armKP = 0.1, armKI = 0, armKD = 0.0;
-    //arm angle at the top RADIANS UNDETERMINED
-    public static final double armStowPosition = Units.degreesToRadians(120);
-    //default desired arm value RADIANS UNDETERMINED
-    public static final double armHighScorePosition = Units.degreesToRadians(60);
-    //default base arm value RADIANS UNDETERMINED
-    public static final double armIntakePosition = Units.degreesToRadians(-60);
+    public static final double armKP = 5.0, armKI = 0.5, armKD = 0.01;
+    //arm angle at the top RADIANS
+    public static final double armStowPosition = 0.05;
+    //default desired arm value RADIANS
+    public static final double armHighScorePosition = 0.14;
+    //default half position
+    public static final double armHalfPosition = 0.35;
+    //default base arm value RADIANS
+    public static final double armIntakePosition = 0.24;
 
-    //gear ratio UNDETERMINED
+    //gear ratio
     public static final double armGearRatio = 2.0/3;
 
     //feed forward values
-    public static final double armFeedForwardKs=0.1;
-    public static final double armFeedForwardKg=0.1;
-    public static final double armFeedForwardKv=0.1;
+    public static final double armFeedForwardKs=0.5727;
+    public static final double armFeedForwardKg=1.0;
+    public static final double armFeedForwardKv=0.107;
 
+    public static final double offset = 0.091588 + 0.032357;
 
     //encoder sim values
     public static final int kEncoderAChannel = 0;
@@ -48,7 +51,7 @@ public class armConstants {
     public static boolean armInversion = true;
 
     //Encoder Channels UNFINALIZED
-    public static int encoderPort = 20;
+    public static int encoderPort = 1;
 
     // distance per pulse = (angle per revolution) / (pulses per revolution)
     //  = (2 * PI rads) / (4096 pulses)

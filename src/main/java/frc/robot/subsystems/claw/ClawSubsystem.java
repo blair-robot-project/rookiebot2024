@@ -5,8 +5,10 @@
 
 package frc.robot.subsystems.claw;
 
+import com.revrobotics.CANSparkBase;
 import com.revrobotics.CANSparkLowLevel;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.RelativeEncoder;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.RobotController;
@@ -20,6 +22,7 @@ import static frc.robot.subsystems.claw.clawConstants.*;
 
 public class ClawSubsystem extends SubsystemBase {
     CANSparkMax motor;
+    RelativeEncoder encoder;
     double voltage = 0;
     /**
      * Creates a new Claw Subsystem.
@@ -27,7 +30,9 @@ public class ClawSubsystem extends SubsystemBase {
     public ClawSubsystem() {
 
         motor = new CANSparkMax(clawConstants.CLAW_MOTOR_ID, CANSparkLowLevel.MotorType.kBrushless);
-
+        encoder = motor.getEncoder();
+        this.motor.setIdleMode(CANSparkBase.IdleMode.kCoast);
+        this.motor.burnFlash();
     }
 
 
@@ -93,10 +98,15 @@ public class ClawSubsystem extends SubsystemBase {
         }
     }
 
+    public double getDistance() {
+        return encoder.getPosition();
+    }
+
     @Override
     public void initSendable(SendableBuilder builder){
         builder.setSmartDashboardType("Claw Sim Voltage");
         builder.addDoubleProperty("Voltage", this::getVoltage,null);
+        builder.addDoubleProperty("Distance", this::getDistance, null);
     }
 
 

@@ -159,6 +159,18 @@ public class SwerveDrive extends SubsystemBase {
         return DriverStation.getAlliance().get() == DriverStation.Alliance.Red;
     }
 
+    public void stopMotors() {
+        frontLeft.driveMotor.stopMotor();
+        frontLeft.turnMotor.stopMotor();
+        frontRight.driveMotor.stopMotor();
+        frontRight.turnMotor.stopMotor();
+        backLeft.driveMotor.stopMotor();
+        backLeft.turnMotor.stopMotor();
+        backRight.driveMotor.stopMotor();
+        backRight.turnMotor.stopMotor();
+
+    }
+
     public void periodic(){
         updateOdometry();
         currentSpeeds=kinematics.toChassisSpeeds(

@@ -47,13 +47,13 @@ public class ArmSubsystem extends SubsystemBase {
     PIDController pid = new PIDController(kP, kI, kD);
 
     //current is the arm's current position in radians
-    double currentState = armConstants.armIntakePosition;
+    double currentState;
 
     //encoder position
     double simState = armConstants.armIntakePosition;
 
     //desired is where the robot wants to go
-    double desired = armConstants.armIntakePosition;
+    double desired;
 
     //arm feed forward voltage
     double feedForwardVoltage = 0;
@@ -90,16 +90,16 @@ public class ArmSubsystem extends SubsystemBase {
 
     public ArmSubsystem() {
         armMotor = new CANSparkMax(armConstants.armMotorIDa, MotorType.kBrushless);
-        armMotor.setInverted(armConstants.armInversion);
 
         armEncoder = new DutyCycleEncoder(armConstants.encoderPort);
         armEncoder.reset();
+        armEncoder.setPositionOffset(armConstants.offset);
         armEncoder.setDistancePerRotation(armConstants.kArmEncoderDistPerRotation);
 
         armMotorFollower = new CANSparkMax(armConstants.armMotorFollowerID, MotorType.kBrushless);
-        armMotorFollower.follow(armMotor, false);
-        this.armMotor.setIdleMode(CANSparkBase.IdleMode.kBrake);
-        this.armMotorFollower.setIdleMode(CANSparkBase.IdleMode.kBrake);
+        armMotorFollower.follow(armMotor, true);
+        this.armMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
+        this.armMotorFollower.setIdleMode(CANSparkMax.IdleMode.kBrake);
         this.armMotor.burnFlash();
         this.armMotorFollower.burnFlash();
         if (Robot.isSimulation()) {
@@ -143,13 +143,16 @@ public class ArmSubsystem extends SubsystemBase {
             Preferences.initDouble(armConstants.kArmPositionKey, desired);
             Preferences.initDouble(armConstants.kArmPKey, kP);
         }
+        desired = armConstants.armStowPosition;
+        desiredName = "Stow";
+        currentState = armEncoder.getDistance();
     }
 
     //getters
     public double getVoltage() { return voltage; }
     public double getSetpoint() { return desired; }
     public String getSetpointName() { return desiredName; }
-    public double calcState() { return armEncoder.getDistance()    * armConstants.armGearRatio; }
+    public double calcState() { return armEncoder.getDistance(); }
     public double getPidVoltage() { return pidVoltage; }
     public double getFeedForwardVoltage() { return feedForwardVoltage; }
     public double getRobotControllerBattery() { return RobotControllerBattery; }
@@ -202,7 +205,7 @@ public class ArmSubsystem extends SubsystemBase {
         // Subsystem::RunOnce implicitly requires `this` subsystem.
         return runOnce(
                 () -> {
-                    desired = armConstants.armHighScorePosition / 2;
+                    desired = armConstants.armHalfPosition;
                     desiredName = "Half";
                 });
     }
@@ -228,7 +231,7 @@ public class ArmSubsystem extends SubsystemBase {
     }
 
     public void stop() {
-        armMotor.set(0.0);
+        armMotor.setVoltage(0.0);
     }
 
     public void close() {
@@ -245,6 +248,14 @@ public class ArmSubsystem extends SubsystemBase {
         return finished;
     }
 
+    public void increaseDesired() {
+        desired += 0.01;
+    }
+
+    public void decreaseDesired() {
+        desired -= 0.01;
+    }
+
     @Override
     public void initSendable(SendableBuilder builder) {
         builder.setSmartDashboardType("Arm Sim Voltage");
@@ -253,13 +264,7 @@ public class ArmSubsystem extends SubsystemBase {
         builder.addDoubleProperty( "1.2 setpoint", this::getSetpoint, null);
         builder.addStringProperty("1.3 setpoint name", this::getSetpointName, null);
         builder.addDoubleProperty("1.4 voltage", this::getVoltage, null);
-        if(Robot.isSimulation()) {
-            builder.addDoubleProperty("1.4 sim position", this::calcSimState, null);
-            builder.addDoubleProperty("1.5 feed forward voltage", this::getFeedForwardVoltage, null);
-            builder.addDoubleProperty("1.6 pid voltage", this::getPidVoltage, null);
-            builder.addDoubleProperty("1.7 robot controller battery", this::getRobotControllerBattery, null);
-            builder.addDoubleProperty("1.8 motor applied voltage", this::getArmMotorAppliedOutput, null);
-        }
+        builder.addDoubleProperty("motor 62 distance", () -> this.armMotor.getEncoder().getPosition(), null);
         //builder.addDoubleProperty("1.9 sim position", this::calcSimState, null);
     }
 
