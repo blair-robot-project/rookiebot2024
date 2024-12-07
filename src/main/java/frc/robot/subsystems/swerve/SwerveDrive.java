@@ -172,9 +172,9 @@ public class SwerveDrive extends SubsystemBase {
     public void initSendable(SendableBuilder builder){
         builder.setSmartDashboardType("swerve");
 
-        builder.addDoubleProperty("speed x",() -> currentSpeeds.vxMetersPerSecond,null);
-        builder.addDoubleProperty("speed y",() -> currentSpeeds.vyMetersPerSecond,null);
-        builder.addDoubleProperty("speed rot",() -> currentSpeeds.omegaRadiansPerSecond,null);
+        builder.addDoubleProperty("speed x",() -> desiredSpeeds.vxMetersPerSecond,null);
+        builder.addDoubleProperty("speed y",() -> desiredSpeeds.vyMetersPerSecond,null);
+        builder.addDoubleProperty("speed rot",() -> desiredSpeeds.omegaRadiansPerSecond,null);
 
         builder.addDoubleProperty("frontLeftVoltage", frontLeft::getVoltage,null);
         builder.addDoubleProperty("frontRightVoltage", frontRight::getVoltage,null);
@@ -186,18 +186,25 @@ public class SwerveDrive extends SubsystemBase {
         builder.addDoubleProperty("set drive speed back left", backLeft::getDesiredSpeed, null);
         builder.addDoubleProperty("set drive speed back right", backRight::getDesiredSpeed, null);
 
-        builder.addDoubleProperty("set turn speed front left", frontLeft::getDesiredAngle, null);
-        builder.addDoubleProperty("set turn speed front right", frontRight::getDesiredAngle, null);
-        builder.addDoubleProperty("set turn speed back left", backLeft::getDesiredAngle, null);
-        builder.addDoubleProperty("set turn speed back right", backRight::getDesiredAngle, null);
-        builder.addDoubleProperty("frontleft Position", frontLeft::getTurnPosition,null);
-        builder.addDoubleProperty("frontRight Position", frontRight::getTurnPosition,null);
-        builder.addDoubleProperty("BackLeft Position", backLeft::getTurnPosition,null);
-        builder.addDoubleProperty("BackRight Position",backRight::getTurnPosition,null);
+        builder.addDoubleProperty("set turn angle front left", frontLeft::getDesiredAngle, null);
+        builder.addDoubleProperty("set turn angle front right", frontRight::getDesiredAngle, null);
+        builder.addDoubleProperty("set turn angle back left", backLeft::getDesiredAngle, null);
+        builder.addDoubleProperty("set turn angle back right", backRight::getDesiredAngle, null);
+        builder.addDoubleProperty("frontleft Heading", frontLeft::getTurnPosition,null);
+        builder.addDoubleProperty("frontRight Heading", frontRight::getTurnPosition,null);
+        builder.addDoubleProperty("BackLeft Heading", backLeft::getTurnPosition,null);
+        builder.addDoubleProperty("BackRight Heading",backRight::getTurnPosition,null);
         builder.addDoubleProperty("frontleft velocity",frontLeft::getVelocity,null);
         builder.addDoubleProperty("frontRight velocity",frontRight::getVelocity,null);
         builder.addDoubleProperty("backLeft velocity",backLeft::getVelocity,null);
         builder.addDoubleProperty("backRight velocity",backRight::getVelocity,null);
+
+        builder.addDoubleProperty("frontleft heading",frontLeft::getDesiredAngle,null);
+        builder.addDoubleProperty("frontRight heading",frontRight::getDesiredAngle,null);
+        builder.addDoubleProperty("backLeft heading",backLeft::getDesiredAngle,null);
+        builder.addDoubleProperty("backRight heading",backRight::getDesiredAngle,null);
+
+
 
     }
 }

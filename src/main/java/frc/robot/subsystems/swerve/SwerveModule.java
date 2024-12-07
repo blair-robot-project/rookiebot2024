@@ -84,7 +84,7 @@ public class SwerveModule {
 
     public SwerveModulePosition getPosition() {
         return new SwerveModulePosition(
-                driveEncoder.getPosition(), new Rotation2d((turnEncoder.getAbsolutePosition() - turnEncoder.getPositionOffset()) / (2 * Math.PI)));
+                driveEncoder.getPosition(), new Rotation2d((turnEncoder.getAbsolutePosition() - turnEncoder.getPositionOffset())*2*Math.PI));
     }
 
     public double getTurnPosition(){

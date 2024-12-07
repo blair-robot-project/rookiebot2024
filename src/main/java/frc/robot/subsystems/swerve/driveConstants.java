@@ -26,7 +26,7 @@ public final class driveConstants {
     public static final double turnPIDkd = 0.0; // placeholder
 
     //feedForward calc values for swerve
-    public static final double swerveFeedForwardDriveKs = 1; // placeholder
+    public static final double swerveFeedForwardDriveKs = 0; // placeholder
     public static final double swerveFeedForwardDriveKv = 1; // placeholder
     public static final double swerveFeedForwardDriveKa = 1; // placeholder
 
@@ -51,7 +51,7 @@ public final class driveConstants {
 //back right
     public static final int driveMotor4 = 11;
     public static final int turnMotor4 = 12;
-    public static final int turnEncoderChannel4 = 7;
+    public static final int turnEncoderChannel4 = 0;
 
     public static final boolean driveMotor1Inverted = false;
     public static final boolean turnMotor1Inverted = false;
