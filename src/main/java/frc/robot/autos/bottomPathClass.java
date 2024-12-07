@@ -1,6 +1,8 @@
 package frc.robot.autos;
 
+import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.commands.PathPlannerAuto;
+import com.pathplanner.lib.path.PathPlannerPath;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -18,11 +20,11 @@ public class bottomPathClass {
                         RobotContainer.claw.Outtake()
                 ),
                 RobotContainer.armSub.goToStow().alongWith(RobotContainer.claw.doNothing(),
-                        new PathPlannerAuto("toBucketBottom")),
+                        AutoBuilder.followPath(PathPlannerPath.fromPathFile("deploy/pathplanner/paths/toBucketBottom.path"))),
                 RobotContainer.armSub.goToIntake().until(RobotContainer.armSub.isDone()).alongWith(RobotContainer.claw.Intake()),
                         new WaitCommand(clawConstants.INTAKE_SECONDS),
                 RobotContainer.armSub.goToStow().alongWith(RobotContainer.claw.HoldBucket(),
-                new PathPlannerAuto("fromBucketBottom")),
+                        AutoBuilder.followPath(PathPlannerPath.fromPathFile("deploy/pathplanner/paths/fromBucketBottom.path"))),
                 RobotContainer.armSub.goToIntake().until(RobotContainer.armSub.isDone()),
                 new ParallelRaceGroup(
                         new WaitCommand(clawConstants.OUTTAKE_SECONDS),
