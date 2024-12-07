@@ -69,6 +69,10 @@ public class RobotContainer {
         mechController.leftTrigger().onTrue(claw.Intake()).onFalse(claw.HoldBucket());
         mechController.rightTrigger().onTrue(claw.Outtake()).onFalse(claw.doNothing());
 
+        if (joystick1.getStartButton()) {
+            swervee.gyro.reset();
+        }
+
         SmartDashboard.putData("claw data", claw);
         // Put Mechanism 2d to SmartDashboard
         SmartDashboard.putData("arm data", armSub);

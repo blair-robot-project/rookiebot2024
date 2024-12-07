@@ -134,10 +134,10 @@ public class SwerveDrive extends SubsystemBase {
     public ChassisSpeeds getSetSpeeds(double xSpeed, double ySpeed, double rot, boolean fieldRelative, double periodSeconds){
         var chassisSpeeds = new ChassisSpeeds(xSpeed,ySpeed,rot);
         if (fieldRelative) {
-            ChassisSpeeds.fromFieldRelativeSpeeds(chassisSpeeds, gyroAngle());
+            chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(chassisSpeeds, gyroAngle());
         }
         // forward, sideways, angular, period
-        ChassisSpeeds.discretize(xSpeed,ySpeed,rot,periodSeconds);
+//        chassisSpeeds = ChassisSpeeds.discretize(xSpeed,ySpeed,rot,periodSeconds);
         return chassisSpeeds;
     }
 

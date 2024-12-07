@@ -141,7 +141,7 @@ public class Robot extends TimedRobot {
         ydirection = MathUtil.applyDeadband(ydirection, 0.2, 1.0);
 
         //joystick2 is for rotation
-        rotation = robotContainer.joystick1.getRightX() * driveConstants.MAX_ANGULAR_SPEED;
+        rotation = -robotContainer.joystick1.getRightX() * driveConstants.MAX_ANGULAR_SPEED;
 
 
         if (Math.abs(xdirection) < 0.05 && Math.abs(ydirection) < 0.05 && Math.abs(rotation) < 0.05) {
@@ -156,13 +156,7 @@ public class Robot extends TimedRobot {
                     driveConstants.pdsec);
         }
 
-        if (robotContainer.joystick1.getLeftBumper()) {
-            RobotContainer.armSub.decreaseDesired();
-        }
 
-        if (robotContainer.joystick1.getRightBumper()) {
-            RobotContainer.armSub.increaseDesired();
-        }
     }
 
 
