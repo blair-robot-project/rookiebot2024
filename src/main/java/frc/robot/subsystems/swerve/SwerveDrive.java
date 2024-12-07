@@ -5,6 +5,7 @@ import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -199,12 +200,12 @@ public class SwerveDrive extends SubsystemBase {
         builder.addDoubleProperty("backLeft velocity",backLeft::getVelocity,null);
         builder.addDoubleProperty("backRight velocity",backRight::getVelocity,null);
 
-        builder.addDoubleProperty("frontleft heading",frontLeft::getDesiredAngle,null);
-        builder.addDoubleProperty("frontRight heading",frontRight::getDesiredAngle,null);
-        builder.addDoubleProperty("backLeft heading",backLeft::getDesiredAngle,null);
-        builder.addDoubleProperty("backRight heading",backRight::getDesiredAngle,null);
+        builder.addDoubleProperty("set frontleft heading",frontLeft::getDesiredAngle,null);
+        builder.addDoubleProperty("set frontRight heading",frontRight::getDesiredAngle,null);
+        builder.addDoubleProperty("set backLeft heading",backLeft::getDesiredAngle,null);
+        builder.addDoubleProperty("set backRight heading",backRight::getDesiredAngle,null);
 
-
+        builder.addDoubleProperty("gyro", () -> MathUtil.angleModulus(gyroAngle().getRadians()), null);
 
     }
 }

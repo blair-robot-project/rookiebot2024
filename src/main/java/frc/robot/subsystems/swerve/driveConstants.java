@@ -17,22 +17,22 @@ public final class driveConstants {
 
     //PID calculator values for swerve
 
-    public static final double drivePIDkp = 0.25; // placeholder
+    public static final double drivePIDkp = 0.475; // placeholder
     public static final double drivePIDki = 0.0; // placeholder
     public static final double drivePIDkd = 0.0; // placeholder
 
-    public static final double turnPIDkp = 0.25; // placeholder
+    public static final double turnPIDkp = 2.0; // placeholder
     public static final double turnPIDki = 0.0; // placeholder
     public static final double turnPIDkd = 0.0; // placeholder
 
     //feedForward calc values for swerve
     public static final double swerveFeedForwardDriveKs = 0; // placeholder
-    public static final double swerveFeedForwardDriveKv = 1; // placeholder
-    public static final double swerveFeedForwardDriveKa = 1; // placeholder
+    public static final double swerveFeedForwardDriveKv = 2.3887 + 0.2 + 0.0935; // placeholder
+    public static final double swerveFeedForwardDriveKa = 0.43365 + 0.035 + 0.0185; // placeholder
 
-    public static final double swerveFeedForwardTurnKs = 1; // placeholder
-    public static final double swerveFeedForwardTurnKv = 1; // placeholder
-    public static final double swerveFeedForwardTurnKa = 1; // placeholder
+    public static final double swerveFeedForwardTurnKs = 0; // placeholder
+    public static final double swerveFeedForwardTurnKv = 0; // placeholder
+    public static final double swerveFeedForwardTurnKa = 0; // placeholder
 
     //8 motor ids, 4 encoder ids
     //front left
@@ -53,26 +53,26 @@ public final class driveConstants {
     public static final int turnMotor4 = 12;
     public static final int turnEncoderChannel4 = 0;
 
-    public static final boolean driveMotor1Inverted = false;
-    public static final boolean turnMotor1Inverted = false;
+    public static final boolean driveMotor1Inverted = true;
+    public static final boolean turnMotor1Inverted = true;
     public static final boolean turnEncoder1Inverted = false;
 
-    public static final boolean driveMotor2Inverted = false;
-    public static final boolean turnMotor2Inverted = false;
+    public static final boolean driveMotor2Inverted = true;
+    public static final boolean turnMotor2Inverted = true;
     public static final boolean turnEncoder2Inverted = false;
 
-    public static final boolean driveMotor3Inverted = false;
-    public static final boolean turnMotor3Inverted = false;
+    public static final boolean driveMotor3Inverted = true;
+    public static final boolean turnMotor3Inverted = true;
     public static final boolean turnEncoder3Inverted = false;
 
-    public static final boolean driveMotor4Inverted = false;
-    public static final boolean turnMotor4Inverted = false;
+    public static final boolean driveMotor4Inverted = true;
+    public static final boolean turnMotor4Inverted = true;
     public static final boolean turnEncoder4Inverted = false;
 
-    public static final double FLturnOffset = 0.0; // placeholder
-    public static final double FRturnOffset = 0.0; // placeholder
-    public static final double BLturnOffset = 0.0; // placeholder
-    public static final double BRturnOffset = 0.0; // placeholder
+    public static final double FLturnOffset = 1.159170; // placeholder
+    public static final double FRturnOffset = 2.912143; // placeholder
+    public static final double BLturnOffset = 2.301405; // placeholder
+    public static final double BRturnOffset = -2.377702; // placeholder
 
 
     //the interavals in which the motor loops

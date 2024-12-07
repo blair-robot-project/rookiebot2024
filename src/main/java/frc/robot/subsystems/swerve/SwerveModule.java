@@ -57,7 +57,7 @@ public class SwerveModule {
         this.turnMotor = new CANSparkMax(turnMotor, CANSparkLowLevel.MotorType.kBrushless);
         drivePid = new PIDController(drivePIDkp, drivePIDki, drivePIDkd);
         turnPid = new PIDController(turnPIDkp, turnPIDki, turnPIDkd);
-        turnPid.enableContinuousInput(0,2*Math.PI);
+        turnPid.enableContinuousInput(-Math.PI,Math.PI);
         driveEncoder = this.driveMotor.getEncoder();
         this.turnEncoder = new DutyCycleEncoder(turnEncoder);
         //this.turnEncoder.setDistancePerRotation();
@@ -66,6 +66,7 @@ public class SwerveModule {
         this.driveMotor.setInverted(driveMotorInverted);
         this.turnMotor.setInverted(turnMotorInverted);
         this.turnEncoderInverted=turnEncoderInverted;
+        //this.turnEncoder.setPositionOffset(turnOffset);
         this.turnOffset=turnOffset;
         this.turnMotor.setIdleMode(CANSparkBase.IdleMode.kCoast);
         this.driveMotor.setIdleMode(CANSparkBase.IdleMode.kBrake);
@@ -84,11 +85,11 @@ public class SwerveModule {
 
     public SwerveModulePosition getPosition() {
         return new SwerveModulePosition(
-                driveEncoder.getPosition(), new Rotation2d((turnEncoder.getAbsolutePosition() - turnEncoder.getPositionOffset())*2*Math.PI));
+                driveEncoder.getPosition(), new Rotation2d(getTurnPosition()));
     }
 
     public double getTurnPosition(){
-       return getPosition().angle.getRadians();
+       return MathUtil.angleModulus((turnEncoder.getAbsolutePosition())*2*Math.PI - this.turnOffset);
     }
 
 
@@ -98,7 +99,7 @@ public class SwerveModule {
 
     public SwerveModuleState getState() {
         return new SwerveModuleState(
-                driveEncoder.getVelocity(), new Rotation2d((turnEncoder.getAbsolutePosition()-turnEncoder.getPositionOffset()) / (2 * Math.PI)));
+                driveEncoder.getVelocity(), new Rotation2d(getTurnPosition()));
     }
 
     public double getDesiredSpeed(){
@@ -116,7 +117,7 @@ public class SwerveModule {
             encoderRotation = Rotation2d.fromRotations(MathUtil.inputModulus(turnEncoder.getAbsolutePosition()-turnOffset, 0.0, 1.0));
         }
 
-        optimize(desiredState, encoderRotation);
+        desiredState = optimize(desiredState, encoderRotation);
 
         final double driveOutput = drivePid.calculate(driveEncoder.getVelocity(), desiredState.speedMetersPerSecond);
         final double drive_feedforward = feedForward_d.calculate(desiredState.speedMetersPerSecond);
