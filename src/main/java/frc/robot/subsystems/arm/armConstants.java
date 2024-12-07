@@ -35,7 +35,7 @@ public class armConstants {
     //arm dcmotor for arm sim FINALIZED I THINK?
     public static DCMotor armGearbox = DCMotor.getNEO(1);
     //moment inertia of the arm NEED FROM CAD (jkg per meters squared) UNFINALIZED
-    public static double armInertia = 0.5;
+    public static double armInertia = 7;
     //arm length (units?) UNFINALIZED
     public static double armLength = Units.inchesToMeters(30);
     //minAngle (radians) UNFINALIZED
