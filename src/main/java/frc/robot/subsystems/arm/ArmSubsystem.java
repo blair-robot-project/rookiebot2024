@@ -150,7 +150,6 @@ public class ArmSubsystem extends SubsystemBase {
     public double getSetpoint() { return desired; }
     public String getSetpointName() { return desiredName; }
     public double calcState() { return armEncoder.getPositionOffset() * armConstants.armGearRatio; }
-    public double getCurrentState() { return currentState; }
     public double getPidVoltage() { return pidVoltage; }
     public double getFeedForwardVoltage() { return feedForwardVoltage; }
     public double getRobotControllerBattery() { return RobotControllerBattery; }
@@ -242,7 +241,7 @@ public class ArmSubsystem extends SubsystemBase {
 
     public BooleanSupplier isDone(){
         BooleanSupplier finished = () ->
-        getCurrentState() == desired;
+        calcState() == desired;
         return finished;
     }
 
@@ -253,11 +252,13 @@ public class ArmSubsystem extends SubsystemBase {
         builder.addDoubleProperty("1.1 position", this::calcState, null);
         builder.addDoubleProperty( "1.2 setpoint", this::getSetpoint, null);
         builder.addStringProperty("1.3 setpoint name", this::getSetpointName, null);
-        builder.addDoubleProperty("1.4 feed forward voltage", this::getFeedForwardVoltage, null);
-        builder.addDoubleProperty("1.5 pid voltage", this::getPidVoltage, null);
-        builder.addDoubleProperty("1.6 robot controller battery", this::getRobotControllerBattery, null);
-        builder.addDoubleProperty("1.7 motor applied voltage", this::getArmMotorAppliedOutput, null);
-        builder.addDoubleProperty("1.8 voltage", this::getVoltage, null);
+        builder.addDoubleProperty("1.4 voltage", this::getVoltage, null);
+        if(Robot.isSimulation()) {
+            builder.addDoubleProperty("1.4 feed forward voltage", this::getFeedForwardVoltage, null);
+            builder.addDoubleProperty("1.5 pid voltage", this::getPidVoltage, null);
+            builder.addDoubleProperty("1.6 robot controller battery", this::getRobotControllerBattery, null);
+            builder.addDoubleProperty("1.7 motor applied voltage", this::getArmMotorAppliedOutput, null);
+        }
         //builder.addDoubleProperty("1.9 sim position", this::calcSimState, null);
     }
 
