@@ -277,7 +277,7 @@ public class ArmSubsystem extends SubsystemBase {
         feedForwardVoltage = getArmF(desired);
         voltage = pidVoltage + feedForwardVoltage;
         setVoltage(voltage);
-        print(voltage);
+        //print(voltage);
     }
 
     @Override

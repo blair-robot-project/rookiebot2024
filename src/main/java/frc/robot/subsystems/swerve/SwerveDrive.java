@@ -9,11 +9,8 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.math.kinematics.*;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics.SwerveDriveWheelStates;
-import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
-import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.RobotController;
@@ -107,20 +104,20 @@ public class SwerveDrive extends SubsystemBase {
 
     public void resetPoseGiven(Pose2d p) {
         odometry.resetPosition(gyroAngle(),positions(),p);
-       /// gyro.reset();
+       /// 5t565`````````````````````````2222222222222222222222222wqqqqqqqqqqqqqqqqqqqqqqqqqqqq                                                                                                                                         gyro.reset();
     }
 
     //joystick info stuff
     public void drive(
-            double xSpeed,double ySpeed,double rot, boolean fieldRelative, double periodSeconds
+            double forwards,double sideways,double rot, boolean fieldRelative, double periodSeconds
     ){
-        desiredSpeeds = getSetSpeeds(xSpeed,ySpeed,rot, fieldRelative, periodSeconds);
-        SwerveDriveWheelStates swerveModuleStates = kinematics.toWheelSpeeds(desiredSpeeds);
-        SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates.states, driveConstants.MAX_SPEED);
-        frontLeft.SetDesired(swerveModuleStates.states[0]);
-        frontRight.SetDesired(swerveModuleStates.states[1]);
-        backLeft.SetDesired(swerveModuleStates.states[2]);
-        backRight.SetDesired(swerveModuleStates.states[3]);
+        desiredSpeeds = getSetSpeeds(forwards,sideways,rot, fieldRelative, periodSeconds);
+        SwerveModuleState[] swerveModuleStates = kinematics.toSwerveModuleStates(desiredSpeeds);
+        SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, driveConstants.MAX_SPEED);
+        frontLeft.SetDesired(swerveModuleStates[0]);
+        frontRight.SetDesired(swerveModuleStates[1]);
+        backLeft.SetDesired(swerveModuleStates[2]);
+        backRight.SetDesired(swerveModuleStates[3]);
     }
 
     public void updateOdometry(){

@@ -91,6 +91,7 @@ public class Robot extends TimedRobot {
     {
         m_autonomousCommand = routineChooser.getAutonomousCommand();
 
+        System.out.println(m_autonomousCommand.getName());
         // schedule the autonomous command (example)
         if (m_autonomousCommand != null) {
             m_autonomousCommand.schedule();
@@ -129,28 +130,28 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void teleopPeriodic() {
-        double xdirection;
-        double ydirection;
+        double forward;
+        double sideways;
         double rotation;
 
-        xdirection = -robotContainer.joystick1.getLeftY() * driveConstants.MAX_SPEED;
+        forward = -robotContainer.joystick1.getLeftY() * driveConstants.MAX_SPEED;
 
-        ydirection = -robotContainer.joystick1.getLeftX() * driveConstants.MAX_SPEED;
+        sideways = -robotContainer.joystick1.getLeftX() * driveConstants.MAX_SPEED;
 
-        xdirection = MathUtil.applyDeadband(xdirection, 0.2, 1.0);
-        ydirection = MathUtil.applyDeadband(ydirection, 0.2, 1.0);
+        forward = MathUtil.applyDeadband(forward, 0.2, 1.0);
+        sideways = MathUtil.applyDeadband(sideways, 0.2, 1.0);
 
         //joystick2 is for rotation
         rotation = -robotContainer.joystick1.getRightX() * driveConstants.MAX_ANGULAR_SPEED;
 
 
-        if (Math.abs(xdirection) < 0.05 && Math.abs(ydirection) < 0.05 && Math.abs(rotation) < 0.05) {
+        if (Math.abs(forward) < 0.05 && Math.abs(sideways) < 0.05 && Math.abs(rotation) < 0.05) {
             RobotContainer.swervee.stopMotors();
         }
         else {
             RobotContainer.swervee.drive(
-                    xdirection,
-                    ydirection,
+                    forward,
+                    sideways,
                     rotation,
                     driveConstants.fRel,
                     driveConstants.pdsec);

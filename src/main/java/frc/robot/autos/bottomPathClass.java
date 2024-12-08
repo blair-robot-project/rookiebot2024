@@ -20,11 +20,11 @@ public class bottomPathClass {
                         RobotContainer.claw.Outtake()
                 ),
                 RobotContainer.armSub.goToStow().alongWith(RobotContainer.claw.doNothing(),
-                        AutoBuilder.followPath(PathPlannerPath.fromPathFile("deploy/pathplanner/paths/toBucketBottom.path"))),
+                        AutoBuilder.followPath(PathPlannerPath.fromPathFile("toBucketBottom"))),
                 RobotContainer.armSub.goToIntake().until(RobotContainer.armSub.isDone()).alongWith(RobotContainer.claw.Intake()),
                         new WaitCommand(clawConstants.INTAKE_SECONDS),
                 RobotContainer.armSub.goToStow().alongWith(RobotContainer.claw.HoldBucket(),
-                        AutoBuilder.followPath(PathPlannerPath.fromPathFile("deploy/pathplanner/paths/fromBucketBottom.path"))),
+                        AutoBuilder.followPath(PathPlannerPath.fromPathFile("fromBucketBottom"))),
                 RobotContainer.armSub.goToIntake().until(RobotContainer.armSub.isDone()),
                 new ParallelRaceGroup(
                         new WaitCommand(clawConstants.OUTTAKE_SECONDS),

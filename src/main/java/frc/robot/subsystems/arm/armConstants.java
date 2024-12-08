@@ -11,7 +11,7 @@ public class armConstants {
     //motor kp, ki, kd UNDETERMINED
     public static final double armKP = 6.6, armKI = 0.6, armKD = 0.01;
     //arm angle at the top RADIANS
-    public static final double armStowPosition = -0.05;
+    public static final double armStowPosition = -0.12;
     //default desired arm value RADIANS
     public static final double armHighScorePosition = 0.14;
     //default half position
@@ -25,7 +25,7 @@ public class armConstants {
 
     //feed forward values
     public static final double armFeedForwardKs=0.5;
-    public static final double armFeedForwardKg=0.55;
+    public static final double armFeedForwardKg=0.51;
     public static final double armFeedForwardKv=0.0;
 
     public static final double offset = 0.091588 + 0.032357;
