@@ -99,8 +99,8 @@ public class SwerveDrive extends SubsystemBase {
         return odometry.getPoseMeters();
     }
 
-    public void resetPoseGiven(Pose2d p) {
-        odometry.resetPosition(gyroAngle(),positions(),p);
+    public void resetPoseGiven(Pose2d pose) {
+        odometry.resetPosition(gyroAngle(),positions(), pose);
         gyro.reset();
     }
 
