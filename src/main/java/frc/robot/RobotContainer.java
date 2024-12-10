@@ -13,6 +13,7 @@ import frc.robot.subsystems.arm.ArmSubsystem;
 import frc.robot.subsystems.claw.ClawSubsystem;
 import frc.robot.subsystems.swerve.SwerveDrive;
 
+import static edu.wpi.first.wpilibj2.command.Commands.runOnce;
 import static frc.robot.otherConstants.operatorConstants.ARMPORT;
 import static frc.robot.otherConstants.operatorConstants.MECH_CONTROLLER_PORT;
 
@@ -66,8 +67,9 @@ public class RobotContainer {
         mechController.b().onTrue(armSub.goToHighScore());
         mechController.a().onTrue(armSub.goToIntake());
 
-        mechController.leftTrigger().onTrue(claw.Intake()).onFalse(claw.HoldBucket());
-        mechController.rightTrigger().onTrue(claw.Outtake()).onFalse(claw.doNothing());
+        mechController.leftTrigger().onTrue(claw.Intake()).onFalse(runOnce(() -> {
+            mechController.rightTrigger().onTrue(claw.Outtake()).onFalse(claw.doNothing());
+        }));
 
 
 

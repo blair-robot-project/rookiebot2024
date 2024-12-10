@@ -54,6 +54,9 @@
         "arm data": {
           "open": true
         },
+        "claw data": {
+          "open": true
+        },
         "open": true
       }
     }
