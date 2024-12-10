@@ -79,7 +79,7 @@ public final class driveConstants {
     public static final double pdsec = 0.02; // always the same I think
 
     //no matter the robot position forward is forward (fRel = field relative)
-    public static final boolean fRel = false; // probably will stay this way
+    public static final boolean fRel = true; // probably will stay this way
 
 
     public static final double driveGearing = 6.75; // This is 6.75 according to John J

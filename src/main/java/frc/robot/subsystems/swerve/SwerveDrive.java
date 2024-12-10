@@ -30,7 +30,6 @@ public class SwerveDrive extends SubsystemBase {
     private final Translation2d backLeftLocation = new Translation2d(-1*driveConstants.moduleDistanceX, driveConstants.moduleDistanceY);
     private final Translation2d backRightLocation = new Translation2d(-1*driveConstants.moduleDistanceX,-1*driveConstants.moduleDistanceY);
 
-
     public final SwerveModule frontLeft = new SwerveModule(driveConstants.driveMotor1, driveConstants.turnMotor1, driveConstants.turnEncoderChannel1,driveConstants.driveMotor1Inverted,driveConstants.turnMotor1Inverted,driveConstants.turnEncoder1Inverted,driveConstants.FLturnOffset);
     private final SwerveModule frontRight = new SwerveModule(driveConstants.driveMotor2,driveConstants.turnMotor2, driveConstants.turnEncoderChannel2,driveConstants.driveMotor2Inverted,driveConstants.turnMotor2Inverted,driveConstants.turnEncoder2Inverted,driveConstants.FRturnOffset);
     private final SwerveModule backLeft = new SwerveModule(driveConstants.driveMotor3,driveConstants.turnMotor3, driveConstants.turnEncoderChannel3,driveConstants.driveMotor3Inverted,driveConstants.turnMotor3Inverted,driveConstants.turnEncoder3Inverted,driveConstants.BLturnOffset);
@@ -44,8 +43,6 @@ public class SwerveDrive extends SubsystemBase {
     private final SwerveDriveKinematics kinematics =
             new SwerveDriveKinematics(
                     frontLeftLocation, frontRightLocation, backLeftLocation, backRightLocation);
-
-
 
     public SwerveDrive() {
         AutoBuilder.configureHolonomic(
