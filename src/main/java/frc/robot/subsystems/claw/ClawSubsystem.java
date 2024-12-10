@@ -42,9 +42,9 @@ public class ClawSubsystem extends SubsystemBase {
 
 
     /**
-     * Intake command factory method.
+     * Sets motor to intake voltage form clawConstants
      *
-     * @return a command
+     * @return command that sets the claw motor voltage to intake value
      */
     public Command Intake() {
         return runOnce(
@@ -55,9 +55,9 @@ public class ClawSubsystem extends SubsystemBase {
     }
 
     /**
-     * Outtake command factory method.
+     * Sets motor to outtake voltage from clawConstants
      *
-     * @return a command
+     * @return command that sets the claw motor voltage to outtake value
      */
     public Command Outtake() {
         return runOnce(() -> {
@@ -69,7 +69,7 @@ public class ClawSubsystem extends SubsystemBase {
     /**
      * DoNothing command factory method.
      *
-     * @return a command
+     * @return command that stops the claw motor
      */
    public Command doNothing() {
 
@@ -81,8 +81,10 @@ public class ClawSubsystem extends SubsystemBase {
 
     /**
      * HoldBucket command factory method.
+     * (Currently not used as the robot does not need
+     * the motors to be moving to hold a buck)
      *
-     * @return a command
+     * @return command that tensions the motor to hold a bucket
      */
     public Command HoldBucket() {
 
@@ -93,7 +95,11 @@ public class ClawSubsystem extends SubsystemBase {
         });
     }
 
-
+    /**
+     * Used to get voltage in motor for logging
+     *
+     * @return the voltage currently going into the claw motor
+     */
     public double getVoltage() {
         if (Robot.isSimulation()) {
             return motor.getAppliedOutput() * RobotController.getBatteryVoltage();
@@ -102,10 +108,20 @@ public class ClawSubsystem extends SubsystemBase {
         }
     }
 
+    /**
+     * Used to get encoder position for logging
+     *
+     * @return the encoder position
+     */
     public double getDistance() {
         return encoder.getPosition();
     }
 
+    /**
+     * Sets smart dashboard values for logging
+     *
+     * @param builder sendable builder
+     */
     @Override
     public void initSendable(SendableBuilder builder){
         builder.setSmartDashboardType("Claw Sim Voltage");
@@ -120,6 +136,10 @@ public class ClawSubsystem extends SubsystemBase {
     }
 
 
+    /**
+     * Sets voltage during simulation
+     *
+     */
     @Override
     public void simulationPeriodic() {
         DCMotorSim motorSim = new DCMotorSim(DCMotor.getNEO(1), 1, 1);
