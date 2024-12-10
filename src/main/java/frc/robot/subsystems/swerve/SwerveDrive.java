@@ -44,6 +44,26 @@ public class SwerveDrive extends SubsystemBase {
             new SwerveDriveKinematics(
                     frontLeftLocation, frontRightLocation, backLeftLocation, backRightLocation);
 
+    private final SwerveDriveOdometry odometry =
+            new SwerveDriveOdometry(
+                    kinematics,
+                    gyroAngle(),
+                    new SwerveModulePosition[] {
+                            frontLeft.getPosition(),
+                            frontRight.getPosition(),
+                            backLeft.getPosition(),
+                            backRight.getPosition()
+                    });
+
+    public SwerveModulePosition[] positions(){
+        return new SwerveModulePosition[] {
+                frontLeft.getPosition(),
+                frontRight.getPosition(),
+                backLeft.getPosition(),
+                backRight.getPosition()
+        };
+    }
+
     public SwerveDrive() {
         AutoBuilder.configureHolonomic(
                 this::getPose, // Robot pose supplier
@@ -71,42 +91,23 @@ public class SwerveDrive extends SubsystemBase {
 
     }
 
-
-    private final SwerveDriveOdometry odometry =
-            new SwerveDriveOdometry(
-                    kinematics,
-                    gyroAngle(),
-                    new SwerveModulePosition[] {
-                            frontLeft.getPosition(),
-                            frontRight.getPosition(),
-                            backLeft.getPosition(),
-                            backRight.getPosition()
-                    });
-
-    public SwerveModulePosition[] positions(){
-        return new SwerveModulePosition[] {
-                frontLeft.getPosition(),
-                frontRight.getPosition(),
-                backLeft.getPosition(),
-                backRight.getPosition()
-        };
-    }
-
     public Rotation2d gyroAngle(){
         return Rotation2d.fromDegrees(-gyro.getFusedHeading());
     }
+
     public Pose2d getPose(){
         return odometry.getPoseMeters();
     }
 
     public void resetPoseGiven(Pose2d p) {
         odometry.resetPosition(gyroAngle(),positions(),p);
-       /// 5t565`````````````````````````2222222222222222222222222wqqqqqqqqqqqqqqqqqqqqqqqqqqqq                                                                                                                                         gyro.reset();
+        gyro.reset();
     }
 
     //joystick info stuff
     public void drive(
-            double forwards,double sideways,double rot, boolean fieldRelative, double periodSeconds
+            double forwards, double sideways, double rot,
+            boolean fieldRelative, double periodSeconds
     ){
         desiredSpeeds = getSetSpeeds(forwards,sideways,rot, fieldRelative, periodSeconds);
         SwerveModuleState[] swerveModuleStates = kinematics.toSwerveModuleStates(desiredSpeeds);
