@@ -31,8 +31,8 @@ public class armConstants {
     public static final double offset = 0.091588 + 0.032357;
 
     //encoder sim values
-    public static final int kEncoderAChannel = 0;
-    public static final int kEncoderBChannel = 1;
+    public static final int kEncoderAChannel = 9;
+    public static final int kEncoderBChannel = 10;
 
 
     //VALUES NEEDED FOR ARM SIM
