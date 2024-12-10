@@ -16,6 +16,9 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
+import java.util.ArrayList;
+import java.util.Optional;
+
 import static frc.robot.subsystems.swerve.driveConstants.*;
 
 
@@ -55,7 +58,7 @@ public class SwerveDrive extends SubsystemBase {
                             backRight.getPosition()
                     });
 
-    public SwerveModulePosition[] positions(){
+    public SwerveModulePosition[] positions() {
         return new SwerveModulePosition[] {
                 frontLeft.getPosition(),
                 frontRight.getPosition(),
@@ -82,12 +85,11 @@ public class SwerveDrive extends SubsystemBase {
                     // This will flip the path being followed to the red side of the field.
                     // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
 
-                    var alliance = DriverStation.getAlliance();
+                    Optional<DriverStation.Alliance> alliance = DriverStation.getAlliance();
                     return alliance.filter(value -> value == DriverStation.Alliance.Red).isPresent();
                 },
                 this // Reference to this subsystem to set requirements
         );
-
 
     }
 
@@ -108,32 +110,34 @@ public class SwerveDrive extends SubsystemBase {
     public void drive(
             double forwards, double sideways, double rot,
             boolean fieldRelative, double periodSeconds
-    ){
-        desiredSpeeds = getSetSpeeds(forwards,sideways,rot, fieldRelative, periodSeconds);
+    ) {
+
+        desiredSpeeds = getSetSpeeds(forwards, sideways, rot, fieldRelative, periodSeconds);
         SwerveModuleState[] swerveModuleStates = kinematics.toSwerveModuleStates(desiredSpeeds);
         SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, driveConstants.MAX_SPEED);
         frontLeft.setDesired(swerveModuleStates[0]);
         frontRight.setDesired(swerveModuleStates[1]);
         backLeft.setDesired(swerveModuleStates[2]);
         backRight.setDesired(swerveModuleStates[3]);
+
     }
 
     public void updateOdometry(){
-        odometry.update(gyroAngle(), new SwerveModulePosition[]{
-                frontLeft.getPosition(),
-                frontRight.getPosition(),
-                backLeft.getPosition(),
-                backRight.getPosition()
-        });
+        odometry.update(gyroAngle(), positions());
     }
+
     public ChassisSpeeds getSetSpeeds(double xSpeed, double ySpeed, double rot, boolean fieldRelative, double periodSeconds){
-        var chassisSpeeds = new ChassisSpeeds(xSpeed,ySpeed,rot);
+
+        ChassisSpeeds chassisSpeeds = new ChassisSpeeds(xSpeed, ySpeed, rot);
+
         if (fieldRelative) {
-            chassisSpeeds = ChassisSpeeds.fromRobotRelativeSpeeds(chassisSpeeds, gyroAngle());
+            chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(chassisSpeeds, gyroAngle());
         }
+
         // forward, sideways, angular, period
-//        chassisSpeeds = ChassisSpeeds.discretize(xSpeed,ySpeed,rot,periodSeconds);
+        // chassisSpeeds = ChassisSpeeds.discretize(xSpeed,ySpeed,rot,periodSeconds);
         return chassisSpeeds;
+
     }
 
     public ChassisSpeeds getSpeeds() {
@@ -166,15 +170,15 @@ public class SwerveDrive extends SubsystemBase {
 
     }
 
-    public void periodic(){
+    public void periodic() {
         updateOdometry();
-        currentSpeeds=kinematics.toChassisSpeeds(
+
+        currentSpeeds = kinematics.toChassisSpeeds(
                 frontLeft.getState(),
                 frontRight.getState(),
                 backLeft.getState(),
                 backRight.getState()
         );
-
     }
 
     @Override

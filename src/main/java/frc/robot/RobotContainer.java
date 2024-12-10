@@ -31,7 +31,7 @@ public class RobotContainer {
     // The robot's subsystems and commands are defined here...
     public static final ClawSubsystem claw = new ClawSubsystem();
     public static final ArmSubsystem armSub = new ArmSubsystem();
-    public static final SwerveDrive swervee = new SwerveDrive();
+    public static final SwerveDrive swerveDrive = new SwerveDrive();
 
     // Replace with CommandPS4Controller or CommandJoystick if needed
     private final CommandXboxController mechController = new CommandXboxController(ARMPORT);
@@ -74,14 +74,14 @@ public class RobotContainer {
 
 
         if (joystick1.getStartButton()) {
-            swervee.gyro.reset();
+            swerveDrive.gyro.reset();
         }
 
         SmartDashboard.putData("claw data", claw);
         // Put Mechanism 2d to SmartDashboard
         SmartDashboard.putData("arm data", armSub);
 
-        SmartDashboard.putData("swerve", swervee);
+        SmartDashboard.putData("swerve", swerveDrive);
     }
 /**
  * Use this to pass the autonomous command to the main {@link Robot} class.

@@ -15,9 +15,6 @@ import frc.robot.autos.bottomPathClass;
 import frc.robot.autos.middlePathClass;
 import frc.robot.autos.taxiPathClass;
 import frc.robot.subsystems.swerve.driveConstants;
-import frc.robot.subsystems.swerve.SwerveDrive;
-
-import java.sql.Driver;
 
 /**
  * The VM is configured to automatically run this class, and to call the methods corresponding to
@@ -66,7 +63,7 @@ public class Robot extends TimedRobot {
         // and running subsystem periodic() methods.  This must be called from the robot's periodic
         // block in order for anything in the Command-based framework to work.
         CommandScheduler.getInstance().run();
-        RobotContainer.swervee.updateOdometry();
+        RobotContainer.swerveDrive.updateOdometry();
     }
 
     /**
@@ -122,7 +119,7 @@ public class Robot extends TimedRobot {
         // continue until interrupted by another command, remove
         // this line or comment it out.
         RobotContainer.armSub.loadPreferences();
-        RobotContainer.swervee.gyro.reset();
+        RobotContainer.swerveDrive.gyro.reset();
     }
 
     /**
@@ -146,10 +143,10 @@ public class Robot extends TimedRobot {
 
 
         if (Math.abs(forward) < 0.05 && Math.abs(sideways) < 0.05 && Math.abs(rotation) < 0.05) {
-            RobotContainer.swervee.stopMotors();
+            RobotContainer.swerveDrive.stopMotors();
         }
         else {
-            RobotContainer.swervee.drive(
+            RobotContainer.swerveDrive.drive(
                     forward,
                     sideways,
                     rotation,
