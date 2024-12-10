@@ -13,7 +13,6 @@ import edu.wpi.first.math.kinematics.*;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics.SwerveDriveWheelStates;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -112,10 +111,10 @@ public class SwerveDrive extends SubsystemBase {
         desiredSpeeds = getSetSpeeds(forwards,sideways,rot, fieldRelative, periodSeconds);
         SwerveModuleState[] swerveModuleStates = kinematics.toSwerveModuleStates(desiredSpeeds);
         SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, driveConstants.MAX_SPEED);
-        frontLeft.SetDesired(swerveModuleStates[0]);
-        frontRight.SetDesired(swerveModuleStates[1]);
-        backLeft.SetDesired(swerveModuleStates[2]);
-        backRight.SetDesired(swerveModuleStates[3]);
+        frontLeft.setDesired(swerveModuleStates[0]);
+        frontRight.setDesired(swerveModuleStates[1]);
+        backLeft.setDesired(swerveModuleStates[2]);
+        backRight.setDesired(swerveModuleStates[3]);
     }
 
     public void updateOdometry(){
@@ -144,10 +143,10 @@ public class SwerveDrive extends SubsystemBase {
         desiredSpeeds = givenSpeeds;
         SwerveDriveWheelStates swerveModuleStates = kinematics.toWheelSpeeds(desiredSpeeds);
         SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates.states, driveConstants.MAX_SPEED);
-        frontLeft.SetDesired(swerveModuleStates.states[0]);
-        frontRight.SetDesired(swerveModuleStates.states[1]);
-        backLeft.SetDesired(swerveModuleStates.states[2]);
-        backRight.SetDesired(swerveModuleStates.states[3]);
+        frontLeft.setDesired(swerveModuleStates.states[0]);
+        frontRight.setDesired(swerveModuleStates.states[1]);
+        backLeft.setDesired(swerveModuleStates.states[2]);
+        backRight.setDesired(swerveModuleStates.states[3]);
     }
 
     public boolean isRed() { // returns true if alliance is red

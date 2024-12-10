@@ -10,7 +10,6 @@ import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.RobotController;
 
@@ -54,14 +53,22 @@ public class SwerveModule {
             double turnOff
     ) {
         driveMotor = new CANSparkMax(driveMot, CANSparkLowLevel.MotorType.kBrushless);
+
         turnMotor = new CANSparkMax(turnMot, CANSparkLowLevel.MotorType.kBrushless);
+
         drivePid = new PIDController(drivePIDkp, drivePIDki, drivePIDkd);
+
         turnPid = new PIDController(turnPIDkp, turnPIDki, turnPIDkd);
+
         turnPid.enableContinuousInput(-Math.PI,Math.PI);
-        driveEncoder = this.driveMotor.getEncoder();
+
+        driveEncoder = driveMotor.getEncoder();
+
         turnEncoder = new DutyCycleEncoder(turnEnc);
+
         //this.turnEncoder.setDistancePerRotation();
         driveEncoder.setPositionConversionFactor(WHEEL_CIRCUMFERENCE/driveGearing);
+
         driveEncoder.setVelocityConversionFactor((WHEEL_CIRCUMFERENCE/driveGearing)/60);
         driveMotor.setInverted(driveMotInv);
         turnMotor.setInverted(turnMotInv);
@@ -92,6 +99,9 @@ public class SwerveModule {
        return MathUtil.angleModulus((turnEncoder.getAbsolutePosition())*2*Math.PI - this.turnOffset);
     }
 
+    public double getVoltage(){
+        return driveMotor.get() * RobotController.getBatteryVoltage();
+    }
 
     public double getVelocity(){
         return getState().speedMetersPerSecond;
@@ -105,10 +115,12 @@ public class SwerveModule {
     public double getDesiredSpeed(){
         return desiredState.speedMetersPerSecond;
     }
+
     public double getDesiredAngle(){
         return desiredState.angle.getRadians();
     }
-    public void SetDesired(SwerveModuleState desiredState) {
+
+    public void setDesired(SwerveModuleState desiredState) {
         this.desiredState=desiredState;
         if (this.turnEncoderInverted) {
             encoderRotation = Rotation2d.fromRotations(MathUtil.inputModulus(1-(turnEncoder.getAbsolutePosition()-turnOffset), 0.0, 1.0));
@@ -131,12 +143,5 @@ public class SwerveModule {
     public void setVoltage(double voltage){
         driveMotor.setVoltage(voltage);
     }
-
-
-public double getVoltage(){
-    return driveMotor.get() * RobotController.getBatteryVoltage();
-}
-
-
 }
 
