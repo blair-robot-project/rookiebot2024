@@ -162,24 +162,32 @@ public class ArmSubsystem extends SubsystemBase {
     public double getArmF (double des) {
         return feedForward_a.calculate(des, 0);
     }
-    /**
-     * Example command factory method.
-     *
-     * @return a command
-     */
+
     public void setVoltage(double voltage) {
         armMotor.setVoltage(voltage);
     }
 
+
+    /**
+     * Stops arm motor
+     *
+     * @return command that stops the arm motor
+     */
     public Command stopRunning() {
         // Inline construction of command goes here.
         // Subsystem::RunOnce implicitly requires `this` subsystem.
         return runOnce(
                 () -> {
-                    armMotor.setVoltage(0);
+                    armMotor.stopMotor();
                 });
     }
 
+    /**
+     * goToShow sets desired position to arm stow position and
+     * sets desiredName for logging
+     *
+     * @return command that sets desired name and desired position to stow position
+     */
     public Command goToStow() {
         // Inline construction of command goes here.
         // Subsystem::RunOnce implicitly requires `this` subsystem.
@@ -190,6 +198,12 @@ public class ArmSubsystem extends SubsystemBase {
                 });
     }
 
+    /**
+     * goToHighScore sets desired position to arm highScore position and
+     * sets desiredName for logging
+     *
+     * @return command that sets desired name and desired position to highScore position
+     */
     public Command goToHighScore() {
         // Inline construction of command goes here.
         // Subsystem::RunOnce implicitly requires `this` subsystem.
@@ -212,6 +226,14 @@ public class ArmSubsystem extends SubsystemBase {
 
 
  */
+
+
+    /**
+     * goToIntake sets desired position to arm intake position and
+     * sets desired name for logging
+     *
+     * @return command that sets desired name and desired position to intake position
+     */
     public Command goToIntake() {
         // Inline construction of command goes here.
         // Subsystem::RunOnce implicitly requires `this` subsystem.
@@ -222,7 +244,10 @@ public class ArmSubsystem extends SubsystemBase {
                 });
     }
 
-    /** Load setpoint and kP from preferences. */
+    /**
+     * loadPreferences sets desired, kp, and pid from preferences
+     *
+     * */
     public void loadPreferences() {
         // Read Preferences for Arm setpoint and kP on entering Teleop
         desired = Preferences.getDouble(armConstants.kArmPositionKey, desired);
@@ -232,10 +257,18 @@ public class ArmSubsystem extends SubsystemBase {
         }
     }
 
+
+    /**
+     * Stops arm motor; used in robot line 77 to stop arm subsystem because
+     * the other stop motor function in this file returns a command
+     */
     public void stop() {
-        armMotor.setVoltage(0.0);
+        armMotor.stopMotor();
     }
 
+    /**
+     * Closes the robot
+     */
     public void close() {
         armMotor.close();
         mech2d.close();
@@ -244,6 +277,11 @@ public class ArmSubsystem extends SubsystemBase {
         armLigament.close();
     }
 
+    /**
+     * Checks if the arm is done moving; used in autos
+     *
+     * @return a BooleanSupplier for if the arm is done moving
+     */
     public BooleanSupplier isDone(){
         BooleanSupplier finished = () ->
         calcState() == desired;
@@ -258,6 +296,11 @@ public class ArmSubsystem extends SubsystemBase {
         desired -= 0.01;
     }
 
+    /**
+     * Sets smart dashboard values for logging
+     *
+     * @param builder sendable builder
+     */
     @Override
     public void initSendable(SendableBuilder builder) {
         builder.setSmartDashboardType("Arm Sim Voltage");
@@ -270,6 +313,9 @@ public class ArmSubsystem extends SubsystemBase {
         //builder.addDoubleProperty("1.9 sim position", this::calcSimState, null);
     }
 
+    /**
+     * Sets the voltage for the arm motor from pid calculation
+     */
     @Override
     public void periodic() {
         currentState = calcState();
