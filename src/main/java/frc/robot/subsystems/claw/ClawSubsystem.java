@@ -46,7 +46,7 @@ public class ClawSubsystem extends SubsystemBase {
      *
      * @return command that sets the claw motor voltage to intake value
      */
-    public Command Intake() {
+    public Command intake() {
         return runOnce(
                 () -> {
                     voltage = CLAW_INTAKE_VOLTAGE;
@@ -59,7 +59,7 @@ public class ClawSubsystem extends SubsystemBase {
      *
      * @return command that sets the claw motor voltage to outtake value
      */
-    public Command Outtake() {
+    public Command outtake() {
         return runOnce(() -> {
             voltage = CLAW_OUTTAKE_VOLTAGE;
             motor.setVoltage(voltage);
@@ -86,7 +86,7 @@ public class ClawSubsystem extends SubsystemBase {
      *
      * @return command that tensions the motor to hold a bucket
      */
-    public Command HoldBucket() {
+    public Command holdBucket() {
 
         return runOnce(() -> {
             voltage = CLAW_HOLD_VOLTAGE;

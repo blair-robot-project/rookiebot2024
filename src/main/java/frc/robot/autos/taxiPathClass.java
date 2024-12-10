@@ -1,8 +1,5 @@
 package frc.robot.autos;
 
-import com.pathplanner.lib.auto.AutoBuilder;
-import com.pathplanner.lib.commands.PathPlannerAuto;
-import com.pathplanner.lib.path.PathPlannerPath;
 import edu.wpi.first.wpilibj2.command.*;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.claw.clawConstants;
@@ -14,7 +11,7 @@ public class taxiPathClass {
                 RobotContainer.armSub.goToIntake(),
                 new ParallelRaceGroup(
                         new WaitCommand(clawConstants.OUTTAKE_SECONDS),
-                        RobotContainer.claw.Outtake()
+                        RobotContainer.claw.outtake()
                 ),
                 RobotContainer.armSub.goToStow().alongWith(RobotContainer.claw.doNothing(),
                         new InstantCommand(() -> RobotContainer.swervee.drive(2.0, 0.0, 0.0, true, 0.02)))
