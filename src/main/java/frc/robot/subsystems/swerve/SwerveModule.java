@@ -49,33 +49,33 @@ public class SwerveModule {
     private final SimpleMotorFeedforward feedForward_t = new SimpleMotorFeedforward(swerveFeedForwardTurnKs, swerveFeedForwardTurnKv, swerveFeedForwardTurnKa);
 
     public SwerveModule(
-            int driveMotor, int turnMotor, int turnEncoder,
-            boolean driveMotorInverted, boolean turnMotorInverted, boolean turnEncoderInverted,
-            double turnOffset
+            int driveMot, int turnMot, int turnEnc,
+            boolean driveMotInv, boolean turnMotInv, boolean turnEncInv,
+            double turnOff
     ) {
-        this.driveMotor = new CANSparkMax(driveMotor, CANSparkLowLevel.MotorType.kBrushless);
-        this.turnMotor = new CANSparkMax(turnMotor, CANSparkLowLevel.MotorType.kBrushless);
+        driveMotor = new CANSparkMax(driveMot, CANSparkLowLevel.MotorType.kBrushless);
+        turnMotor = new CANSparkMax(turnMot, CANSparkLowLevel.MotorType.kBrushless);
         drivePid = new PIDController(drivePIDkp, drivePIDki, drivePIDkd);
         turnPid = new PIDController(turnPIDkp, turnPIDki, turnPIDkd);
         turnPid.enableContinuousInput(-Math.PI,Math.PI);
         driveEncoder = this.driveMotor.getEncoder();
-        this.turnEncoder = new DutyCycleEncoder(turnEncoder);
+        turnEncoder = new DutyCycleEncoder(turnEnc);
         //this.turnEncoder.setDistancePerRotation();
-        this.driveEncoder.setPositionConversionFactor(WHEEL_CIRCUMFERENCE/driveGearing);
-        this.driveEncoder.setVelocityConversionFactor((WHEEL_CIRCUMFERENCE/driveGearing)/60);
-        this.driveMotor.setInverted(driveMotorInverted);
-        this.turnMotor.setInverted(turnMotorInverted);
-        this.turnEncoderInverted=turnEncoderInverted;
+        driveEncoder.setPositionConversionFactor(WHEEL_CIRCUMFERENCE/driveGearing);
+        driveEncoder.setVelocityConversionFactor((WHEEL_CIRCUMFERENCE/driveGearing)/60);
+        driveMotor.setInverted(driveMotInv);
+        turnMotor.setInverted(turnMotInv);
+        turnEncoderInverted=turnEncInv;
         //this.turnEncoder.setPositionOffset(turnOffset);
-        this.turnOffset=turnOffset;
-        this.turnMotor.setIdleMode(CANSparkBase.IdleMode.kCoast);
-        this.driveMotor.setIdleMode(CANSparkBase.IdleMode.kBrake);
-        this.driveMotor.setSmartCurrentLimit(DRIVE_CURRENT_LIMIT);
-        this.turnMotor.setSmartCurrentLimit(TURN_CURRENT_LIMIT);
-        this.turnMotor.burnFlash();
-        this.driveMotor.burnFlash();
+        turnOffset = turnOff;
+        turnMotor.setIdleMode(CANSparkBase.IdleMode.kCoast);
+        driveMotor.setIdleMode(CANSparkBase.IdleMode.kBrake);
+        driveMotor.setSmartCurrentLimit(DRIVE_CURRENT_LIMIT);
+        turnMotor.setSmartCurrentLimit(TURN_CURRENT_LIMIT);
+        turnMotor.burnFlash();
+        driveMotor.burnFlash();
 
-        this.desiredState = new SwerveModuleState();
+        desiredState = new SwerveModuleState();
 
     }
 
