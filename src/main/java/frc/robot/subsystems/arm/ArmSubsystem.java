@@ -104,7 +104,7 @@ public class ArmSubsystem extends SubsystemBase {
         this.armMotorFollower.burnFlash();
         if (Robot.isSimulation()) {
 
-            //constructing arm sim stuff
+            // Constructs armSim
             armSim = new SingleJointedArmSim(
                     armConstants.armGearbox,
                     armConstants.armGearRatio,
@@ -245,7 +245,8 @@ public class ArmSubsystem extends SubsystemBase {
     }
 
     /**
-     * loadPreferences sets desired, kp, and pid from preferences
+     * loadPreferences sets desired and kp
+     * Sets pid kp to calculated kp from preferences
      *
      * */
     public void loadPreferences() {
@@ -268,6 +269,7 @@ public class ArmSubsystem extends SubsystemBase {
 
     /**
      * Closes the robot
+     * Used to shut down the robot (called on disableInit in Robot file)
      */
     public void close() {
         armMotor.close();
@@ -288,6 +290,11 @@ public class ArmSubsystem extends SubsystemBase {
         return finished;
     }
 
+    /**
+     * Are the increase and decrease desired functions necessary?
+     * These aren't used and as far as I can tell there is
+     * no reason to call these
+     */
     public void increaseDesired() {
         desired += 0.01;
     }
@@ -327,7 +334,9 @@ public class ArmSubsystem extends SubsystemBase {
     }
 
     @Override
-    /** Run the control loop to reach and maintain the setpoint from the preferences. */
+    /**
+     * Run the control loop to reach and maintain the setpoint from preferences.
+     * */
     public void simulationPeriodic() {
         // This method will be called once per scheduler run during simulation
         // In this method, we update our simulation of what our arm is doing
