@@ -1,5 +1,4 @@
 package frc.robot.subsystems.swerve;
-import
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -54,13 +53,15 @@ public class SwerveSim extends SwerveModule {
         Pose2d odoPose= new Pose2d();
         Rotation2d currHeading=new Rotation2d();
 
-
+/*
         SwerveDriveOdometry odometry= new SwerveDriveOdometry(
                 kinematics,
                 currHeading,
                 positions(),
         );
 
+
+ */
 
 
 

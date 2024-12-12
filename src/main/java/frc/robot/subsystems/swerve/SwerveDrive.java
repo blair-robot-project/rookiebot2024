@@ -62,9 +62,6 @@ public class SwerveDrive extends SubsystemBase {
 
     Pose2d pose;
 
-
-
-
     private final SwerveDriveOdometry odometry =
             new SwerveDriveOdometry(
                     kinematics,
@@ -130,18 +127,12 @@ public class SwerveDrive extends SubsystemBase {
     }
 
     public Rotation2d gyroAngle(){
-        return Rotation2d.fromDegrees(-gyro.getFusedHeading());
+        return Rotation2d.fromDegrees(-gyro.getYaw());
     }
 
     public Pose2d getPose(){
         return odometry.getPoseMeters();
     }
-
-
-
-
-
-
 
     public Pose2d getEstimatedPose(){
         return this.poseEstimator.getEstimatedPosition();
@@ -154,12 +145,6 @@ public class SwerveDrive extends SubsystemBase {
                 value
         );
     }
-
-
-
-
-
-
 
     public void resetPoseGiven(Pose2d pose) {
         odometry.resetPosition(gyroAngle(),positions(), pose);
@@ -258,7 +243,6 @@ public class SwerveDrive extends SubsystemBase {
             DriverStation.reportError("poseEstimator is null",false);
         }
 
-
         setRobotPose();
     }
 
@@ -290,6 +274,7 @@ public class SwerveDrive extends SubsystemBase {
 
     @Override
     public void initSendable(SendableBuilder builder){
+
         builder.setSmartDashboardType("swerve");
 
         builder.addDoubleProperty("speed x",() -> desiredSpeeds.vxMetersPerSecond,null);

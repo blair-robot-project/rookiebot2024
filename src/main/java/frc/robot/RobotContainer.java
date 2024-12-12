@@ -26,7 +26,7 @@ import static frc.robot.otherConstants.operatorConstants.MECH_CONTROLLER_PORT;
 public class RobotContainer {
     //public SwerveDrive swervee;
 
-    XboxController joystick1 = new XboxController(MECH_CONTROLLER_PORT);
+    CommandXboxController joystick1 = new CommandXboxController(MECH_CONTROLLER_PORT);
 
     // The robot's subsystems and commands are defined here...
     public static final ClawSubsystem claw = new ClawSubsystem();
@@ -69,9 +69,9 @@ public class RobotContainer {
 
 
 
-        if (joystick1.getStartButton()) {
+        joystick1.start().onTrue(runOnce(() -> {
             swerveDrive.gyro.reset();
-        }
+        }));
 
         SmartDashboard.putData("claw data", claw);
         // Put Mechanism 2d to SmartDashboard
