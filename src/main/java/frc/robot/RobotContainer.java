@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.subsystems.arm.ArmSubsystem;
 import frc.robot.subsystems.claw.ClawSubsystem;
 import frc.robot.subsystems.swerve.SwerveDrive;
+import frc.robot.subsystems.swerve.SwerveSim;
 
 import static edu.wpi.first.wpilibj2.command.Commands.runOnce;
 import static frc.robot.otherConstants.operatorConstants.ARMPORT;
@@ -31,7 +32,8 @@ public class RobotContainer {
     // The robot's subsystems and commands are defined here...
     public static final ClawSubsystem claw = new ClawSubsystem();
     public static final ArmSubsystem armSub = new ArmSubsystem();
-    public static final SwerveDrive swerveDrive = new SwerveDrive();
+    public static  SwerveDrive swerveDrive;
+    public static  SwerveSim swerveSim;
 
     // Replace with CommandPS4Controller or CommandJoystick if needed
     private final CommandXboxController mechController = new CommandXboxController(ARMPORT);
@@ -45,6 +47,14 @@ public class RobotContainer {
         configureBindings();
         RoutineChooser routineChooser = new RoutineChooser();
         routineChooser.InitializeAutos();
+
+        if (Robot.isSimulation()) {
+            swerveSim = new SwerveSim();
+        }
+        else if (Robot.isReal()){
+            swerveDrive = new SwerveDrive();
+
+        }
     }
 
 
@@ -77,7 +87,7 @@ public class RobotContainer {
         // Put Mechanism 2d to SmartDashboard
         SmartDashboard.putData("arm data", armSub);
 
-        SmartDashboard.putData("swerve", swerveDrive);
+
     }
 /**
  * Use this to pass the autonomous command to the main {@link Robot} class.

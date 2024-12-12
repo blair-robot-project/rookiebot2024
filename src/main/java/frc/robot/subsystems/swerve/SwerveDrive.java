@@ -17,7 +17,10 @@ import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.subsystems.swerve.SwerveSim.*;
+import frc.robot.Robot;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,15 +43,18 @@ public class SwerveDrive extends SubsystemBase {
     public final double trackWidth=moduleDistanceY*2;
     Pose2d robotInitialPose = driveConstants.robotInitialPose;
     private final Field2d field=new Field2d();
-    private SwerveDrivePoseEstimator poseEstimator;
+    public SwerveDrivePoseEstimator poseEstimator;
 
 
     public final SwerveModule frontLeft = new SwerveModule(driveConstants.driveMotor1, driveConstants.turnMotor1, driveConstants.turnEncoderChannel1,driveConstants.driveMotor1Inverted,driveConstants.turnMotor1Inverted,driveConstants.turnEncoder1Inverted,driveConstants.FLturnOffset);
     private final SwerveModule frontRight = new SwerveModule(driveConstants.driveMotor2,driveConstants.turnMotor2, driveConstants.turnEncoderChannel2,driveConstants.driveMotor2Inverted,driveConstants.turnMotor2Inverted,driveConstants.turnEncoder2Inverted,driveConstants.FRturnOffset);
     private final SwerveModule backLeft = new SwerveModule(driveConstants.driveMotor3,driveConstants.turnMotor3, driveConstants.turnEncoderChannel3,driveConstants.driveMotor3Inverted,driveConstants.turnMotor3Inverted,driveConstants.turnEncoder3Inverted,driveConstants.BLturnOffset);
     private final SwerveModule backRight = new SwerveModule(driveConstants.driveMotor4,driveConstants.turnMotor4, driveConstants.turnEncoderChannel4,driveConstants.driveMotor4Inverted,driveConstants.turnMotor4Inverted,driveConstants.turnEncoder4Inverted,driveConstants.BRturnOffset);
-    private ChassisSpeeds desiredSpeeds = new ChassisSpeeds();
-    private ChassisSpeeds currentSpeeds = new ChassisSpeeds();
+    public ChassisSpeeds desiredSpeeds = new ChassisSpeeds();
+    public ChassisSpeeds currentSpeeds = new ChassisSpeeds();
+
+
+
 
 
 
@@ -75,7 +81,7 @@ public class SwerveDrive extends SubsystemBase {
                             backLeft.getPosition(),
                             backRight.getPosition()
                     });
-    private SwerveDrive swerveDrive;
+
 
     public SwerveModulePosition[] positions() {
         return new SwerveModulePosition[] {
@@ -89,6 +95,9 @@ public class SwerveDrive extends SubsystemBase {
 
 
     public SwerveDrive() {
+        SmartDashboard.putData(field);
+
+
 
         gyro.reset();
 
@@ -143,12 +152,10 @@ public class SwerveDrive extends SubsystemBase {
 
 
 
-    public Pose2d getEstimatedPose(){
-        return this.poseEstimator.getEstimatedPosition();
-    }
+
 
     public void SetPose(Pose2d value){
-        this.poseEstimator.resetPosition(
+        this.odometry.resetPosition(
                 gyroAngle(),
                 positions(),
                 value
@@ -250,12 +257,12 @@ public class SwerveDrive extends SubsystemBase {
         );
 
 
-        if(poseEstimator!=null){this.poseEstimator.update(
+        if(poseEstimator!=null){this.odometry.update(
                 gyroAngle(),
                 positions()
         );}
         else{
-            DriverStation.reportError("poseEstimator is null",false);
+            DriverStation.reportError(" Odometry  is null",false);
         }
 
 
@@ -327,4 +334,5 @@ public class SwerveDrive extends SubsystemBase {
         builder.addDoubleProperty("gyro", () -> MathUtil.angleModulus(gyroAngle().getRadians()), null);
 
     }
+
 }
