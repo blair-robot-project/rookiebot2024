@@ -3,6 +3,9 @@
 package frc.robot.subsystems.swerve;
 
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+
 public final class driveConstants {
     public static final double MAX_SPEED = 4.0; // can be changed
     public static final double MAX_ANGULAR_SPEED = Math.PI; // can be changed, 3/2 rotations per second (in radians, so pi radians is 1/2 of a rotation)
@@ -96,5 +99,7 @@ public final class driveConstants {
     public static final int DRIVE_CURRENT_LIMIT = 50;
     public static final int TURN_CURRENT_LIMIT = 30;
     public static final double xShift=0.0;
+    public static final Pose2d robotInitialPose = new Pose2d(0.0,0.0, Rotation2d.fromDegrees(0));
+
 
 }

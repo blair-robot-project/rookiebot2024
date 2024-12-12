@@ -19,6 +19,8 @@ import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static frc.robot.subsystems.swerve.driveConstants.*;
@@ -36,9 +38,10 @@ public class SwerveDrive extends SubsystemBase {
 
     public final double wheelBase=moduleDistanceX*2;
     public final double trackWidth=moduleDistanceY*2;
-    Pose2d robotInitialPose = new Pose2d(0.0,0.0,Rotation2d.fromDegrees(0));
+    Pose2d robotInitialPose = driveConstants.robotInitialPose;
     private final Field2d field=new Field2d();
     private SwerveDrivePoseEstimator poseEstimator;
+
 
     public final SwerveModule frontLeft = new SwerveModule(driveConstants.driveMotor1, driveConstants.turnMotor1, driveConstants.turnEncoderChannel1,driveConstants.driveMotor1Inverted,driveConstants.turnMotor1Inverted,driveConstants.turnEncoder1Inverted,driveConstants.FLturnOffset);
     private final SwerveModule frontRight = new SwerveModule(driveConstants.driveMotor2,driveConstants.turnMotor2, driveConstants.turnEncoderChannel2,driveConstants.driveMotor2Inverted,driveConstants.turnMotor2Inverted,driveConstants.turnEncoder2Inverted,driveConstants.FRturnOffset);
@@ -55,12 +58,7 @@ public class SwerveDrive extends SubsystemBase {
     private final SwerveDriveKinematics kinematics =
             new SwerveDriveKinematics(
                     frontLeftLocation, frontRightLocation, backLeftLocation, backRightLocation);
-    public SwerveDrivePoseEstimator swerveDrivePoseEstimator= new SwerveDrivePoseEstimator(
-            kinematics,
-            gyro.getRotation2d(),
-            positions(),
-            robotInitialPose
-        );
+
 
     Pose2d pose;
 
@@ -91,6 +89,21 @@ public class SwerveDrive extends SubsystemBase {
 
 
     public SwerveDrive() {
+
+        gyro.reset();
+
+        poseEstimator = new SwerveDrivePoseEstimator(
+                kinematics,
+                gyroAngle(),
+                positions(),
+                robotInitialPose
+        );
+        List<SwerveModule> modules = new ArrayList<>();
+        modules.add(frontLeft);
+        modules.add(frontRight);
+        modules.add(backLeft);
+        modules.add(backRight);
+
         AutoBuilder.configureHolonomic(
                 this::getPose, // Robot pose supplier
                 this::resetPoseGiven, // Method to reset odometry (will be called if your auto has a starting pose)
@@ -123,6 +136,11 @@ public class SwerveDrive extends SubsystemBase {
     public Pose2d getPose(){
         return odometry.getPoseMeters();
     }
+
+
+
+
+
 
 
     public Pose2d getEstimatedPose(){
@@ -178,6 +196,7 @@ public class SwerveDrive extends SubsystemBase {
         }
         else {
             chassisSpeeds=ChassisSpeeds.fromRobotRelativeSpeeds(chassisSpeeds, gyroAngle());
+            DriverStation.reportError("Robot is Robot Relative ", true);
         }
 
         // forward, sideways, angular, period
@@ -231,31 +250,42 @@ public class SwerveDrive extends SubsystemBase {
         );
 
 
-        this.poseEstimator.update(
+        if(poseEstimator!=null){this.poseEstimator.update(
                 gyroAngle(),
                 positions()
-        );
+        );}
+        else{
+            DriverStation.reportError("poseEstimator is null",false);
+        }
+
+
+        setRobotPose();
     }
 
 
     protected void setRobotPose(){
-        this.field.setRobotPose(this.pose);
+        if (this.pose!=null) {
+            this.field.setRobotPose(this.pose);
 
-        Pose2d frontLeftPose=this.pose.plus(new Transform2d(
-                new Translation2d(wheelBase/2-xShift,trackWidth/2),positions()[1].angle));
-        this.field.getObject("FrontLeft").setPose(frontLeftPose);
+            Pose2d frontLeftPose = this.pose.plus(new Transform2d(
+                    new Translation2d(wheelBase / 2 - xShift, trackWidth / 2), positions()[1].angle));
+            this.field.getObject("FrontLeft").setPose(frontLeftPose);
 
-        Pose2d frontRightPose= this.pose.plus(new Transform2d(new Translation2d(
-                wheelBase/2-xShift,-trackWidth/2), positions()[1].angle ));
-        this.field.getObject("frontRightPose").setPose(frontRightPose);
+            Pose2d frontRightPose = this.pose.plus(new Transform2d(new Translation2d(
+                    wheelBase / 2 - xShift, -trackWidth / 2), positions()[1].angle));
+            this.field.getObject("frontRightPose").setPose(frontRightPose);
 
-        Pose2d backLeftPose = this.pose.plus(new Transform2d(new Translation2d(
-                -wheelBase/2-xShift,trackWidth/2),positions()[2].angle));
-        this.field.getObject("backLeftPose").setPose(backLeftPose);
+            Pose2d backLeftPose = this.pose.plus(new Transform2d(new Translation2d(
+                    -wheelBase / 2 - xShift, trackWidth / 2), positions()[2].angle));
+            this.field.getObject("backLeftPose").setPose(backLeftPose);
 
-        Pose2d backRightPose= this.pose.plus(new Transform2d(new Translation2d(
-                -wheelBase/2-xShift,-trackWidth/2),positions()[3].angle));
-        this.field.getObject("backRightPose").setPose(backRightPose);
+            Pose2d backRightPose = this.pose.plus(new Transform2d(new Translation2d(
+                    -wheelBase / 2 - xShift, -trackWidth / 2), positions()[3].angle));
+            this.field.getObject("backRightPose").setPose(backRightPose);
+        }
+        else{
+            return;
+        }
     }
 
     @Override

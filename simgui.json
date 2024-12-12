@@ -1,10 +1,20 @@
 {
   "HALProvider": {
+    "Encoders": {
+      "window": {
+        "visible": true
+      }
+    },
     "Other Devices": {
       "SPARK MAX [4]": {
         "header": {
           "open": true
         }
+      }
+    },
+    "RoboRIO": {
+      "window": {
+        "visible": true
       }
     },
     "Timing": {
@@ -17,6 +27,7 @@
     "types": {
       "/FMSInfo": "FMSInfo",
       "/SmartDashboard/Arm Sim": "Mechanism2d",
+      "/SmartDashboard/Auto Choices": "String Chooser",
       "/SmartDashboard/arm sim": "Mechanism2d"
     },
     "windows": {
@@ -62,9 +73,6 @@
     }
   },
   "NetworkTables Info": {
-    "Clients": {
-      "open": true
-    },
     "DartClient_59863765@1": {
       "open": true
     },
@@ -81,9 +89,30 @@
   },
   "Plot": {
     "Plot <0>": {
-      "window": {
-        "visible": false
-      }
+      "plots": [
+        {
+          "backgroundColor": [
+            0.0,
+            0.0,
+            0.0,
+            0.8500000238418579
+          ],
+          "height": -8
+        }
+      ]
+    },
+    "Plot <1>": {
+      "plots": [
+        {
+          "backgroundColor": [
+            0.0,
+            0.0,
+            0.0,
+            0.8500000238418579
+          ],
+          "height": 338
+        }
+      ]
     }
   }
 }

@@ -1,10 +1,12 @@
 package frc.robot.subsystems.swerve;
-
+import
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
+import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.Encoder;
@@ -39,6 +41,8 @@ public class SwerveSim extends SwerveModule {
 
 
 
+
+
     // private AnalogGyro gyro = new AnalogGyro(1); // 1 is a filler value, not yet sure what to put into the Analog Gyro
     // private AnalogGyroSim simGyro = new AnalogGyroSim(gyro);
     public SwerveSim(int driveMotor, int turnMotor, int turnEncoder, boolean driveMotorInverted, boolean turnMotorInverted, boolean turnEncoderInverted, double turnOffset) {
@@ -51,8 +55,18 @@ public class SwerveSim extends SwerveModule {
         Rotation2d currHeading=new Rotation2d();
 
 
+        SwerveDriveOdometry odometry= new SwerveDriveOdometry(
+                kinematics,
+                currHeading,
+                positions(),
+        );
+
+
+
 
     }
+
+
 
     public void snapToDesired(SwerveModuleState desiredState) {
         simdriveEncoder.setDistancePerPulse(WHEEL_CIRCUMFERENCE);
@@ -83,7 +97,8 @@ public class SwerveSim extends SwerveModule {
     }
 
     public void simulationPeriodic() {
-        simcurrentPos = simdriveEncoder.getDistance();
+
+
     }
 
 }
