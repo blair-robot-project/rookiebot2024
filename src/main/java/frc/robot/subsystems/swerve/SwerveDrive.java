@@ -6,17 +6,19 @@ import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.*;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics.SwerveDriveWheelStates;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-import java.util.ArrayList;
 import java.util.Optional;
 
 import static frc.robot.subsystems.swerve.driveConstants.*;
@@ -32,13 +34,20 @@ public class SwerveDrive extends SubsystemBase {
     private final Translation2d backLeftLocation = new Translation2d(-1*driveConstants.moduleDistanceX, driveConstants.moduleDistanceY);
     private final Translation2d backRightLocation = new Translation2d(-1*driveConstants.moduleDistanceX,-1*driveConstants.moduleDistanceY);
 
+    public final double wheelBase=moduleDistanceX*2;
+    public final double trackWidth=moduleDistanceY*2;
+    Pose2d robotInitialPose = new Pose2d(0.0,0.0,Rotation2d.fromDegrees(0));
+    private final Field2d field=new Field2d();
+    private SwerveDrivePoseEstimator poseEstimator;
+
     public final SwerveModule frontLeft = new SwerveModule(driveConstants.driveMotor1, driveConstants.turnMotor1, driveConstants.turnEncoderChannel1,driveConstants.driveMotor1Inverted,driveConstants.turnMotor1Inverted,driveConstants.turnEncoder1Inverted,driveConstants.FLturnOffset);
     private final SwerveModule frontRight = new SwerveModule(driveConstants.driveMotor2,driveConstants.turnMotor2, driveConstants.turnEncoderChannel2,driveConstants.driveMotor2Inverted,driveConstants.turnMotor2Inverted,driveConstants.turnEncoder2Inverted,driveConstants.FRturnOffset);
     private final SwerveModule backLeft = new SwerveModule(driveConstants.driveMotor3,driveConstants.turnMotor3, driveConstants.turnEncoderChannel3,driveConstants.driveMotor3Inverted,driveConstants.turnMotor3Inverted,driveConstants.turnEncoder3Inverted,driveConstants.BLturnOffset);
     private final SwerveModule backRight = new SwerveModule(driveConstants.driveMotor4,driveConstants.turnMotor4, driveConstants.turnEncoderChannel4,driveConstants.driveMotor4Inverted,driveConstants.turnMotor4Inverted,driveConstants.turnEncoder4Inverted,driveConstants.BRturnOffset);
-
     private ChassisSpeeds desiredSpeeds = new ChassisSpeeds();
     private ChassisSpeeds currentSpeeds = new ChassisSpeeds();
+
+
 
 
     public final AHRS gyro = new AHRS(SPI.Port.kMXP);
@@ -46,6 +55,17 @@ public class SwerveDrive extends SubsystemBase {
     private final SwerveDriveKinematics kinematics =
             new SwerveDriveKinematics(
                     frontLeftLocation, frontRightLocation, backLeftLocation, backRightLocation);
+    public SwerveDrivePoseEstimator swerveDrivePoseEstimator= new SwerveDrivePoseEstimator(
+            kinematics,
+            gyro.getRotation2d(),
+            positions(),
+            robotInitialPose
+        );
+
+    Pose2d pose;
+
+
+
 
     private final SwerveDriveOdometry odometry =
             new SwerveDriveOdometry(
@@ -57,6 +77,7 @@ public class SwerveDrive extends SubsystemBase {
                             backLeft.getPosition(),
                             backRight.getPosition()
                     });
+    private SwerveDrive swerveDrive;
 
     public SwerveModulePosition[] positions() {
         return new SwerveModulePosition[] {
@@ -66,6 +87,8 @@ public class SwerveDrive extends SubsystemBase {
                 backRight.getPosition()
         };
     }
+
+
 
     public SwerveDrive() {
         AutoBuilder.configureHolonomic(
@@ -101,10 +124,30 @@ public class SwerveDrive extends SubsystemBase {
         return odometry.getPoseMeters();
     }
 
+
+    public Pose2d getEstimatedPose(){
+        return this.poseEstimator.getEstimatedPosition();
+    }
+
+    public void SetPose(Pose2d value){
+        this.poseEstimator.resetPosition(
+                gyroAngle(),
+                positions(),
+                value
+        );
+    }
+
+
+
+
+
+
+
     public void resetPoseGiven(Pose2d pose) {
         odometry.resetPosition(gyroAngle(),positions(), pose);
         gyro.reset();
     }
+
 
     //joystick info stuff
     public void drive(
@@ -115,10 +158,10 @@ public class SwerveDrive extends SubsystemBase {
         desiredSpeeds = getSetSpeeds(forwards, sideways, rot, fieldRelative, periodSeconds);
         SwerveModuleState[] swerveModuleStates = kinematics.toSwerveModuleStates(desiredSpeeds);
         SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, driveConstants.MAX_SPEED);
-        frontLeft.setDesired(swerveModuleStates[0]);
-        frontRight.setDesired(swerveModuleStates[1]);
-        backLeft.setDesired(swerveModuleStates[2]);
-        backRight.setDesired(swerveModuleStates[3]);
+        frontLeft.SetDesired(swerveModuleStates[0]);
+        frontRight.SetDesired(swerveModuleStates[1]);
+        backLeft.SetDesired(swerveModuleStates[2]);
+        backRight.SetDesired(swerveModuleStates[3]);
 
     }
 
@@ -143,6 +186,9 @@ public class SwerveDrive extends SubsystemBase {
 
     }
 
+
+
+
     public ChassisSpeeds getSpeeds() {
         return currentSpeeds;
     }
@@ -151,10 +197,11 @@ public class SwerveDrive extends SubsystemBase {
         desiredSpeeds = givenSpeeds;
         SwerveDriveWheelStates swerveModuleStates = kinematics.toWheelSpeeds(desiredSpeeds);
         SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates.states, driveConstants.MAX_SPEED);
-        frontLeft.setDesired(swerveModuleStates.states[0]);
-        frontRight.setDesired(swerveModuleStates.states[1]);
-        backLeft.setDesired(swerveModuleStates.states[2]);
-        backRight.setDesired(swerveModuleStates.states[3]);
+        frontLeft.SetDesired(swerveModuleStates.states[0]);
+        frontRight.SetDesired(swerveModuleStates.states[1]);
+        backLeft.SetDesired(swerveModuleStates.states[2]);
+        backRight.SetDesired(swerveModuleStates.states[3]);
+
     }
 
     public boolean isRed() { // returns true if alliance is red
@@ -182,6 +229,33 @@ public class SwerveDrive extends SubsystemBase {
                 backLeft.getState(),
                 backRight.getState()
         );
+
+
+        this.poseEstimator.update(
+                gyroAngle(),
+                positions()
+        );
+    }
+
+
+    protected void setRobotPose(){
+        this.field.setRobotPose(this.pose);
+
+        Pose2d frontLeftPose=this.pose.plus(new Transform2d(
+                new Translation2d(wheelBase/2-xShift,trackWidth/2),positions()[1].angle));
+        this.field.getObject("FrontLeft").setPose(frontLeftPose);
+
+        Pose2d frontRightPose= this.pose.plus(new Transform2d(new Translation2d(
+                wheelBase/2-xShift,-trackWidth/2), positions()[1].angle ));
+        this.field.getObject("frontRightPose").setPose(frontRightPose);
+
+        Pose2d backLeftPose = this.pose.plus(new Transform2d(new Translation2d(
+                -wheelBase/2-xShift,trackWidth/2),positions()[2].angle));
+        this.field.getObject("backLeftPose").setPose(backLeftPose);
+
+        Pose2d backRightPose= this.pose.plus(new Transform2d(new Translation2d(
+                -wheelBase/2-xShift,-trackWidth/2),positions()[3].angle));
+        this.field.getObject("backRightPose").setPose(backRightPose);
     }
 
     @Override
