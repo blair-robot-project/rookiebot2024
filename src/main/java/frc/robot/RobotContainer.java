@@ -63,8 +63,11 @@ public class RobotContainer {
         mechController.b().onTrue(armSub.goToHighScore());
         mechController.a().onTrue(armSub.goToIntake());
 
-        mechController.leftTrigger().onTrue(claw.intake()).onFalse(runOnce(() -> {
-            mechController.rightTrigger().onTrue(claw.outtake()).onFalse(claw.doNothing());
+        mechController.leftTrigger().onTrue(claw.intake()).onFalse(
+                runOnce(() -> {
+            mechController.rightTrigger().
+                    onTrue(claw.outtake()).
+                    onFalse(claw.doNothing());
         }));
 
 
