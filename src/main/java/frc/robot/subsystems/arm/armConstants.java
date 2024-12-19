@@ -14,8 +14,8 @@ public class armConstants {
     public static final double armStowPosition = -0.12;
     //default desired arm value RADIANS
     public static final double armHighScorePosition = 0.14;
-    //default half position
 
+    //default half position
     public static final double armHalfPosition = 0.2;
     //default base arm value RADIANS
     public static final double armIntakePosition = 0.45;
