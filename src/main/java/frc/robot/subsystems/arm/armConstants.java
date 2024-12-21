@@ -12,16 +12,19 @@ public class armConstants {
     public static final double armKP = 6.6, armKI = 0.6, armKD = 0.01;
     //arm angle at the top RADIANS
     public static final double armStowPosition = -0.12;
+    public static final double armSimStowPosition = Units.degreesToRadians(90);
     //default desired arm value RADIANS
     public static final double armHighScorePosition = 0.14;
-
-    //default half position
-    public static final double armHalfPosition = 0.2;
+    public static final double armSimHighPosition = Units.degreesToRadians(75);
     //default base arm value RADIANS
     public static final double armIntakePosition = 0.45;
+    public static final double armSimIntakePosition = Units.degreesToRadians(-45);
 
     //gear ratio
     public static final double armGearRatio = 2.0/3;
+
+    //encoder distance per rotation
+    public static final int kArmEncoderDistPerRotation = 1;
 
     //feed forward values
     public static final double armFeedForwardKs=0.5;
@@ -30,38 +33,32 @@ public class armConstants {
 
     public static final double offset = 0.091588 + 0.032357;
 
-    //encoder sim values
-    public static final int kEncoderAChannel = 9;
-    public static final int kEncoderBChannel = 10;
-
-
     //VALUES NEEDED FOR ARM SIM
 
     //arm dcmotor for arm sim FINALIZED I THINK?
-    public static DCMotor armGearbox = DCMotor.getNEO(1);
+    public static final DCMotor armGearbox = DCMotor.getNEO(1);
     //moment inertia of the arm NEED FROM CAD (jkg per meters squared) UNFINALIZED
-    public static double armInertia = 7;
+    public static final double armInertia = 7;
     //arm length (units?) UNFINALIZED
-    public static double armLength = Units.inchesToMeters(30);
+    public static final double armLength = Units.inchesToMeters(30);
     //minAngle (radians) UNFINALIZED
-    public static double minAngleRads = Units.degreesToRadians(-30);
+    public static final double minAngleRads = Units.degreesToRadians(-45);
     //maxAngle (rads) UNFINALIZED
-    public static double maxAngleRads = Units.degreesToRadians(120);
+    public static final double maxAngleRads = Units.degreesToRadians(90);
     //whether or not to simualte gravity FINALIZED
-    public static boolean armSimGrav = true;
+    public static final boolean armSimGrav = true;
 
-    public static boolean armInversion = true;
+    public static final boolean armInversion = true;
 
-    //Encoder Channels UNFINALIZED
-    public static int encoderPort = 1;
+    //Encoder Channels
+    public static final int encoderPort = 1;
 
-    // distance per pulse = (angle per revolution) / (pulses per revolution)
-    //  = (2 * PI rads) / (4096 pulses)
-    // UNFINALIZED
-    public static double kArmEncoderDistPerPulse = 2 * Math.PI / 4096;
-    public static int kArmEncoderDistPerRotation = 1;
+    //Preferences stuff
     public static final String kArmPositionKey = "ArmPosition";
     public static final String kArmPKey = "ArmP";
+
+    //auto stuff
+    public static final double armEpsilon = 0.05;
 
     /*
     gearbox - The type of and number of motors in the arm gearbox.

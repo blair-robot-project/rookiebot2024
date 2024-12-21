@@ -12,11 +12,6 @@
         }
       }
     },
-    "RoboRIO": {
-      "window": {
-        "visible": true
-      }
-    },
     "Timing": {
       "window": {
         "visible": false
@@ -99,7 +94,10 @@
           ],
           "height": 0
         }
-      ]
+      ],
+      "window": {
+        "visible": false
+      }
     },
     "Plot <1>": {
       "plots": [
@@ -112,7 +110,10 @@
           ],
           "height": 0
         }
-      ]
+      ],
+      "window": {
+        "visible": false
+      }
     }
   }
 }

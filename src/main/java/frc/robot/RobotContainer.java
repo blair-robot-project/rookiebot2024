@@ -79,8 +79,6 @@ public class RobotContainer {
 
         mechController.rightTrigger().onTrue(
                 claw.outtake()
-        ).onFalse(
-                claw.doNothing()
         );
 
         joystick1.start().onTrue(runOnce(swerveDrive.gyro::reset));

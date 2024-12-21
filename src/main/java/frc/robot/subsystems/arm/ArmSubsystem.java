@@ -17,7 +17,6 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.simulation.BatterySim;
-import edu.wpi.first.wpilibj.simulation.EncoderSim;
 import edu.wpi.first.wpilibj.simulation.RoboRioSim;
 import edu.wpi.first.wpilibj.simulation.SingleJointedArmSim;
 import edu.wpi.first.wpilibj.smartdashboard.Mechanism2d;
@@ -73,8 +72,6 @@ public class ArmSubsystem extends SubsystemBase {
 
     private MechanismRoot2d armPivot;
 
-    private EncoderSim encoderSim;
-
     private MechanismLigament2d armTower;
 
     private SingleJointedArmSim armSim;
@@ -95,13 +92,16 @@ public class ArmSubsystem extends SubsystemBase {
         armEncoder.reset();
         armEncoder.setPositionOffset(armConstants.offset);
         armEncoder.setDistancePerRotation(armConstants.kArmEncoderDistPerRotation);
+        pid.setTolerance(armConstants.armEpsilon);
 
         armMotorFollower = new CANSparkMax(armConstants.armMotorFollowerID, MotorType.kBrushless);
         armMotorFollower.follow(armMotor, true);
-        this.armMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
-        this.armMotorFollower.setIdleMode(CANSparkMax.IdleMode.kBrake);
-        this.armMotor.burnFlash();
-        this.armMotorFollower.burnFlash();
+
+        armMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
+        armMotorFollower.setIdleMode(CANSparkMax.IdleMode.kBrake);
+        armMotor.burnFlash();
+        armMotorFollower.burnFlash();
+
         if (Robot.isSimulation()) {
 
             // Constructs armSim
@@ -120,44 +120,46 @@ public class ArmSubsystem extends SubsystemBase {
 
             armPivot = mech2d.getRoot("ArmPivot", 30, 30);
 
-            armTower = armPivot.append(new MechanismLigament2d("ArmTower", 30, -90));
+            armTower = new MechanismLigament2d("ArmTower", 30, -90);
+            armPivot.append(armTower);
 
-            encoderSim = new EncoderSim( new Encoder(armConstants.kEncoderAChannel, armConstants.kEncoderBChannel) );
-            encoderSim.setDistancePerPulse(armConstants.kArmEncoderDistPerPulse);
-
-            armLigament =
-                    armPivot.append(
-                            new MechanismLigament2d(
-                                    "Arm",
-                                    30,
-                                    Units.radiansToDegrees(armSim.getAngleRads()),
-                                    6,
-                                    new Color8Bit(Color.kYellow)
-                            )
-                    );
+            armLigament = new MechanismLigament2d(
+                    "Arm",
+                    30,
+                    Units.radiansToDegrees(armSim.getAngleRads()),
+                    6,
+                    new Color8Bit(Color.kYellow)
+            );
+            armPivot.append(armLigament);
 
             SmartDashboard.putData("Arm Sim", mech2d);
             armTower.setColor(new Color8Bit(Color.kBlue));
-
-            // Set the Arm position setpoint and P constant to Preferences if the keys don't already exist
-            Preferences.initDouble(armConstants.kArmPositionKey, desired);
-            Preferences.initDouble(armConstants.kArmPKey, kP);
         }
+        //setting up variables
         desired = armConstants.armStowPosition;
         desiredName = "Stow";
         currentState = armEncoder.getDistance();
+
+        // Set the Arm position setpoint and P constant to Preferences if the keys don't already exist
+        Preferences.initDouble(armConstants.kArmPositionKey, desired);
+        Preferences.initDouble(armConstants.kArmPKey, kP);
     }
 
     //getters
     public double getVoltage() { return voltage; }
     public double getSetpoint() { return desired; }
     public String getSetpointName() { return desiredName; }
-    public double calcState() { return armEncoder.getDistance(); }
+    public double getState() {
+        if(Robot.isSimulation()) {
+            return armSim.getAngleRads();
+        } else {
+            return armEncoder.getDistance();
+        }
+    }
     public double getPidVoltage() { return pidVoltage; }
     public double getFeedForwardVoltage() { return feedForwardVoltage; }
     public double getRobotControllerBattery() { return RobotControllerBattery; }
     public double getArmMotorAppliedOutput() { return armMotorAppliedOutput; }
-    public double calcSimState() { return armSim.getAngleRads(); }
 
     public double getArmF (double des) {
         return feedForward_a.calculate(des, 0);
@@ -193,7 +195,11 @@ public class ArmSubsystem extends SubsystemBase {
         // Subsystem::RunOnce implicitly requires `this` subsystem.
         return runOnce(
                 () -> {
-                    desired = armConstants.armStowPosition;
+                    if(Robot.isReal()) {
+                        desired = armConstants.armStowPosition;
+                    } else {
+                        desired = armConstants.armSimStowPosition;
+                    }
                     desiredName = "Stow";
                 });
     }
@@ -209,7 +215,11 @@ public class ArmSubsystem extends SubsystemBase {
         // Subsystem::RunOnce implicitly requires `this` subsystem.
         return runOnce(
                 () -> {
-                    desired = armConstants.armHighScorePosition;
+                    if(Robot.isReal()) {
+                        desired = armConstants.armHighScorePosition;
+                    } else {
+                        desired = armConstants.armSimHighPosition;
+                    }
                     desiredName = "High Score";
                 });
     }
@@ -223,11 +233,7 @@ public class ArmSubsystem extends SubsystemBase {
                     desiredName = "Half";
                 });
     }
-
-
  */
-
-
     /**
      * goToIntake sets desired position to arm intake position and
      * sets desired name for logging
@@ -239,7 +245,11 @@ public class ArmSubsystem extends SubsystemBase {
         // Subsystem::RunOnce implicitly requires `this` subsystem.
         return runOnce(
                 () -> {
-                    desired = armConstants.armIntakePosition;
+                    if(Robot.isReal()) {
+                        desired = armConstants.armIntakePosition;
+                    } else {
+                        desired = armConstants.armSimIntakePosition;
+                    }
                     desiredName = "Intake";
                 });
     }
@@ -285,22 +295,8 @@ public class ArmSubsystem extends SubsystemBase {
      * @return a BooleanSupplier for if the arm is done moving
      */
     public BooleanSupplier isDone(){
-        BooleanSupplier finished = () ->
-        calcState() == desired;
+        BooleanSupplier finished = () -> pid.atSetpoint();
         return finished;
-    }
-
-    /**
-     * Are the increase and decrease desired functions necessary?
-     * These aren't used and as far as I can tell there is
-     * no reason to call these
-     */
-    public void increaseDesired() {
-        desired += 0.01;
-    }
-
-    public void decreaseDesired() {
-        desired -= 0.01;
     }
 
     /**
@@ -312,12 +308,11 @@ public class ArmSubsystem extends SubsystemBase {
     public void initSendable(SendableBuilder builder) {
         builder.setSmartDashboardType("Arm Sim Voltage");
         builder.publishConstString("1.0", "Logging stuff");
-        builder.addDoubleProperty("1.1 position", this::calcState, null);
+        builder.addDoubleProperty("1.1 position", this::getState, null);
         builder.addDoubleProperty( "1.2 setpoint", this::getSetpoint, null);
         builder.addStringProperty("1.3 setpoint name", this::getSetpointName, null);
         builder.addDoubleProperty("1.4 voltage", this::getVoltage, null);
-        builder.addDoubleProperty("motor 62 distance", () -> this.armMotor.getEncoder().getPosition(), null);
-        //builder.addDoubleProperty("1.9 sim position", this::calcSimState, null);
+        builder.addDoubleProperty("1.5 internal motor distance", () -> this.armMotor.getEncoder().getPosition(), null);
     }
 
     /**
@@ -325,12 +320,11 @@ public class ArmSubsystem extends SubsystemBase {
      */
     @Override
     public void periodic() {
-        currentState = calcState();
+        currentState = getState();
         pidVoltage = pid.calculate(currentState, desired);
         feedForwardVoltage = getArmF(desired);
         voltage = pidVoltage + feedForwardVoltage;
         setVoltage(voltage);
-        //print(voltage);
     }
 
     @Override
@@ -341,9 +335,7 @@ public class ArmSubsystem extends SubsystemBase {
         // This method will be called once per scheduler run during simulation
         // In this method, we update our simulation of what our arm is doing
         // First, we set our "inputs" (voltages)
-//        simState = calcSimState();
-
-        pidVoltage = pid.calculate(armSim.getAngleRads(), desired);
+        pidVoltage = pid.calculate(getState(), desired);
         feedForwardVoltage = getArmF(desired);
         double motorVoltage = armConstants.armSimGrav ? pidVoltage + feedForwardVoltage : pidVoltage;
         armMotor.setVoltage(motorVoltage);
@@ -352,13 +344,11 @@ public class ArmSubsystem extends SubsystemBase {
         RobotControllerBattery = RobotController.getBatteryVoltage();
         voltage = armMotorAppliedOutput * RobotControllerBattery;
 
+        //setting voltage input
         armSim.setInput(voltage);
 
         // Next, we update it. The standard loop time is 20ms.
         armSim.update(0.020);
-
-        // Finally, we set our simulated encoder's readings and simulated battery voltage
-        encoderSim.setDistance(armSim.getAngleRads());
 
         // SimBattery estimates loaded battery voltages
         RoboRioSim.setVInVoltage(
@@ -370,7 +360,6 @@ public class ArmSubsystem extends SubsystemBase {
 
     public void print(Object o) {
         System.out.println(o.toString());
-
     }
 
 }
