@@ -19,14 +19,15 @@ import static frc.robot.subsystems.claw.clawConstants.*;
 
 public class ClawSubsystem extends SubsystemBase {
     CANSparkMax motor;
-
+    boolean hasOutput;
+    String state;
     /**
      * Creates a new Claw Subsystem.
      */
     public ClawSubsystem() {
-
         motor = new CANSparkMax(clawConstants.CLAW_MOTOR_ID, CANSparkLowLevel.MotorType.kBrushless);
-
+        hasOutput = false;
+        state = "doing nothing";
     }
 
 
@@ -39,7 +40,9 @@ public class ClawSubsystem extends SubsystemBase {
     public Command intake() {
         return runOnce(
                 () -> {
-                    this.motor.setVoltage(CLAW_INTAKE_VOLTAGE);
+                    motor.setVoltage(CLAW_INTAKE_VOLTAGE);
+                    hasOutput = false;
+                    state = "intaking";
                 });
     }
 
@@ -50,7 +53,9 @@ public class ClawSubsystem extends SubsystemBase {
      */
     public Command outtake() {
         return runOnce(() -> {
-            this.motor.setVoltage(CLAW_OUTTAKE_VOLTAGE);
+            motor.setVoltage(CLAW_OUTTAKE_VOLTAGE);
+            hasOutput = true;
+            state = "outtaking";
         });
     }
 
@@ -62,7 +67,8 @@ public class ClawSubsystem extends SubsystemBase {
    public Command doNothing() {
 
         return runOnce(() -> {
-            this.motor.stopMotor();
+            motor.stopMotor();
+            state = "doing nothing";
         });
     }
 
@@ -75,17 +81,25 @@ public class ClawSubsystem extends SubsystemBase {
     public Command holdBucket() {
 
         return runOnce(() -> {
-            this.motor.setVoltage(CLAW_HOLD_VOLTAGE);
-
+            if(hasOutput) {
+                motor.setVoltage(CLAW_HOLD_VOLTAGE);
+                state = "holding";
+            } else {
+                doNothing();
+            }
         });
     }
 
 
     public double getVoltage() { return motor.getAppliedOutput() * RobotController.getBatteryVoltage(); }
+    public String getState() { return state; }
+    public boolean getHasOutputted() { return hasOutput; }
     @Override
     public void initSendable(SendableBuilder builder){
         builder.setSmartDashboardType("Claw Sim Voltage");
         builder.addDoubleProperty("Voltage", this::getVoltage,null);
+        builder.addStringProperty("State", this::getState, null);
+        builder.addBooleanProperty("hasOutputted", this::getHasOutputted, null);
     }
 
 
